@@ -6,6 +6,7 @@
 
 // Auto-configure PHP settings
 require_once 'auto-config.php';
+require_once 'init-directories.php';
 
 // Force high memory and time for submission with many images
 // CRITICAL: Support for 500+ image uploads
@@ -93,9 +94,12 @@ try {
             $fieldName = str_replace('existing_', '', $key);
             $pathKey = $fieldName . '_path';
             
+            // Convert to absolute path and check existence
+            $absolutePath = DirectoryManager::getAbsolutePath($value);
+            
             // Only add if not already added from $_FILES
-            if (!isset($uploadedFiles[$pathKey]) && file_exists($value)) {
-                $uploadedFiles[$pathKey] = $value;
+            if (!isset($uploadedFiles[$pathKey]) && file_exists($absolutePath)) {
+                $uploadedFiles[$pathKey] = $absolutePath;
                 $fileCount++;
             }
         }

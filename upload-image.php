@@ -29,6 +29,7 @@ set_exception_handler(function($exception) {
 
 try {
     require_once __DIR__ . '/auto-config.php';
+    require_once __DIR__ . '/init-directories.php';
     
     // Force high limits for image uploads
     @ini_set('memory_limit', '2048M');
@@ -102,19 +103,8 @@ try {
         throw new Exception('Invalid image file');
     }
     
-    // Create drafts directory with absolute path
-    $baseDir = __DIR__;
-    $draftDir = $baseDir . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'drafts' . DIRECTORY_SEPARATOR;
-    
-    if (!file_exists($draftDir)) {
-        if (!@mkdir($draftDir, 0755, true)) {
-            throw new Exception('Failed to create drafts directory: ' . $draftDir);
-        }
-    }
-    
-    if (!is_writable($draftDir)) {
-        throw new Exception('Drafts directory is not writable: ' . $draftDir);
-    }
+    // Get drafts directory using DirectoryManager
+    $draftDir = DirectoryManager::getAbsolutePath('uploads/drafts') . DIRECTORY_SEPARATOR;
     
     // Generate unique filename
     $timestamp = time();
@@ -214,26 +204,18 @@ try {
         throw new Exception('Failed to save draft data');
     }
     
-    // Log to audit trail with absolute path
-    $auditDir = $baseDir . DIRECTORY_SEPARATOR . 'drafts' . DIRECTORY_SEPARATOR . 'audit';
-    if (!file_exists($auditDir)) {
-        @mkdir($auditDir, 0755, true);
-    }
-    
-    if (is_writable($auditDir)) {
-        $auditLog = $auditDir . DIRECTORY_SEPARATOR . "{$draftId}.log";
-        $auditEntry = date('Y-m-d H:i:s') . " - Image uploaded: $fieldName -> $targetPath\n";
-        @file_put_contents($auditLog, $auditEntry, FILE_APPEND);
-    }
-    
     // Convert absolute paths to relative for response
-    $relativePath = str_replace($baseDir . DIRECTORY_SEPARATOR, '', $targetPath);
-    $relativePath = str_replace('\\', '/', $relativePath); // Normalize for web
+    $relativePath = DirectoryManager::toWebPath(DirectoryManager::getRelativePath($targetPath));
+    
+    // Log to audit trail
+    $auditDir = DirectoryManager::getAbsolutePath('drafts/audit');
+    $auditLog = $auditDir . DIRECTORY_SEPARATOR . "{$draftId}.log";
+    $auditEntry = date('Y-m-d H:i:s') . " - Image uploaded: $fieldName -> $relativePath\n";
+    @file_put_contents($auditLog, $auditEntry, FILE_APPEND);
     
     $relativeThumbPath = $relativePath;
     if (file_exists($thumbPath)) {
-        $relativeThumbPath = str_replace($baseDir . DIRECTORY_SEPARATOR, '', $thumbPath);
-        $relativeThumbPath = str_replace('\\', '/', $relativeThumbPath);
+        $relativeThumbPath = DirectoryManager::toWebPath(DirectoryManager::getRelativePath($thumbPath));
     }
     
     $response['success'] = true;

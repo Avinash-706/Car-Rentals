@@ -5,11 +5,13 @@
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/init-directories.php';
 require_once __DIR__ . '/image-optimizer.php';
 
 function generateTestPDF($data, $maxStep = 23) {
     try {
         // Create mPDF
+        $tmpDir = DirectoryManager::getAbsolutePath('tmp');
         $mpdf = new \Mpdf\Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -17,7 +19,7 @@ function generateTestPDF($data, $maxStep = 23) {
             'margin_right' => 10,
             'margin_top' => 15,
             'margin_bottom' => 15,
-            'tempDir' => __DIR__ . '/tmp',
+            'tempDir' => $tmpDir,
         ]);
         
         $mpdf->SetTitle('Test Report - Steps 1-' . $maxStep);
@@ -28,7 +30,7 @@ function generateTestPDF($data, $maxStep = 23) {
         
         // Save PDF
         $pdfFilename = 'TEST_step' . $maxStep . '_' . time() . '.pdf';
-        $pdfPath = __DIR__ . '/pdfs/' . $pdfFilename;
+        $pdfPath = DirectoryManager::getAbsolutePath('pdfs/' . $pdfFilename);
         $mpdf->Output($pdfPath, \Mpdf\Output\Destination::FILE);
         
         return $pdfPath;

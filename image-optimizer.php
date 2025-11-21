@@ -5,6 +5,8 @@
  * Cross-platform compatible with dynamic path handling
  */
 
+require_once __DIR__ . '/init-directories.php';
+
 class ImageOptimizer {
     
     private static $cache = [];
@@ -297,11 +299,8 @@ class ImageOptimizer {
         }
         
         try {
-            // Create uniform directory with proper path handling
-            $imageDir = dirname($imagePath);
-            $uniformDir = $imageDir . DIRECTORY_SEPARATOR . 'uniform' . DIRECTORY_SEPARATOR;
-            
-            self::ensureDirectory($uniformDir);
+            // Get uniform directory using DirectoryManager
+            $uniformDir = DirectoryManager::getUniformDir($imagePath);
             
             $filename = basename($imagePath);
             $uniformPath = $uniformDir . 'uniform_' . $uniformWidth . 'x' . $uniformHeight . '_' . $filename;
@@ -389,11 +388,8 @@ class ImageOptimizer {
         }
         
         try {
-            // Create compressed directory with proper path handling
-            $imageDir = dirname($imagePath);
-            $compressedDir = $imageDir . DIRECTORY_SEPARATOR . 'compressed' . DIRECTORY_SEPARATOR;
-            
-            self::ensureDirectory($compressedDir);
+            // Get compressed directory using DirectoryManager
+            $compressedDir = DirectoryManager::getCompressedDir($imagePath);
             
             $filename = basename($imagePath);
             $compressedPath = $compressedDir . 'compressed_' . $filename;

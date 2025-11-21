@@ -6,6 +6,8 @@
  */
 
 require_once __DIR__ . '/auto-config.php';
+require_once __DIR__ . '/init-directories.php';
+
 @ini_set('memory_limit', '2048M');
 @ini_set('max_execution_time', '300');
 
@@ -23,7 +25,7 @@ if (!$draftId) {
 
 try {
     // Load draft
-    $draftFile = __DIR__ . '/uploads/drafts/' . $draftId . '.json';
+    $draftFile = DirectoryManager::getAbsolutePath('uploads/drafts/' . $draftId . '.json');
     
     if (!file_exists($draftFile)) {
         throw new Exception('Draft not found');

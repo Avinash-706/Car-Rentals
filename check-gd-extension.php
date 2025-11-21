@@ -120,13 +120,24 @@ header('Content-Type: text/html; charset=utf-8');
     
     // Check file permissions
     echo "<h2>5. Directory Permissions</h2>";
-    $directories = [
-        'uploads' => __DIR__ . '/uploads',
-        'uploads/drafts' => __DIR__ . '/uploads/drafts',
-        'uploads/compressed' => __DIR__ . '/uploads/compressed',
-        'uploads/uniform' => __DIR__ . '/uploads/uniform',
-        'tmp' => __DIR__ . '/tmp'
-    ];
+    // Use DirectoryManager if available, otherwise fallback to __DIR__
+    if (class_exists('DirectoryManager')) {
+        $directories = [
+            'uploads' => DirectoryManager::getAbsolutePath('uploads'),
+            'uploads/drafts' => DirectoryManager::getAbsolutePath('uploads/drafts'),
+            'uploads/compressed' => DirectoryManager::getAbsolutePath('uploads/compressed'),
+            'uploads/uniform' => DirectoryManager::getAbsolutePath('uploads/uniform'),
+            'tmp' => DirectoryManager::getAbsolutePath('tmp')
+        ];
+    } else {
+        $directories = [
+            'uploads' => __DIR__ . '/uploads',
+            'uploads/drafts' => __DIR__ . '/uploads/drafts',
+            'uploads/compressed' => __DIR__ . '/uploads/compressed',
+            'uploads/uniform' => __DIR__ . '/uploads/uniform',
+            'tmp' => __DIR__ . '/tmp'
+        ];
+    }
     
     echo "<table>";
     echo "<tr><th>Directory</th><th>Exists</th><th>Writable</th></tr>";

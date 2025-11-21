@@ -133,7 +133,12 @@ class PDFVerifier {
      */
     public function saveReport() {
         $timestamp = date('YmdHis');
-        $reportFile = "tmp/pdf-verify-{$timestamp}.json";
+        // Use DirectoryManager if available
+        if (class_exists('DirectoryManager')) {
+            $reportFile = DirectoryManager::getAbsolutePath("tmp/pdf-verify-{$timestamp}.json");
+        } else {
+            $reportFile = "tmp/pdf-verify-{$timestamp}.json";
+        }
         
         $reportData = [
             'timestamp' => date('Y-m-d H:i:s'),

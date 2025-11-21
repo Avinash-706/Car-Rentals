@@ -6,6 +6,8 @@
 
 // Auto-configure PHP settings
 require_once __DIR__ . '/auto-config.php';
+require_once __DIR__ . '/init-directories.php';
+
 // CRITICAL: Support for 500+ image uploads in PDF
 @ini_set('memory_limit', '2048M');
 @ini_set('max_execution_time', '600');
@@ -26,6 +28,9 @@ function generatePDF($data) {
         // Compress all images first
         $data = compressAllImages($data);
         
+        // Get temp directory
+        $tmpDir = DirectoryManager::getAbsolutePath('tmp');
+        
         // Create mPDF with memory-efficient settings
         $mpdf = new \Mpdf\Mpdf([
             'mode' => 'utf-8',
@@ -34,7 +39,7 @@ function generatePDF($data) {
             'margin_right' => 10,
             'margin_top' => 15,
             'margin_bottom' => 15,
-            'tempDir' => __DIR__ . '/tmp',
+            'tempDir' => $tmpDir,
             'useSubstitutions' => false,
             'simpleTables' => true,
             'dpi' => 96,
@@ -51,7 +56,7 @@ function generatePDF($data) {
         
         // Save PDF
         $pdfFilename = 'inspection_' . ($data['booking_id'] ?? 'unknown') . '_' . time() . '.pdf';
-        $pdfPath = PDF_DIR . $pdfFilename;
+        $pdfPath = DirectoryManager::getAbsolutePath('pdfs/' . $pdfFilename);
         $mpdf->Output($pdfPath, \Mpdf\Output\Destination::FILE);
         
         return $pdfPath;
@@ -653,7 +658,10 @@ function generateField($label, $value, $required = false) {
 }
 
 function generateImage($label, $path, $required = false) {
-    if (empty($path) || !file_exists($path)) {
+    // Convert to absolute path if relative
+    $absolutePath = DirectoryManager::getAbsolutePath($path);
+    
+    if (empty($absolutePath) || !file_exists($absolutePath)) {
         if ($required) {
             return '<div class="field-row">
                 <span class="field-label">' . htmlspecialchars($label) . ':</span>
@@ -666,7 +674,7 @@ function generateImage($label, $path, $required = false) {
     
     // Resize image to uniform dimensions for consistent PDF layout
     // All images will be exactly 400px × 300px in the PDF
-    $uniformPath = ImageOptimizer::resizeToUniform($path, 400, 300, 75);
+    $uniformPath = ImageOptimizer::resizeToUniform($absolutePath, 400, 300, 75);
     
     return '<div class="image-block">
         <div class="image-caption">' . htmlspecialchars($label) . '</div>
@@ -699,8 +707,13 @@ function formatArray($value) {
 
 function compressAllImages($data) {
     foreach ($data as $key => $value) {
-        if (strpos($key, '_path') !== false && !empty($value) && file_exists($value)) {
-            $data[$key] = ImageOptimizer::compressToFile($value, 1200, 65);
+        if (strpos($key, '_path') !== false && !empty($value)) {
+            // Convert to absolute path
+            $absolutePath = DirectoryManager::getAbsolutePath($value);
+            
+            if (file_exists($absolutePath)) {
+                $data[$key] = ImageOptimizer::compressToFile($absolutePath, 1200, 65);
+            }
         }
     }
     return $data;

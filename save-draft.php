@@ -6,6 +6,7 @@
 
 // Auto-configure PHP settings
 require_once 'auto-config.php';
+require_once 'init-directories.php';
 
 // Force high limits for draft saving with many images
 @ini_set('memory_limit', '2048M');
@@ -34,11 +35,8 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'message' => '', 'draft_id' => ''];
 
 try {
-    // Create drafts directory if it doesn't exist
-    $draftDir = 'uploads/drafts/';
-    if (!file_exists($draftDir)) {
-        mkdir($draftDir, 0755, true);
-    }
+    // Get drafts directory using DirectoryManager
+    $draftDir = DirectoryManager::getAbsolutePath('uploads/drafts') . DIRECTORY_SEPARATOR;
     
     // Generate unique draft ID (or use existing one)
     $draftId = $_POST['draft_id'] ?? uniqid('draft_', true);

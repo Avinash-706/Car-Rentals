@@ -7,6 +7,7 @@
 
 // Auto-configure PHP settings
 require_once 'auto-config.php';
+require_once 'init-directories.php';
 
 // Force high memory and time
 @ini_set('memory_limit', '2048M');
@@ -51,8 +52,9 @@ try {
             $fieldName = str_replace('existing_', '', $key);
             $pathKey = $fieldName . '_path';
             
-            if (file_exists($value)) {
-                $uploadedFiles[$pathKey] = $value;
+            $absolutePath = DirectoryManager::getAbsolutePath($value);
+            if (file_exists($absolutePath)) {
+                $uploadedFiles[$pathKey] = $absolutePath;
                 $fileCount++;
             }
         }

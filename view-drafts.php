@@ -4,6 +4,8 @@
  * Shows all draft data in a readable format
  */
 
+require_once __DIR__ . '/init-directories.php';
+
 echo "<!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +41,8 @@ echo "<!DOCTYPE html>
 echo "<h1>📦 Draft Viewer</h1>";
 
 // Get all draft JSON files
-$draftFiles = glob('uploads/drafts/draft_*.json');
+$draftsDir = DirectoryManager::getAbsolutePath('uploads/drafts');
+$draftFiles = glob($draftsDir . DIRECTORY_SEPARATOR . 'draft_*.json');
 
 if (empty($draftFiles)) {
     echo "<div class='no-drafts'>
@@ -172,7 +175,7 @@ if (empty($draftFiles)) {
 // Handle view full data
 if (isset($_GET['view'])) {
     $draftId = $_GET['view'];
-    $draftFile = 'uploads/drafts/' . $draftId . '.json';
+    $draftFile = DirectoryManager::getAbsolutePath('uploads/drafts/' . $draftId . '.json');
     
     if (file_exists($draftFile)) {
         $data = json_decode(file_get_contents($draftFile), true);
@@ -189,7 +192,7 @@ if (isset($_GET['view'])) {
 // Handle delete
 if (isset($_GET['delete'])) {
     $draftId = $_GET['delete'];
-    $draftFile = 'uploads/drafts/' . $draftId . '.json';
+    $draftFile = DirectoryManager::getAbsolutePath('uploads/drafts/' . $draftId . '.json');
     
     if (file_exists($draftFile)) {
         $data = json_decode(file_get_contents($draftFile), true);
@@ -202,7 +205,9 @@ if (isset($_GET['delete'])) {
                 }
                 
                 // Delete thumbnail
-                $thumbPath = str_replace('uploads/drafts/', 'uploads/drafts/thumb_', $filePath);
+                $fileDir = dirname($filePath);
+                $fileName = basename($filePath);
+                $thumbPath = $fileDir . DIRECTORY_SEPARATOR . 'thumb_' . $fileName;
                 if (file_exists($thumbPath)) {
                     unlink($thumbPath);
                 }
@@ -247,7 +252,8 @@ function formatAge($seconds) {
 }
 
 function cleanupOldDrafts() {
-    $drafts = glob('uploads/drafts/draft_*.json');
+    $draftsDir = DirectoryManager::getAbsolutePath('uploads/drafts');
+    $drafts = glob($draftsDir . DIRECTORY_SEPARATOR . 'draft_*.json');
     $now = time();
     $maxAge = 30 * 24 * 60 * 60; // 30 days
     $deleted = 0;

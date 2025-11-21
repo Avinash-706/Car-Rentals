@@ -6,6 +6,7 @@
 
 // Auto-configure PHP settings
 require_once 'auto-config.php';
+require_once 'init-directories.php';
 
 // Prevent any output before JSON
 ob_start();
@@ -32,7 +33,7 @@ try {
         throw new Exception('Draft ID is required');
     }
     
-    $draftFile = 'uploads/drafts/' . $draftId . '.json';
+    $draftFile = DirectoryManager::getAbsolutePath('uploads/drafts/' . $draftId . '.json');
     
     if (!file_exists($draftFile)) {
         throw new Exception('Draft not found');
@@ -48,7 +49,8 @@ try {
     // Verify uploaded files still exist
     if (isset($draftData['uploaded_files'])) {
         foreach ($draftData['uploaded_files'] as $fieldName => $filePath) {
-            if (!file_exists($filePath)) {
+            $absolutePath = DirectoryManager::getAbsolutePath($filePath);
+            if (!file_exists($absolutePath)) {
                 // File was deleted, remove from draft
                 unset($draftData['uploaded_files'][$fieldName]);
             }
