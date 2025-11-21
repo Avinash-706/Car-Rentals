@@ -126,23 +126,48 @@ try {
     
     error_log("PDF generated successfully: $pdfPath");
     
-    // Send email with PDF attachment
-    require_once 'send-email.php';
-    $emailSent = sendEmail($pdfPath, $formData);
+    // IMMEDIATE RESPONSE: Return success to user immediately after PDF generation
+    $response['success'] = true;
+    $response['message'] = SUCCESS_MESSAGE;
+    $response['pdf_path'] = $pdfPath;
+    $response['images_processed'] = $fileCount;
     
-    if (!$emailSent) {
-        // Log email error but don't fail the submission
-        logError('Email sending failed, but PDF was generated successfully', ['pdf_path' => $pdfPath]);
-        $response['success'] = true;
-        $response['message'] = 'Inspection submitted successfully! PDF generated at: ' . $pdfPath . ' (Email delivery failed - please check SMTP settings)';
-        $response['pdf_path'] = $pdfPath;
-        $response['images_processed'] = $fileCount;
+    // Prepare JSON response
+    $jsonResponse = json_encode($response);
+    
+    // Clear any previous output
+    ob_end_clean();
+    
+    // Send response to user BEFORE email sending
+    echo $jsonResponse;
+    
+    // Close connection to user but continue script execution
+    if (function_exists('fastcgi_finish_request')) {
+        // PHP-FPM: Best method - closes connection immediately
+        fastcgi_finish_request();
     } else {
-        $response['success'] = true;
-        $response['message'] = SUCCESS_MESSAGE;
-        $response['pdf_path'] = $pdfPath;
-        $response['images_processed'] = $fileCount;
+        // Apache/Other: Manual connection close
+        header('Connection: close');
+        header('Content-Length: ' . strlen($jsonResponse));
+        ob_end_flush();
+        flush();
     }
+    
+    // NOW send email in background (user already got response)
+    try {
+        require_once 'send-email.php';
+        $emailSent = sendEmail($pdfPath, $formData);
+        
+        if (!$emailSent) {
+            error_log('Background email sending failed for: ' . $pdfPath);
+        } else {
+            error_log('Background email sent successfully for: ' . $pdfPath);
+        }
+    } catch (Exception $emailError) {
+        error_log('Background email exception: ' . $emailError->getMessage());
+    }
+    
+    exit;
     
 } catch (Exception $e) {
     $response['message'] = $e->getMessage();
@@ -155,9 +180,11 @@ try {
     logError('Submission error: ' . $e->getMessage(), $_POST);
 }
 
-// Clean output and send JSON
-ob_end_clean();
-echo json_encode($response);
+// Clean output and send JSON (only for error cases)
+if (!$response['success']) {
+    ob_end_clean();
+    echo json_encode($response);
+}
 exit;
 
 /**

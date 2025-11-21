@@ -1,3 +1,23 @@
+# 🚗 Car Inspection Expert System (USED CAR 3.0)
+
+## 🚀 Quick Start on Any Machine
+
+### **Prerequisites:**
+1. PHP 7.4+ with GD extension
+2. Composer
+
+### **Setup (3 commands):**
+```bash
+cd project-folder
+composer install
+php -S localhost:8000
+```
+
+### **Verify:**
+Open: `http://localhost:8000/fix-500-error.php`
+
+---
+
 # Car Inspection Expert System
 
 A comprehensive car inspection form with progressive image upload, draft saving, and PDF generation.

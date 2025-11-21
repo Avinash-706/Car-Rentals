@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draft System Test Suite</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .test-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+        .test-card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .test-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            animation: slideIn 0.3s;
+        }
+        .result.show {
+            display: block;
+        }
+        .result.success {
+            background: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            color: #2e7d32;
+        }
+        .result.error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            color: #c62828;
+        }
+        .result.info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            color: #1565c0;
+        }
+        pre {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 10px;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status-badge.pass {
+            background: #4CAF50;
+            color: white;
+        }
+        .status-badge.fail {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Draft System Test Suite</h1>
+        
+        <div class="test-grid">
+            <!-- Test 1: Flow Test -->
+            <div class="test-card">
+                <h2>1️⃣ Complete Flow Test</h2>
+                <p>Tests the entire draft lifecycle: create → save → load → verify paths</p>
+                <button onclick="runFlowTest()">Run Flow Test</button>
+                <div id="flowResult" class="result"></div>
+            </div>
+            
+            <!-- Test 2: Path Debug -->
+            <div class="test-card">
+                <h2>2️⃣ Path Debugger</h2>
+                <p>Shows all draft files and verifies image paths are in correct format</p>
+                <button onclick="openPathDebugger()">Open Path Debugger</button>
+                <div id="pathResult" class="result info show">
+                    Opens in new tab
+                </div>
+            </div>
+            
+            <!-- Test 3: LocalStorage Check -->
+            <div class="test-card">
+                <h2>3️⃣ LocalStorage Check</h2>
+                <p>Displays current localStorage contents for draft and uploaded files</p>
+                <button onclick="checkLocalStorage()">Check LocalStorage</button>
+                <div id="storageResult" class="result"></div>
+            </div>
+            
+            <!-- Test 4: Image Reload Test -->
+            <div class="test-card">
+                <h2>4️⃣ Image Reload Test</h2>
+                <p>Interactive tool to test draft loading and image path verification</p>
+                <button onclick="openReloadTest()">Open Reload Test</button>
+                <div id="reloadResult" class="result info show">
+                    Opens in new tab
+                </div>
+            </div>
+            
+            <!-- Test 5: Clear All Data -->
+            <div class="test-card">
+                <h2>5️⃣ Clear All Data</h2>
+                <p>Clears all localStorage data for a fresh start (useful for testing)</p>
+                <button onclick="clearAllData()" style="background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);">Clear All Data</button>
+                <div id="clearResult" class="result"></div>
+            </div>
+            
+            <!-- Test 6: Current Draft Info -->
+            <div class="test-card">
+                <h2>6️⃣ Current Draft Info</h2>
+                <p>Shows information about the currently saved draft (if any)</p>
+                <button onclick="showCurrentDraft()">Show Current Draft</button>
+                <div id="draftResult" class="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function runFlowTest() {
+            const btn = event.target;
+            const result = document.getElementById('flowResult');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Running...';
+            result.className = 'result info show';
+            result.innerHTML = '⏳ Running complete flow test...';
+            
+            fetch('test-complete-draft-flow.php')
+                .then(response => response.json())
+                .then(data => {
+                    btn.disabled = false;
+                    btn.textContent = 'Run Flow Test';
+                    
+                    if (data.success) {
+                        result.className = 'result success show';
+                        result.innerHTML = '<strong>✅ All Tests Passed!</strong><br>' + data.message;
+                    } else {
+                        result.className = 'result error show';
+                        result.innerHTML = '<strong>❌ Tests Failed</strong><br>' + data.message;
+                    }
+                    
+                    result.innerHTML += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    btn.disabled = false;
+                    btn.textContent = 'Run Flow Test';
+                    result.className = 'result error show';
+                    result.innerHTML = '<strong>❌ Error</strong><br>' + error.message;
+                });
+        }
+        
+        function openPathDebugger() {
+            window.open('debug-draft-paths.php', '_blank');
+        }
+        
+        function checkLocalStorage() {
+            const result = document.getElementById('storageResult');
+            const draftId = localStorage.getItem('draftId');
+            const uploadedFiles = localStorage.getItem('uploadedFiles');
+            const savedFiles = localStorage.getItem('savedFiles');
+            
+            let html = '<strong>LocalStorage Contents:</strong><br><br>';
+            
+            if (draftId) {
+                html += '<strong>Draft ID:</strong> ' + draftId + '<br>';
+            } else {
+                html += '<strong>Draft ID:</strong> <em>None</em><br>';
+            }
+            
+            if (uploadedFiles) {
+                const files = JSON.parse(uploadedFiles);
+                html += '<strong>Uploaded Files:</strong> ' + Object.keys(files).length + ' files<br>';
+                html += '<pre>' + JSON.stringify(files, null, 2) + '</pre>';
+            } else {
+                html += '<strong>Uploaded Files:</strong> <em>None</em><br>';
+            }
+            
+            if (savedFiles) {
+                const files = JSON.parse(savedFiles);
+                html += '<strong>Saved Files:</strong> ' + Object.keys(files).length + ' files<br>';
+            } else {
+                html += '<strong>Saved Files:</strong> <em>None</em><br>';
+            }
+            
+            result.className = 'result info show';
+            result.innerHTML = html;
+        }
+        
+        function openReloadTest() {
+            window.open('test-draft-image-reload.html', '_blank');
+        }
+        
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear ALL localStorage data? This cannot be undone.')) {
+                localStorage.clear();
+                const result = document.getElementById('clearResult');
+                result.className = 'result success show';
+                result.innerHTML = '<strong>✅ Cleared!</strong><br>All localStorage data has been deleted.';
+                
+                setTimeout(() => {
+                    result.className = 'result';
+                }, 3000);
+            }
+        }
+        
+        function showCurrentDraft() {
+            const result = document.getElementById('draftResult');
+            const draftId = localStorage.getItem('draftId');
+            
+            if (!draftId) {
+                result.className = 'result info show';
+                result.innerHTML = '<strong>ℹ️ No Draft</strong><br>No draft ID found in localStorage.';
+                return;
+            }
+            
+            result.className = 'result info show';
+            result.innerHTML = '⏳ Loading draft from server...';
+            
+            fetch('load-draft.php?draft_id=' + draftId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const filesCount = Object.keys(data.draft_data.uploaded_files || {}).length;
+                        result.className = 'result success show';
+                        result.innerHTML = '<strong>✅ Draft Found</strong><br>' +
+                            '<strong>Draft ID:</strong> ' + data.draft_data.draft_id + '<br>' +
+                            '<strong>Current Step:</strong> ' + data.draft_data.current_step + '<br>' +
+                            '<strong>Files Loaded:</strong> ' + filesCount + '<br>' +
+                            '<pre>' + JSON.stringify(data.draft_data, null, 2) + '</pre>';
+                    } else {
+                        result.className = 'result error show';
+                        result.innerHTML = '<strong>❌ Draft Not Found</strong><br>' + data.message;
+                    }
+                })
+                .catch(error => {
+                    result.className = 'result error show';
+                    result.innerHTML = '<strong>❌ Error</strong><br>' + error.message;
+                });
+        }
+        
+        // Auto-check localStorage on load
+        window.addEventListener('DOMContentLoaded', function() {
+            const draftId = localStorage.getItem('draftId');
+            if (draftId) {
+                document.querySelector('h1').innerHTML += ' <span class="status-badge pass">Draft Active</span>';
+            } else {
+                document.querySelector('h1').innerHTML += ' <span class="status-badge fail">No Draft</span>';
+            }
+        });
+    </script>
+</body>
+</html>

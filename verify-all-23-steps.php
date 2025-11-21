@@ -142,10 +142,10 @@ $all_steps = [
         'images' => []
     ],
     23 => [
-        'title' => 'Final Review',
-        'mandatory_fields' => [],
+        'title' => 'Payment Details',
+        'mandatory_fields' => ['taking_payment'],
         'optional_fields' => [],
-        'images' => []
+        'images' => ['other_image_1', 'other_image_2', 'other_image_3', 'other_image_4', 'other_image_5'] // All optional
     ]
 ];
 
@@ -226,7 +226,7 @@ $verification['implementation'] = [
     'status' => 'COMPLETE',
     'all_steps_implemented' => true,
     'all_fields_included' => true,
-    'all_images_included' => true,
+    'all_images_included' => true,  
     'proper_ordering' => true,
     'mandatory_optional_logic' => true
 ];

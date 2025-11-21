@@ -38,53 +38,58 @@ try {
     // Get drafts directory using DirectoryManager
     $draftDir = DirectoryManager::getAbsolutePath('uploads/drafts') . DIRECTORY_SEPARATOR;
     
-    // Generate unique draft ID (or use existing one)
-    $draftId = $_POST['draft_id'] ?? uniqid('draft_', true);
+    // Get JSON input
+    $jsonInput = file_get_contents('php://input');
+    $inputData = json_decode($jsonInput, true);
     
-    // Prepare draft data
+    // Fallback to POST if JSON parsing fails
+    if (!$inputData) {
+        $inputData = $_POST;
+    }
+    
+    // Generate unique draft ID (or use existing one)
+    $draftId = $inputData['draft_id'] ?? uniqid('draft_', true);
+    
+    // Prepare draft data with proper structure
     $draftData = [
         'draft_id' => $draftId,
         'timestamp' => time(),
-        'current_step' => $_POST['current_step'] ?? 1,
-        'form_data' => [],
-        'uploaded_files' => []
+        'current_step' => $inputData['current_step'] ?? 1,
+        'form_data' => $inputData['form_data'] ?? [],
+        'uploaded_files' => $inputData['uploaded_files'] ?? []
     ];
     
-    // Save all form fields
-    foreach ($_POST as $key => $value) {
-        if ($key !== 'draft_id' && $key !== 'current_step') {
-            $draftData['form_data'][$key] = $value;
-        }
-    }
-    
-    // Load existing draft if it exists to preserve uploaded_files
+    // Load existing draft if it exists to preserve any additional data
     $draftFile = $draftDir . $draftId . '.json';
     if (file_exists($draftFile)) {
         $existingDraft = json_decode(file_get_contents($draftFile), true);
         if ($existingDraft && isset($existingDraft['uploaded_files'])) {
-            $draftData['uploaded_files'] = $existingDraft['uploaded_files'];
-        }
-    }
-    
-    // Get uploaded files from localStorage/uploadedFiles (sent via POST)
-    // These were already uploaded via upload-image.php
-    if (isset($_POST['uploaded_files_json'])) {
-        $uploadedFilesFromClient = json_decode($_POST['uploaded_files_json'], true);
-        if (is_array($uploadedFilesFromClient)) {
-            $draftData['uploaded_files'] = array_merge(
-                $draftData['uploaded_files'],
-                $uploadedFilesFromClient
-            );
-        }
-    }
-    
-    // Also check for existing_* fields (backward compatibility)
-    foreach ($_POST as $key => $value) {
-        if (strpos($key, 'existing_') === 0 && !empty($value)) {
-            $fieldName = str_replace('existing_', '', $key);
-            if (!isset($draftData['uploaded_files'][$fieldName])) {
-                $draftData['uploaded_files'][$fieldName] = $value;
+            // Verify existing files still exist before merging
+            $verifiedFiles = [];
+            foreach ($existingDraft['uploaded_files'] as $fieldName => $filePath) {
+                // Handle both absolute and relative paths
+                if (file_exists($filePath)) {
+                    // Already absolute path
+                    $absolutePath = $filePath;
+                } else {
+                    // Try as relative path
+                    $absolutePath = DirectoryManager::getAbsolutePath($filePath);
+                }
+                
+                if (file_exists($absolutePath)) {
+                    // Store as relative web path
+                    $relativePath = DirectoryManager::toWebPath(DirectoryManager::getRelativePath($absolutePath));
+                    $verifiedFiles[$fieldName] = $relativePath;
+                } else {
+                    error_log("Draft file missing during save: $filePath (tried: $absolutePath)");
+                }
             }
+            
+            // Merge verified existing files with new ones (new ones take precedence)
+            $draftData['uploaded_files'] = array_merge(
+                $verifiedFiles,
+                $draftData['uploaded_files']
+            );
         }
     }
     
@@ -131,11 +136,19 @@ try {
     $draftFile = $draftDir . $draftId . '.json';
     file_put_contents($draftFile, json_encode($draftData, JSON_PRETTY_PRINT));
     
+    // Convert all file paths to web-accessible paths for response
+    $webAccessibleFiles = [];
+    foreach ($draftData['uploaded_files'] as $fieldName => $filePath) {
+        // Ensure path is web-accessible (relative path starting from web root)
+        $webAccessibleFiles[$fieldName] = DirectoryManager::toWebPath(DirectoryManager::getRelativePath($filePath));
+    }
+    
     $response['success'] = true;
     $response['message'] = 'Draft saved successfully!';
     $response['draft_id'] = $draftId;
     $response['files_saved'] = count($draftData['uploaded_files']);
     $response['draft_data'] = $draftData;
+    $response['draft_data']['uploaded_files'] = $webAccessibleFiles; // Override with web paths
     
 } catch (Exception $e) {
     $response['message'] = 'Error saving draft: ' . $e->getMessage();

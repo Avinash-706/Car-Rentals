@@ -10,7 +10,7 @@ let draftId = localStorage.getItem('draftId') || null;
 document.addEventListener('DOMContentLoaded', function() {
     // Setup progressive upload
     setupProgressiveUpload();
-    // Set current date and time for Step 2
+    // Set current dat  e and time for Step 2
     updateDateTime();
     
     // Load draft if exists
@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // File upload preview
     document.getElementById('carPhoto').addEventListener('change', previewImage);
+    
+    // Setup camera capture for all file inputs
+    setupCameraCapture();
     
     // Setup all image previews
     setupImagePreviews();
@@ -113,9 +116,18 @@ function validateStep(step) {
             const hasSavedFile = field.dataset.savedFile;
             const hasNewFile = field.files && field.files.length > 0;
             
+            // Debug logging for Step 5
+            if (step === 5) {
+                console.log('Validating file input:', field.name, {
+                    hasSavedFile: hasSavedFile,
+                    hasNewFile: hasNewFile,
+                    filesLength: field.files ? field.files.length : 0
+                });
+            }
+            
             if (!hasSavedFile && !hasNewFile) {
                 field.focus();
-                alert('Please upload all required images');
+                alert('Please upload all required images for: ' + field.name);
                 return false;
             }
             
@@ -195,40 +207,117 @@ function updateDateTime() {
 
 function fetchLocation() {
     const errorDiv = document.getElementById('locationError');
+    const locationBtn = document.getElementById('fetchLocation');
     errorDiv.textContent = '';
+    errorDiv.style.display = 'none';
     
+    // Check if geolocation is supported
     if (!navigator.geolocation) {
-        errorDiv.textContent = 'Geolocation is not supported by your browser';
+        alert("Your device does not support Geolocation.");
         return;
     }
     
-    document.getElementById('fetchLocation').textContent = '⏳';
+    // Show loading state
+    locationBtn.textContent = '⏳';
+    locationBtn.disabled = true;
     
+    // Immediately request location - this triggers the native browser permission popup
     navigator.geolocation.getCurrentPosition(
+        // SUCCESS callback
         function(position) {
             const lat = position.coords.latitude;
-            const long = position.coords.longitude;
+            const lon = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
             
+            // Auto-fill latitude and longitude
             document.getElementById('latitude').value = lat.toFixed(6);
-            document.getElementById('longitude').value = long.toFixed(6);
+            document.getElementById('longitude').value = lon.toFixed(6);
             
-            // Reverse geocoding using OpenStreetMap Nominatim
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${long}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('locationAddress').value = data.display_name || 'Address not found';
-                    document.getElementById('fetchLocation').textContent = '📍';
-                })
-                .catch(error => {
-                    document.getElementById('locationAddress').value = `Lat: ${lat}, Long: ${long}`;
-                    document.getElementById('fetchLocation').textContent = '📍';
-                });
+            // Show success message
+            showLocationSuccess(`✅ Location captured (±${Math.round(accuracy)}m accuracy)`, errorDiv);
+            
+            // Fetch address via reverse geocoding
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`, {
+                headers: { 'User-Agent': 'CarInspectionApp/1.0' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('locationAddress').value = data.display_name || 'Address not found';
+                locationBtn.textContent = '✓';
+                locationBtn.style.background = '#4CAF50';
+                setTimeout(() => {
+                    locationBtn.textContent = '📍';
+                    locationBtn.style.background = '';
+                    locationBtn.disabled = false;
+                }, 2000);
+            })
+            .catch(error => {
+                document.getElementById('locationAddress').value = `Lat: ${lat}, Lon: ${lon}`;
+                locationBtn.textContent = '📍';
+                locationBtn.disabled = false;
+            });
         },
+        // ERROR callback - Force permission popup handling
         function(error) {
-            errorDiv.textContent = 'Failed to fetch location. Ensure location is enabled in your phone.';
-            document.getElementById('fetchLocation').textContent = '📍';
+            locationBtn.textContent = '📍';
+            locationBtn.disabled = false;
+            
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("Please enable Location Permission for this site.\n\n" +
+                          "📱 Android: Tap the lock icon → Permissions → Location → Allow\n" +
+                          "🍎 iOS: Tap 'AA' → Website Settings → Location → Allow");
+                    showPermissionDeniedPopup();
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location unavailable. Please turn ON GPS and ensure Location Services are enabled.");
+                    break;
+                case error.TIMEOUT:
+                    alert("Location request timed out. Please check your internet connection and try again.");
+                    break;
+                default:
+                    alert("Unable to fetch location. Please try again.");
+            }
+        },
+        // OPTIONS - High accuracy, no cache
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
         }
     );
+}
+
+
+
+function showLocationError(message, errorDiv) {
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    errorDiv.style.background = '#ffebee';
+    errorDiv.style.color = '#c62828';
+    errorDiv.style.padding = '15px';
+    errorDiv.style.borderRadius = '4px';
+    errorDiv.style.marginTop = '10px';
+    errorDiv.style.whiteSpace = 'pre-line';
+    errorDiv.style.fontSize = '14px';
+    errorDiv.style.border = '1px solid #ef5350';
+}
+
+function showLocationSuccess(message, errorDiv) {
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    errorDiv.style.background = '#e8f5e9';
+    errorDiv.style.color = '#2e7d32';
+    errorDiv.style.padding = '10px';
+    errorDiv.style.borderRadius = '4px';
+    errorDiv.style.marginTop = '10px';
+    errorDiv.style.fontSize = '14px';
+    errorDiv.style.border = '1px solid #66bb6a';
+    
+    // Auto-hide success message after 3 seconds
+    setTimeout(() => {
+        errorDiv.style.display = 'none';
+    }, 3000);
 }
 
 function previewImage(event) {
@@ -326,40 +415,76 @@ function setupOkCheckboxLogic() {
 function saveDraft() {
     console.log('Saving draft...');
     const form = document.getElementById('inspectionForm');
-    const formData = new FormData();
     
-    // Add current step
-    formData.append('current_step', currentStep);
+    // Get the current draft ID
+    const currentDraftId = localStorage.getItem('draftId') || draftId || '';
     
-    // Add draft ID if exists
-    const existingDraftId = localStorage.getItem('draftId') || draftId;
-    if (existingDraftId) {
-        formData.append('draft_id', existingDraftId);
+    // Collect uploaded files from both global variable and localStorage
+    let allUploadedFiles = {};
+    
+    // First, get from localStorage
+    const storedFiles = localStorage.getItem('uploadedFiles');
+    if (storedFiles) {
+        try {
+            allUploadedFiles = JSON.parse(storedFiles);
+        } catch (e) {
+            console.error('Error parsing uploadedFiles from localStorage:', e);
+        }
     }
     
-    // Add all form fields (but NOT file inputs)
+    // Then merge with global uploadedFiles (in case of new uploads)
+    if (uploadedFiles && typeof uploadedFiles === 'object') {
+        allUploadedFiles = { ...allUploadedFiles, ...uploadedFiles };
+    }
+    
+    console.log('Uploaded files to save:', allUploadedFiles);
+    
+    // Collect all form data as JSON for better structure
+    const draftData = {
+        current_step: currentStep,
+        draft_id: currentDraftId,
+        form_data: {},
+        uploaded_files: allUploadedFiles
+    };
+    
+    // Collect all form fields with proper handling for arrays
     const inputs = form.querySelectorAll('input:not([type="file"]), select, textarea');
+    const fieldGroups = {};
+    
     inputs.forEach(input => {
-        if (input.type === 'checkbox' || input.type === 'radio') {
-            if (input.checked) {
-                formData.append(input.name, input.value);
+        if (!input.name) return;
+        
+        if (input.type === 'checkbox') {
+            // Handle checkbox arrays
+            if (!fieldGroups[input.name]) {
+                fieldGroups[input.name] = [];
             }
-        } else if (input.name) {
-            formData.append(input.name, input.value);
+            if (input.checked) {
+                fieldGroups[input.name].push(input.value);
+            }
+        } else if (input.type === 'radio') {
+            // Handle radio buttons
+            if (input.checked) {
+                draftData.form_data[input.name] = input.value;
+            }
+        } else if (input.tagName === 'SELECT' && input.multiple) {
+            // Handle multi-select
+            const selected = Array.from(input.selectedOptions).map(opt => opt.value);
+            draftData.form_data[input.name] = selected;
+        } else {
+            // Handle regular inputs
+            draftData.form_data[input.name] = input.value;
         }
     });
     
-    // Send uploadedFiles as JSON (images already uploaded via upload-image.php)
-    if (typeof uploadedFiles !== 'undefined' && Object.keys(uploadedFiles).length > 0) {
-        formData.append('uploaded_files_json', JSON.stringify(uploadedFiles));
-        console.log('Sending', Object.keys(uploadedFiles).length, 'uploaded file paths');
+    // Add checkbox arrays to form_data
+    for (const fieldName in fieldGroups) {
+        if (fieldGroups[fieldName].length > 0) {
+            draftData.form_data[fieldName] = fieldGroups[fieldName];
+        }
     }
     
-    // Also send savedFiles for backward compatibility
-    const savedFiles = JSON.parse(localStorage.getItem('savedFiles') || '{}');
-    for (const fieldName in savedFiles) {
-        formData.append('existing_' + fieldName, savedFiles[fieldName]);
-    }
+    console.log('Draft data to save:', draftData);
     
     // Show loading indicator
     const saveDraftBtn = document.getElementById('saveDraftBtn');
@@ -369,7 +494,10 @@ function saveDraft() {
     
     fetch('save-draft.php', {
         method: 'POST',
-        body: formData
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(draftData)
     })
     .then(response => {
         // Check if response is OK
@@ -394,11 +522,15 @@ function saveDraft() {
         
         if (data.success) {
             // Save draft ID
+            draftId = data.draft_id;
             localStorage.setItem('draftId', data.draft_id);
             
-            // Save file paths
+            // Update uploaded files from server response
             if (data.draft_data && data.draft_data.uploaded_files) {
+                uploadedFiles = data.draft_data.uploaded_files;
+                localStorage.setItem('uploadedFiles', JSON.stringify(data.draft_data.uploaded_files));
                 localStorage.setItem('savedFiles', JSON.stringify(data.draft_data.uploaded_files));
+                console.log('Updated uploadedFiles:', uploadedFiles);
             }
             
             alert('Draft saved successfully! ' + (data.files_saved || 0) + ' images saved.');
@@ -418,15 +550,28 @@ function saveDraft() {
 
 function loadDraft() {
     console.log('Loading draft...');
-    const draftId = localStorage.getItem('draftId');
+    const storedDraftId = localStorage.getItem('draftId');
     
-    if (!draftId) {
+    if (!storedDraftId) {
         console.log('No draft ID found');
+        // Try to load from localStorage as fallback
+        const storedFiles = localStorage.getItem('uploadedFiles');
+        if (storedFiles) {
+            try {
+                uploadedFiles = JSON.parse(storedFiles);
+                console.log('Loaded uploadedFiles from localStorage:', uploadedFiles);
+            } catch (e) {
+                console.error('Error parsing uploadedFiles:', e);
+            }
+        }
         return;
     }
     
+    // Update global draftId
+    draftId = storedDraftId;
+    
     // Fetch draft from server
-    fetch('load-draft.php?draft_id=' + draftId)
+    fetch('load-draft.php?draft_id=' + storedDraftId)
     .then(response => response.json())
     .then(data => {
         if (!data.success) {
@@ -450,30 +595,48 @@ function loadDraft() {
             // Restore form fields
             if (draftData.form_data) {
                 for (let key in draftData.form_data) {
+                    const value = draftData.form_data[key];
                     const fields = document.querySelectorAll(`[name="${key}"]`);
                     
-                    if (fields.length > 0) {
-                        const firstField = fields[0];
-                        
-                        if (firstField.type === 'checkbox') {
-                            const values = Array.isArray(draftData.form_data[key]) ? draftData.form_data[key] : [draftData.form_data[key]];
-                            fields.forEach(field => {
-                                field.checked = values.includes(field.value);
-                            });
-                        } else if (firstField.type === 'radio') {
-                            fields.forEach(field => {
-                                field.checked = field.value === draftData.form_data[key];
-                            });
-                        } else {
-                            firstField.value = draftData.form_data[key];
-                        }
+                    if (fields.length === 0) continue;
+                    
+                    const firstField = fields[0];
+                    
+                    if (firstField.type === 'checkbox') {
+                        // Handle checkbox arrays
+                        const values = Array.isArray(value) ? value : [value];
+                        fields.forEach(field => {
+                            field.checked = values.includes(field.value);
+                        });
+                    } else if (firstField.type === 'radio') {
+                        // Handle radio buttons
+                        fields.forEach(field => {
+                            field.checked = field.value === value;
+                        });
+                    } else if (firstField.tagName === 'SELECT' && firstField.multiple) {
+                        // Handle multi-select
+                        const values = Array.isArray(value) ? value : [value];
+                        Array.from(firstField.options).forEach(option => {
+                            option.selected = values.includes(option.value);
+                        });
+                    } else {
+                        // Handle regular inputs
+                        firstField.value = value;
                     }
                 }
             }
             
             // Restore uploaded images
-            if (draftData.uploaded_files) {
+            if (draftData.uploaded_files && Object.keys(draftData.uploaded_files).length > 0) {
+                console.log('Restoring uploaded files:', draftData.uploaded_files);
+                
+                // Store in both uploadedFiles and localStorage
+                uploadedFiles = draftData.uploaded_files;
+                localStorage.setItem('uploadedFiles', JSON.stringify(draftData.uploaded_files));
                 localStorage.setItem('savedFiles', JSON.stringify(draftData.uploaded_files));
+                
+                let loadedCount = 0;
+                let failedCount = 0;
                 
                 for (let fieldName in draftData.uploaded_files) {
                     const filePath = draftData.uploaded_files[fieldName];
@@ -484,18 +647,50 @@ function loadDraft() {
                         const preview = document.getElementById(previewId);
                         
                         if (preview) {
-                            // Show image preview
-                            preview.innerHTML = `
-                                <img src="${filePath}" alt="Saved image">
-                                <button type="button" class="replace-image-btn" onclick="replaceImage('${fieldName}')">Replace Image</button>
-                            `;
-                            
-                            // Mark field as having saved file
-                            fileInput.dataset.savedFile = filePath;
-                            fileInput.removeAttribute('required');
+                            // Verify image exists before showing preview
+                            const img = new Image();
+                            img.onload = function() {
+                                // Image loaded successfully
+                                preview.innerHTML = `
+                                    <img src="${filePath}" alt="Saved image">
+                                    <button type="button" class="replace-image-btn" onclick="replaceImage('${fieldName}')">Replace Image</button>
+                                    <span class="upload-success">✅ Uploaded</span>
+                                `;
+                                
+                                // Mark field as having saved file
+                                fileInput.dataset.savedFile = filePath;
+                                fileInput.removeAttribute('required');
+                                loadedCount++;
+                                console.log('✅ Loaded image:', fieldName, filePath);
+                            };
+                            img.onerror = function() {
+                                // Image failed to load
+                                console.error('❌ Failed to load image:', fieldName, filePath);
+                                preview.innerHTML = `
+                                    <div class="upload-error">❌ Image not found. Please upload again.</div>
+                                `;
+                                
+                                // Remove from uploadedFiles
+                                delete uploadedFiles[fieldName];
+                                localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+                                
+                                // Make field required again
+                                fileInput.setAttribute('required', 'required');
+                                delete fileInput.dataset.savedFile;
+                                failedCount++;
+                            };
+                            img.src = filePath;
                         }
                     }
                 }
+                
+                // Show summary after a short delay to let images load
+                setTimeout(() => {
+                    console.log(`Restored ${loadedCount} images, ${failedCount} failed`);
+                    if (failedCount > 0) {
+                        alert(`Draft loaded! ${loadedCount} images restored.\n${failedCount} images could not be found and need to be re-uploaded.`);
+                    }
+                }, 1000);
             }
             
             showStep(currentStep);
@@ -799,6 +994,13 @@ function uploadImageImmediately(fieldName, file, inputId) {
             uploadedFiles[fieldName] = data.file_path;
             localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
             
+            // CRITICAL FIX: Mark the input as having a saved file
+            const fileInput = document.querySelector(`[name="${fieldName}"]`);
+            if (fileInput) {
+                fileInput.dataset.savedFile = data.file_path;
+                fileInput.removeAttribute('required');
+            }
+            
             // Show preview
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -823,6 +1025,14 @@ function uploadImageImmediately(fieldName, file, inputId) {
 }
 
 function loadUploadedFiles() {
+    // Don't load from localStorage if we have a draft ID
+    // The loadDraft() function will handle loading images from the server
+    const draftId = localStorage.getItem('draftId');
+    if (draftId) {
+        console.log('Draft ID exists, skipping localStorage image load (will load from server)');
+        return;
+    }
+    
     const savedFiles = localStorage.getItem('uploadedFiles');
     
     if (savedFiles) {
@@ -839,15 +1049,26 @@ function loadUploadedFiles() {
                     const preview = document.getElementById(previewId);
                     
                     if (preview) {
-                        preview.innerHTML = `
-                            <img src="${filePath}" alt="Saved image">
-                            <button type="button" class="replace-image-btn" onclick="replaceImage('${fieldName}')">Replace Image</button>
-                            <span class="upload-success">✅ Saved</span>
-                        `;
-                        
-                        // Mark as not required since file exists
-                        fileInput.removeAttribute('required');
-                        fileInput.dataset.savedFile = filePath;
+                        // Verify image exists by trying to load it
+                        const img = new Image();
+                        img.onload = function() {
+                            preview.innerHTML = `
+                                <img src="${filePath}" alt="Saved image">
+                                <button type="button" class="replace-image-btn" onclick="replaceImage('${fieldName}')">Replace Image</button>
+                                <span class="upload-success">✅ Saved</span>
+                            `;
+                            
+                            // Mark as not required since file exists
+                            fileInput.removeAttribute('required');
+                            fileInput.dataset.savedFile = filePath;
+                        };
+                        img.onerror = function() {
+                            console.warn('Image not found:', filePath);
+                            // Remove from uploadedFiles if image doesn't exist
+                            delete uploadedFiles[fieldName];
+                            localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+                        };
+                        img.src = filePath;
                     }
                 }
             }
@@ -1033,7 +1254,7 @@ function showTestPdfBanner(pdfPath, stepsIncluded) {
                 <div style="font-size: 14px; opacity: 0.9;">
                     Steps 1-${stepsIncluded} included
                 </div>
-                <a href="${pdfPath}" target="_blank" style="color: white; text-decoration: underline; font-size: 14px; display: inline-block; margin-top: 8px;">
+                <a href="${pdfPath}" target="_blank" onclick="event.stopPropagation();" style="color: white; text-decoration: underline; font-size: 14px; display: inline-block; margin-top: 8px; cursor: pointer;">
                     📄 Open PDF
                 </a>
             </div>
@@ -1078,6 +1299,361 @@ if (!document.getElementById('testPdfStyles')) {
                 transform: translateX(400px);
                 opacity: 0;
             }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Setup camera capture for all file inputs
+function setupCameraCapture() {
+    // Find all file inputs that accept images
+    const fileInputs = document.querySelectorAll('input[type="file"][accept*="image"]');
+    
+    fileInputs.forEach(fileInput => {
+        const fileUploadDiv = fileInput.closest('.file-upload');
+        if (!fileUploadDiv) return;
+        
+        const fileLabel = fileUploadDiv.querySelector('.file-label');
+        if (!fileLabel) return;
+        
+        // Check if camera button already exists
+        if (fileUploadDiv.querySelector('.camera-btn-wrapper')) return;
+        
+        // Create camera input
+        const cameraInput = document.createElement('input');
+        cameraInput.type = 'file';
+        cameraInput.accept = 'image/*';
+        cameraInput.capture = 'environment';
+        cameraInput.style.display = 'none';
+        cameraInput.id = fileInput.id + 'Camera';
+        
+        // Create camera button label
+        const cameraLabel = document.createElement('label');
+        cameraLabel.htmlFor = cameraInput.id;
+        cameraLabel.className = 'file-label';
+        cameraLabel.style.flex = '1';
+        cameraLabel.style.background = '#4CAF50';
+        cameraLabel.innerHTML = '<span class="camera-icon">📷</span><span class="file-text">Take Photo</span>';
+        
+        // Create wrapper for both buttons
+        const wrapper = document.createElement('div');
+        wrapper.className = 'camera-btn-wrapper';
+        wrapper.style.display = 'flex';
+        wrapper.style.gap = '10px';
+        
+        // Hide original input
+        fileInput.style.display = 'none';
+        
+        // Update original label
+        fileLabel.style.flex = '1';
+        fileLabel.querySelector('.camera-icon').textContent = '📁';
+        
+        // Insert camera input and reorganize
+        fileUploadDiv.insertBefore(cameraInput, fileLabel);
+        wrapper.appendChild(fileLabel);
+        wrapper.appendChild(cameraLabel);
+        fileUploadDiv.insertBefore(wrapper, fileUploadDiv.querySelector('.file-preview'));
+        
+        // Handle camera input change
+        cameraInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+                fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
+    });
+}
+
+// Show permission denied popup with instructions
+function showPermissionDeniedPopup() {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    const modal = document.createElement('div');
+    modal.id = 'locationPermissionModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        animation: fadeIn 0.3s;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        animation: slideUp 0.3s;
+    `;
+    
+    let instructions = '';
+    if (isAndroid) {
+        instructions = `
+            <div style="background: #e8f5e9; padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #4CAF50;">
+                <h3 style="margin: 0 0 15px 0; color: #2e7d32; font-size: 16px;">📱 Android Instructions:</h3>
+                <ol style="margin: 0; padding-left: 20px; color: #555; line-height: 1.8;">
+                    <li>Tap the <strong>🔒 lock icon</strong> in the address bar</li>
+                    <li>Tap <strong>"Permissions"</strong> or <strong>"Site settings"</strong></li>
+                    <li>Find <strong>"Location"</strong></li>
+                    <li>Change to <strong>"Allow"</strong></li>
+                    <li>Refresh this page</li>
+                    <li>Tap <strong>"Get Location"</strong> again</li>
+                </ol>
+            </div>
+            <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <strong style="color: #e65100;">Alternative:</strong>
+                <p style="margin: 8px 0 0 0; color: #666; font-size: 14px;">
+                    Settings → Apps → Browser → Permissions → Location → Allow
+                </p>
+            </div>
+        `;
+    } else if (isIOS) {
+        instructions = `
+            <div style="background: #e3f2fd; padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #2196F3;">
+                <h3 style="margin: 0 0 15px 0; color: #1565c0; font-size: 16px;">🍎 iOS Instructions:</h3>
+                <ol style="margin: 0; padding-left: 20px; color: #555; line-height: 1.8;">
+                    <li>Tap <strong>"AA"</strong> in the address bar</li>
+                    <li>Tap <strong>"Website Settings"</strong></li>
+                    <li>Find <strong>"Location"</strong></li>
+                    <li>Change to <strong>"Allow"</strong></li>
+                    <li>Refresh this page</li>
+                    <li>Tap <strong>"Get Location"</strong> again</li>
+                </ol>
+            </div>
+            <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <strong style="color: #e65100;">Alternative:</strong>
+                <p style="margin: 8px 0 0 0; color: #666; font-size: 14px;">
+                    Settings → Privacy → Location Services → Safari → While Using the App
+                </p>
+            </div>
+        `;
+    } else {
+        instructions = `
+            <div style="background: #e8f5e9; padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #4CAF50;">
+                <h3 style="margin: 0 0 15px 0; color: #2e7d32; font-size: 16px;">💻 Desktop Instructions:</h3>
+                <ol style="margin: 0; padding-left: 20px; color: #555; line-height: 1.8;">
+                    <li>Click the <strong>🔒 lock icon</strong> in the address bar</li>
+                    <li>Find <strong>"Location"</strong> permission</li>
+                    <li>Change to <strong>"Allow"</strong></li>
+                    <li>Refresh this page</li>
+                    <li>Click <strong>"Get Location"</strong> again</li>
+                </ol>
+            </div>
+        `;
+    }
+    
+    content.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 48px; margin-bottom: 10px;">🚫</div>
+            <h2 style="margin: 0; color: #d32f2f; font-size: 22px;">Location Permission Denied</h2>
+        </div>
+        <p style="margin: 0 0 10px 0; color: #666; text-align: center; line-height: 1.6;">
+            You need to allow location access for this feature to work.
+        </p>
+        ${instructions}
+        <button id="closePermissionModal" style="
+            width: 100%;
+            padding: 16px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        " onmouseover="this.style.background='#1976D2'" onmouseout="this.style.background='#2196F3'">
+            Got It, I'll Enable Location
+        </button>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    document.getElementById('closePermissionModal').addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
+// Show location unavailable popup
+function showLocationUnavailablePopup() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    `;
+    
+    content.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 48px; margin-bottom: 10px;">📡</div>
+            <h2 style="margin: 0; color: #ff9800; font-size: 22px;">Location Unavailable</h2>
+        </div>
+        <p style="margin: 0 0 20px 0; color: #666; text-align: center; line-height: 1.6;">
+            Unable to determine your location. Please check the following:
+        </p>
+        <div style="background: #fff3e0; padding: 20px; border-radius: 12px; border-left: 4px solid #ff9800;">
+            <ul style="margin: 0; padding-left: 20px; color: #555; line-height: 1.8;">
+                <li>Make sure <strong>Location Services</strong> are turned ON</li>
+                <li>Check if you're in <strong>Airplane Mode</strong> (turn it OFF)</li>
+                <li>Move to an area with <strong>better GPS signal</strong></li>
+                <li>Try going <strong>outdoors</strong> for better accuracy</li>
+                <li>Restart your device if the problem persists</li>
+            </ul>
+        </div>
+        <button id="closeUnavailableModal" style="
+            width: 100%;
+            padding: 16px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        ">Try Again</button>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    document.getElementById('closeUnavailableModal').addEventListener('click', function() {
+        document.body.removeChild(modal);
+        fetchLocation();
+    });
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
+// Show location timeout popup
+function showLocationTimeoutPopup() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    `;
+    
+    content.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 48px; margin-bottom: 10px;">⏱️</div>
+            <h2 style="margin: 0; color: #ff5722; font-size: 22px;">Location Request Timed Out</h2>
+        </div>
+        <p style="margin: 0 0 20px 0; color: #666; text-align: center; line-height: 1.6;">
+            It's taking too long to get your location. Please check:
+        </p>
+        <div style="background: #ffebee; padding: 20px; border-radius: 12px; border-left: 4px solid #ff5722;">
+            <ul style="margin: 0; padding-left: 20px; color: #555; line-height: 1.8;">
+                <li>Check your <strong>internet connection</strong></li>
+                <li>Make sure <strong>GPS is enabled</strong></li>
+                <li>Move to an <strong>open area</strong> for better signal</li>
+                <li>Wait a moment and try again</li>
+            </ul>
+        </div>
+        <button id="closeTimeoutModal" style="
+            width: 100%;
+            padding: 16px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        ">Try Again</button>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    document.getElementById('closeTimeoutModal').addEventListener('click', function() {
+        document.body.removeChild(modal);
+        fetchLocation();
+    });
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
+// Add CSS animations
+if (!document.getElementById('locationModalStyles')) {
+    const style = document.createElement('style');
+    style.id = 'locationModalStyles';
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     `;
     document.head.appendChild(style);

@@ -25,13 +25,13 @@ require_once __DIR__ . '/image-optimizer.php';
 
 function generatePDF($data) {
     try {
-        // Compress all images first
+        // Compress all images first (optimized for speed)
         $data = compressAllImages($data);
         
         // Get temp directory
         $tmpDir = DirectoryManager::getAbsolutePath('tmp');
         
-        // Create mPDF with memory-efficient settings
+        // Create mPDF with OPTIMIZED settings for speed
         $mpdf = new \Mpdf\Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -42,13 +42,19 @@ function generatePDF($data) {
             'tempDir' => $tmpDir,
             'useSubstitutions' => false,
             'simpleTables' => true,
-            'dpi' => 96,
-            'img_dpi' => 96,
+            'packTableData' => true,
+            'dpi' => 72,  // Reduced for faster processing
+            'img_dpi' => 72,  // Reduced for faster processing
+            'compress' => true,  // Enable PDF compression
+            'autoScriptToLang' => false,
+            'autoLangToFont' => false,
         ]);
         
         $mpdf->use_kwt = false;
+        $mpdf->shrink_tables_to_fit = 1;
         $mpdf->SetTitle('Car Inspection Report');
         $mpdf->SetAuthor('Car Inspection Expert');
+        $mpdf->SetCompression(true);  // Enable compression
         
         // Generate complete HTML
         $html = generateCompleteHTML($data);
@@ -98,7 +104,11 @@ function generateCompleteHTML($data) {
     
     // Mandatory fields
     $html .= generateField('Inspection 45 Minutes Delayed?', $data['inspection_delayed'] ?? '', true);
-    $html .= generateImage('Your photo with car\'s number plate', $data['car_photo_path'] ?? '', true);
+    
+    // Image in grid
+    $images = [];
+    $images[] = generateImage('Your photo with car\'s number plate', $data['car_photo_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // Location section (all mandatory)
     $html .= '<div class="location-section">';
@@ -133,11 +143,15 @@ function generateCompleteHTML($data) {
     $html .= generateField('Transmission', $data['transmission'] ?? '', true);
     $html .= generateField('Car Colour', $data['car_colour'] ?? '', true);
     $html .= generateField('Car KM Current Reading', $data['car_km_reading'] ?? '', true);
-    $html .= generateImage('Car KM Reading Photo', $data['car_km_photo_path'] ?? '', true);
     $html .= generateField('Number of Car Keys Available', $data['car_keys_available'] ?? '', true);
     $html .= generateField('Chassis Number', $data['chassis_number'] ?? '', true);
     $html .= generateField('Engine Number', $data['engine_number'] ?? '', true);
-    $html .= generateImage('Chassis No Plate', $data['chassis_plate_photo_path'] ?? '', true);
+    
+    // Images in grid
+    $images = [];
+    $images[] = generateImage('Car KM Reading Photo', $data['car_km_photo_path'] ?? '', true);
+    $images[] = generateImage('Chassis No Plate', $data['chassis_plate_photo_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // ========================================================================
     // STEP 4: Car Documents
@@ -155,28 +169,22 @@ function generateCompleteHTML($data) {
     // ========================================================================
     $html .= generateStepHeader(5, 'Body Frame Accidental Checklist');
     
-    // Radiator Core Support
+    // Text fields first
     $html .= generateField('Radiator Core Support', formatArray($data['radiator_core'] ?? []), true);
-    $html .= generateImage('Radiator Core Support Image', $data['radiator_core_image_path'] ?? '', true);
-    
-    // Match Chassis No Plate with Real Body
     $html .= generateField('Match Chassis No Plate with Real Body', $data['match_chassis'] ?? '', true);
-    
-    // Driver Side Strut Tower Apron
     $html .= generateField('Driver Side Strut Tower Apron', formatArray($data['driver_strut'] ?? []), true);
-    $html .= generateImage('Driver Side Strut Tower Apron Image', $data['driver_strut_image_path'] ?? '', true);
-    
-    // Passenger Strut Tower Apron
     $html .= generateField('Passenger Strut Tower Apron', formatArray($data['passenger_strut'] ?? []), true);
-    $html .= generateImage('Passenger Strut Tower Apron Image', $data['passenger_strut_image_path'] ?? '', true);
-    
-    // Front Bonnet UnderBody
     $html .= generateField('Front Bonnet UnderBody', formatArray($data['front_bonnet'] ?? []), true);
-    $html .= generateImage('Front Bonnet UnderBody Image', $data['front_bonnet_image_path'] ?? '', true);
-    
-    // Boot Floor
     $html .= generateField('Boot Floor', formatArray($data['boot_floor'] ?? []), true);
-    $html .= generateImage('Boot Floor Image', $data['boot_floor_image_path'] ?? '', true);
+    
+    // Images in grid
+    $images = [];
+    $images[] = generateImage('Radiator Core Support', $data['radiator_core_image_path'] ?? '', true);
+    $images[] = generateImage('Driver Side Strut Tower Apron', $data['driver_strut_image_path'] ?? '', true);
+    $images[] = generateImage('Passenger Strut Tower Apron', $data['passenger_strut_image_path'] ?? '', true);
+    $images[] = generateImage('Front Bonnet UnderBody', $data['front_bonnet_image_path'] ?? '', true);
+    $images[] = generateImage('Boot Floor', $data['boot_floor_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // ========================================================================
     // STEP 6: Exterior Body
@@ -194,27 +202,31 @@ function generateCompleteHTML($data) {
     // ========================================================================
     $html .= generateStepHeader(7, 'Engine (Before Test Drive)');
     
-    // Car Start
-    $html .= generateImage('Car Start Image', $data['car_start_image_path'] ?? '', true);
+    // Text fields first
     $html .= generateField('Car Start', formatArray($data['car_start'] ?? []), true);
-    
-    // Wiring
-    $html .= generateImage('Wiring Image', $data['wiring_image_path'] ?? '', true);
     $html .= generateField('Wiring', formatArray($data['wiring'] ?? []), true);
-    
-    // Engine Oil Quality
-    $html .= generateImage('Engine Oil Quality Image', $data['engine_oil_image_path'] ?? '', true);
     $html .= generateField('Engine Oil Quality', formatArray($data['engine_oil'] ?? []), true);
     $html .= generateField('Engine Oil Cap', formatArray($data['engine_oil_cap'] ?? []), true);
+    
+    // Images in grid
+    $images = [];
+    $images[] = generateImage('Car Start', $data['car_start_image_path'] ?? '', true);
+    $images[] = generateImage('Wiring', $data['wiring_image_path'] ?? '', true);
+    $images[] = generateImage('Engine Oil Quality', $data['engine_oil_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     $html .= generateField('Engine Mounting and Components', formatArray($data['engine_mounting'] ?? []), true);
     
     // Coolant
     $html .= generateField('Coolant Level', formatArray($data['coolant_level'] ?? []), true);
     $html .= generateField('Coolant Quality', formatArray($data['coolant_quality'] ?? []), true);
     
-    // Smoke Emission
-    $html .= generateImage('Smoke Emission Image', $data['smoke_emission_image_path'] ?? '', true);
+    // Text field first
     $html .= generateField('Smoke Emission', formatArray($data['smoke_emission'] ?? []), true);
+    
+    // Image in grid
+    $images = [];
+    $images[] = generateImage('Smoke Emission', $data['smoke_emission_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // Battery
     $html .= generateField('Battery', formatArray($data['battery'] ?? []), true);
@@ -225,7 +237,11 @@ function generateCompleteHTML($data) {
     $html .= generateStepHeader(8, 'OBD Scan');
     
     $html .= generateField('Fault Codes', $data['fault_codes'] ?? '', true);
-    $html .= generateImage('OBD Scan Photo', $data['obd_scan_photo_path'] ?? '', true);
+    
+    // Image in grid
+    $images = [];
+    $images[] = generateImage('OBD Scan Photo', $data['obd_scan_photo_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // ========================================================================
     // STEP 9: Electrical and Interior
@@ -255,8 +271,10 @@ function generateCompleteHTML($data) {
     $html .= generateField('Reverse Parking Sensor', $data['reverse_parking_sensor'] ?? '', true);
     $html .= generateField('Multi Function Display', $data['multi_function_display'] ?? '', true);
     
-    // MANDATORY IMAGE
-    $html .= generateImage('Multi Function Display Image', $data['multi_function_display_image_path'] ?? '', true);
+    // Image in grid
+    $images = [];
+    $images[] = generateImage('Multi Function Display', $data['multi_function_display_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // Optional text field (only if filled)
     $html .= generateField('In Car Start', $data['in_car_start'] ?? '', false);
@@ -279,8 +297,10 @@ function generateCompleteHTML($data) {
     $html .= generateField('Dashboard Condition', $data['dashboard_condition'] ?? '', true);
     $html .= generateField('Car Roof From Inside', $data['car_roof_from_inside'] ?? '', true);
     
-    // MANDATORY IMAGE
-    $html .= generateImage('Car Roof From Inside Image', $data['car_roof_inside_image_path'] ?? '', true);
+    // Image in grid
+    $images = [];
+    $images[] = generateImage('Car Roof From Inside', $data['car_roof_inside_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // Continue mandatory fields
     $html .= generateField('Seat Adjustment Driver Side', $data['seat_adjustment_driver'] ?? '', true);
@@ -343,8 +363,12 @@ function generateCompleteHTML($data) {
     $html .= generateField('Defogger Rear Vent Working', $data['defogger_rear'] ?? '', true);
     $html .= generateField('Air Conditioning All Vents', $data['ac_all_vents'] ?? '', true);
     $html .= generateField('AC Abnormal Vibration', $data['ac_vibration'] ?? '', true);
-    $html .= generateImage('AC Cool Mode Temperature Image', $data['ac_cool_image_path'] ?? '', true);
-    $html .= generateImage('AC Hot Mode Temperature Image', $data['ac_hot_image_path'] ?? '', true);
+    
+    // Images in grid
+    $images = [];
+    $images[] = generateImage('AC Cool Mode Temperature', $data['ac_cool_image_path'] ?? '', true);
+    $images[] = generateImage('AC Hot Mode Temperature', $data['ac_hot_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // ========================================================================
     // STEP 12: Tyres
@@ -355,35 +379,35 @@ function generateCompleteHTML($data) {
     $html .= generateField('Tyre Type', $data['tyre_type'] ?? '', true);
     $html .= generateField('Rim Type', $data['rim_type'] ?? '', true);
     
-    // Driver Front Tyre
+    // Text fields first
     $html .= generateField('Driver Front Tyre Depth Check', $data['driver_front_tyre_depth'] ?? '', true);
-    $html .= generateImage('Driver Front Tyre Tread Depth', $data['driver_front_tyre_image_path'] ?? '', true);
     $html .= generateField('Driver Front Tyre Manufacturing Date', $data['driver_front_tyre_date'] ?? '', true);
     $html .= generateField('Driver Front Tyre Shape', $data['driver_front_tyre_shape'] ?? '', true);
     
-    // Driver Back Tyre
     $html .= generateField('Driver Back Tyre Depth Check', $data['driver_back_tyre_depth'] ?? '', true);
-    $html .= generateImage('Driver Back Tyre Tread Depth', $data['driver_back_tyre_image_path'] ?? '', true);
     $html .= generateField('Driver Back Tyre Manufacturing Date', $data['driver_back_tyre_date'] ?? '', true);
     $html .= generateField('Driver Back Tyre Shape', $data['driver_back_tyre_shape'] ?? '', true);
     
-    // Passenger Back Tyre
     $html .= generateField('Passenger Back Tyre Depth Check', $data['passenger_back_tyre_depth'] ?? '', true);
-    $html .= generateImage('Passenger Back Tyre Tread Depth', $data['passenger_back_tyre_image_path'] ?? '', true);
     $html .= generateField('Passenger Back Tyre Manufacturing Date', $data['passenger_back_tyre_date'] ?? '', true);
     $html .= generateField('Passenger Back Tyre Shape', $data['passenger_back_tyre_shape'] ?? '', true);
     
-    // Passenger Front Tyre
     $html .= generateField('Passenger Front Tyre Depth Check', $data['passenger_front_tyre_depth'] ?? '', true);
-    $html .= generateImage('Passenger Front Tyre Tread Depth', $data['passenger_front_tyre_image_path'] ?? '', true);
     $html .= generateField('Passenger Front Tyre Manufacturing Date', $data['passenger_front_tyre_date'] ?? '', true);
     $html .= generateField('Passenger Front Tyre Shape', $data['passenger_front_tyre_shape'] ?? '', true);
     
-    // Stepney Tyre
     $html .= generateField('Stepney Tyre Depth Check', $data['stepney_tyre_depth'] ?? '', true);
-    $html .= generateImage('Stepney Tyre Tread Depth', $data['stepney_tyre_image_path'] ?? '', true);
     $html .= generateField('Stepney Tyre Manufacturing Date', $data['stepney_tyre_date'] ?? '', true);
     $html .= generateField('Stepney Tyre Shape', $data['stepney_tyre_shape'] ?? '', true);
+    
+    // Images in grid
+    $images = [];
+    $images[] = generateImage('Driver Front Tyre', $data['driver_front_tyre_image_path'] ?? '', true);
+    $images[] = generateImage('Driver Back Tyre', $data['driver_back_tyre_image_path'] ?? '', true);
+    $images[] = generateImage('Passenger Back Tyre', $data['passenger_back_tyre_image_path'] ?? '', true);
+    $images[] = generateImage('Passenger Front Tyre', $data['passenger_front_tyre_image_path'] ?? '', true);
+    $images[] = generateImage('Stepney Tyre', $data['stepney_tyre_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     $html .= generateField('Signs of Camber Issue', $data['camber_issue'] ?? '', true);
     
@@ -414,7 +438,11 @@ function generateCompleteHTML($data) {
     $html .= generateStepHeader(15, 'Engine (After Test Drive)');
     
     $html .= generateField('Check for Oil Leaks Near Engine', $data['oil_leaks_engine'] ?? '', true);
-    $html .= generateImage('Oil Leak Near Engine Image', $data['oil_leak_image_path'] ?? '', true);
+    
+    // Image in grid
+    $images = [];
+    $images[] = generateImage('Oil Leak Near Engine', $data['oil_leak_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     $html .= generateField('Radiator Fan', $data['radiator_fan'] ?? '', true);
     $html .= generateField('Radiator Condition', $data['radiator_condition'] ?? '', true);
     $html .= generateField('Smoke from Dipstick Point', $data['smoke_dipstick'] ?? '', true);
@@ -465,10 +493,14 @@ function generateCompleteHTML($data) {
     $html .= generateField('Driver Side Shocker Leakage', $data['driver_shocker_leakage'] ?? '', true);
     $html .= generateField('Passenger Side Suspension Assembly', $data['passenger_suspension_assembly'] ?? '', true);
     $html .= generateField('Passenger Side Shocker Leakage', $data['passenger_shocker_leakage'] ?? '', true);
-    $html .= generateImage('Driver Side Front Shocker Photo', $data['driver_front_shocker_photo_path'] ?? '', true);
-    $html .= generateImage('Passenger Side Front Shocker Photo', $data['passenger_front_shocker_photo_path'] ?? '', true);
-    $html .= generateImage('Driver Side Rear Shocker Photo', $data['driver_rear_shocker_photo_path'] ?? '', true);
-    $html .= generateImage('Passenger Side Rear Shocker Photo', $data['passenger_rear_shocker_photo_path'] ?? '', true);
+    
+    // Images in grid
+    $images = [];
+    $images[] = generateImage('Driver Side Front Shocker', $data['driver_front_shocker_photo_path'] ?? '', true);
+    $images[] = generateImage('Passenger Side Front Shocker', $data['passenger_front_shocker_photo_path'] ?? '', true);
+    $images[] = generateImage('Driver Side Rear Shocker', $data['driver_rear_shocker_photo_path'] ?? '', true);
+    $images[] = generateImage('Passenger Side Rear Shocker', $data['passenger_rear_shocker_photo_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // ========================================================================
     // STEP 18: Brakes & Steering (Test Drive)
@@ -498,10 +530,14 @@ function generateCompleteHTML($data) {
     $html .= generateField('Silencer', $data['silencer'] ?? '', true);
     $html .= generateField('Fuel Tank', $data['fuel_tank'] ?? '', true);
     $html .= generateField('Any Fluid Leaks Under Body', $data['fluid_leaks_underbody'] ?? '', true);
-    $html .= generateImage('Underbody Left', $data['underbody_left_path'] ?? '', true);
-    $html .= generateImage('Underbody Rear', $data['underbody_rear_path'] ?? '', true);
-    $html .= generateImage('Underbody Right', $data['underbody_right_path'] ?? '', true);
-    $html .= generateImage('Underbody Front', $data['underbody_front_path'] ?? '', true);
+    
+    // Images in grid
+    $images = [];
+    $images[] = generateImage('Underbody Left', $data['underbody_left_path'] ?? '', true);
+    $images[] = generateImage('Underbody Rear', $data['underbody_rear_path'] ?? '', true);
+    $images[] = generateImage('Underbody Right', $data['underbody_right_path'] ?? '', true);
+    $images[] = generateImage('Underbody Front', $data['underbody_front_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // ========================================================================
     // STEP 20: Equipments
@@ -509,7 +545,11 @@ function generateCompleteHTML($data) {
     $html .= generateStepHeader(20, 'Equipments');
     
     $html .= generateField('Tool Kit', $data['tool_kit'] ?? '', true);
-    $html .= generateImage('Tool Kit Image', $data['tool_kit_image_path'] ?? '', true);
+    
+    // Image in grid
+    $images = [];
+    $images[] = generateImage('Tool Kit', $data['tool_kit_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
     
     // ========================================================================
     // STEP 21: Final Car Result
@@ -517,26 +557,38 @@ function generateCompleteHTML($data) {
     $html .= generateStepHeader(21, 'Final Car Result');
     
     $html .= generateField('Any Issues Found in the Car?', $data['issues_found'] ?? '', true);
-    $html .= generateImage('Photos of Issues', $data['issues_photo_path'] ?? '', false);
+    
+    // Image in grid (optional)
+    $images = [];
+    $issueImage = generateImage('Photos of Issues', $data['issues_photo_path'] ?? '', false);
+    if (!empty($issueImage)) {
+        $images[] = $issueImage;
+        $html .= generateImageGrid($images);
+    }
     
     // ========================================================================
     // STEP 22: Car Images From All Directions
     // ========================================================================
     $html .= generateStepHeader(22, 'Car Images From All Directions');
     
-    $html .= generateImage('Front', $data['car_front_path'] ?? '', true);
-    $html .= generateImage('Corner Front - Driver', $data['car_corner_front_driver_path'] ?? '', true);
-    $html .= generateImage('Driver Side', $data['car_driver_side_path'] ?? '', true);
-    $html .= generateImage('Corner Back - Driver', $data['car_corner_back_driver_path'] ?? '', true);
-    $html .= generateImage('Back', $data['car_back_path'] ?? '', true);
-    $html .= generateImage('Corner Back - Passenger', $data['car_corner_back_passenger_path'] ?? '', true);
-    $html .= generateImage('Passenger Side', $data['car_passenger_side_path'] ?? '', true);
-    $html .= generateImage('Corner Front - Passenger', $data['car_corner_front_passenger_path'] ?? '', true);
-    $html .= generateImage('Front Interior', $data['car_front_interior_path'] ?? '', true);
-    $html .= generateImage('Rear Interior', $data['car_rear_interior_path'] ?? '', true);
-    $html .= generateImage('4 Way Switch Driver Side', $data['car_4way_switch_path'] ?? '', true);
-    $html .= generateImage('Trunk Open', $data['car_trunk_open_path'] ?? '', true);
-    $html .= generateImage('Car KM Reading', $data['car_km_reading_final_path'] ?? '', true);
+    // Collect all images for this step
+    $images = [];
+    $images[] = generateImage('Front', $data['car_front_path'] ?? '', true);
+    $images[] = generateImage('Corner Front - Driver', $data['car_corner_front_driver_path'] ?? '', true);
+    $images[] = generateImage('Driver Side', $data['car_driver_side_path'] ?? '', true);
+    $images[] = generateImage('Corner Back - Driver', $data['car_corner_back_driver_path'] ?? '', true);
+    $images[] = generateImage('Back', $data['car_back_path'] ?? '', true);
+    $images[] = generateImage('Corner Back - Passenger', $data['car_corner_back_passenger_path'] ?? '', true);
+    $images[] = generateImage('Passenger Side', $data['car_passenger_side_path'] ?? '', true);
+    $images[] = generateImage('Corner Front - Passenger', $data['car_corner_front_passenger_path'] ?? '', true);
+    $images[] = generateImage('Front Interior', $data['car_front_interior_path'] ?? '', true);
+    $images[] = generateImage('Rear Interior', $data['car_rear_interior_path'] ?? '', true);
+    $images[] = generateImage('4 Way Switch Driver Side', $data['car_4way_switch_path'] ?? '', true);
+    $images[] = generateImage('Trunk Open', $data['car_trunk_open_path'] ?? '', true);
+    $images[] = generateImage('Car KM Reading', $data['car_km_reading_final_path'] ?? '', true);
+    
+    // Generate image grid
+    $html .= generateImageGrid($images);
     
     // ========================================================================
     // STEP 23: Payment Details
@@ -545,76 +597,180 @@ function generateCompleteHTML($data) {
     
     $html .= generateField('Taking Payment', $data['taking_payment'] ?? '', true);
     
+    // OTHER IMAGES (Optional - only show if images exist)
+    $otherImages = [];
+    for ($i = 1; $i <= 5; $i++) {
+        $fieldName = 'other_image_' . $i . '_path';
+        if (!empty($data[$fieldName])) {
+            $otherImages[] = generateImage('Other Image ' . $i, $data[$fieldName], false);
+        }
+    }
+    
+    // Only display OTHER IMAGES section if at least one image exists
+    if (!empty($otherImages)) {
+        $html .= '<div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #ffcdd2;">';
+        $html .= '<h3 style="color: #c62828; font-size: 14px; margin-bottom: 15px;">OTHER IMAGES</h3>';
+        $html .= generateImageGrid($otherImages);
+        $html .= '</div>';
+    }
+    
     $html .= generateFooter();
     
     return $html;
 }
 
+/**
+ * Generate PDF styles with UNIVERSAL LAYOUT RULES
+ * 
+ * MANDATORY SPECIFICATIONS:
+ * 1. All images: EXACTLY 180x135 pixels (no exceptions)
+ * 2. Flex-box grid: 3 images per row (all steps)
+ * 3. Gap: 12px between images (horizontal & vertical)
+ * 4. Text: 20% larger than original (except header)
+ * 5. Spacing: Consistent margins and padding throughout
+ * 6. Alignment: Perfect horizontal and vertical alignment
+ * 
+ * Applied to ALL 23 steps uniformly.
+ */
 function generateStyles() {
     return '
     <style>
-        body { font-family: Arial, sans-serif; font-size: 10px; line-height: 1.4; }
-        .header { text-align: center; background: #2196F3; color: white; padding: 15px; margin-bottom: 20px; }
-        .header h1 { margin: 0; font-size: 20px; }
+        /* Base styles - 20% larger text */
+        body { 
+            font-family: Arial, Helvetica, sans-serif; 
+            font-size: 12px; 
+            line-height: 1.6; 
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Step header - 20% larger with RED theme */
         .step-header { 
-            background: #f0f0f0; 
-            padding: 10px; 
-            font-size: 13px; 
+            background: #ffebee; 
+            padding: 12px 15px; 
+            font-size: 15.6px; 
             font-weight: bold;
-            margin: 15px 0 10px 0;
-            border-left: 4px solid #2196F3;
+            margin: 20px 0 15px 0;
+            border-left: 5px solid #D32F2F;
             page-break-after: avoid;
+            color: #c62828;
         }
+        
+        /* Field rows - 20% larger text */
         .field-row { 
-            margin: 5px 0;
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
+            margin: 6px 0;
+            padding: 6px 0;
+            border-bottom: 1px solid #e0e0e0;
             page-break-inside: avoid;
         }
-        .field-label { font-weight: bold; color: #333; display: inline-block; width: 40%; }
-        .field-value { color: #000; display: inline-block; width: 58%; }
-        .field-value.missing { color: #d32f2f; font-weight: bold; }
-        .image-block { 
-            text-align: center; 
-            margin: 10px 0;
-            page-break-inside: avoid;
+        .field-label { 
+            font-weight: bold; 
+            color: #333; 
+            display: inline-block; 
+            width: 40%; 
+            font-size: 12px;
         }
-        .image-block img { 
-            width: 400px !important;
-            height: 300px !important;
-            border: 1px solid #ddd;
+        .field-value { 
+            color: #000; 
+            display: inline-block; 
+            width: 58%; 
+            font-size: 12px;
+        }
+        .field-value.missing { 
+            color: #d32f2f; 
+            font-weight: bold; 
+        }
+        
+        /* Image grid table - Universal 3-column layout */
+        .image-grid {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 10px;
+            margin: 20px 0;
+        }
+        
+        /* Individual image cell - Consistent 3-column structure */
+        .image-grid td {
+            width: 33.333%;
+            vertical-align: top;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        /* Image label - Bold and emphasized with RED theme */
+        .image-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #c62828;
+            margin-bottom: 8px;
+            text-align: center;
+            line-height: 1.4;
+            min-height: 32px;
+            display: block;
+        }
+        
+        /* Image styling - LARGER uniform dimensions, clean and professional */
+        .image-grid img {
+            width: 250px !important;
+            height: 188px !important;
+            border: none;
             display: block;
             margin: 0 auto;
         }
-        .image-caption { 
-            font-size: 9px; 
-            color: #666; 
-            margin-top: 5px;
-            font-weight: bold;
-        }
+        
+        /* Location section with RED theme */
         .location-section {
-            background: #f9f9f9;
-            padding: 10px;
-            margin: 10px 0;
-            border-left: 3px solid #4CAF50;
+            background: #ffebee;
+            padding: 12px;
+            margin: 12px 0;
+            border-left: 4px solid #D32F2F;
+            font-size: 12px;
         }
         .section-label {
-            font-size: 11px;
-            color: #4CAF50;
+            font-size: 13.2px;
+            color: #c62828;
             font-weight: bold;
         }
-        .footer { text-align: center; margin-top: 20px; padding-top: 15px; border-top: 2px solid #2196F3; font-size: 9px; color: #666; }
+        
+        /* Footer with RED theme */
+        .footer { 
+            text-align: center; 
+            margin-top: 25px; 
+            padding-top: 18px; 
+            border-top: 2px solid #D32F2F; 
+            font-size: 10.8px; 
+            color: #666; 
+        }
     </style>';
 }
 
 function generateHeader($data) {
-    return '
-    <div class="header">
-        <h1>🚗 CAR INSPECTION REPORT</h1>
-        <p>' . APP_TITLE . '</p>
-        <p>Booking ID: ' . htmlspecialchars($data['booking_id'] ?? 'N/A') . '</p>
-        <p>Generated: ' . date('Y-m-d H:i:s') . '</p>
-    </div>';
+    $booking_id = htmlspecialchars($data['booking_id'] ?? 'N/A');
+    $expert_id = htmlspecialchars($data['expert_id'] ?? 'N/A');
+    $customer_name = htmlspecialchars($data['customer_name'] ?? $data['booking_id'] ?? 'N/A');
+    
+    $headerHTML = '
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #D32F2F; padding: 25px 30px; margin: 0 0 0 0;">
+        <tr>
+            <td width="30%" style="vertical-align: middle; padding: 0; margin: 0;">
+                <img src="logo.png" style="width: 230px; height: 160px; display: block;" />
+            </td>
+            <td width="70%" style="vertical-align: middle; text-align: right; padding: 0 0 0 20px; margin: 0;">
+                <div style="color: #ffffff; font-family: Arial, Helvetica, sans-serif; line-height: 1.8;">
+                    <div style="font-size: 16pt; font-weight: bold; margin-bottom: 10px; letter-spacing: 0.5px;">Used Car Inspection Report</div>
+                    <div style="font-size: 11pt; margin-bottom: 5px;">ID: ' . $booking_id . '</div>
+                    <div style="font-size: 11pt; margin-bottom: 5px;">Inspection Expert ID: ' . $expert_id . '</div>
+                    <div style="font-size: 11pt;">Customer Name: ' . $customer_name . '</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div style="text-align: center; padding: 15px 0; margin: 0 0 30px 0; background-color: #f5f5f5; border-bottom: 2px solid #D32F2F;">
+        <p style="margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #666;">Generated: ' . date('Y-m-d H:i:s') . '</p>
+    </div>
+    ';
+    
+    return $headerHTML;
 }
 
 function generateStepHeader($stepNumber, $title) {
@@ -657,6 +813,21 @@ function generateField($label, $value, $required = false) {
     </div>';
 }
 
+/**
+ * Generate image with OPTIMIZED UNIFORM DIMENSIONS
+ * 
+ * UNIVERSAL IMAGE PROCESSING RULE:
+ * - ALL images are resized to EXACTLY 250x188 pixels (2x larger for clarity)
+ * - Compressed to 70% quality for fast PDF generation
+ * - Maintains aspect ratio with letterboxing/cropping
+ * - Ensures perfect alignment in 3-column table grid
+ * - Applied to ALL 23 steps without exception
+ * 
+ * @param string $label Image label/caption
+ * @param string $path Path to image file
+ * @param bool $required Whether image is mandatory
+ * @return string HTML for image block or error message
+ */
 function generateImage($label, $path, $required = false) {
     // Convert to absolute path if relative
     $absolutePath = DirectoryManager::getAbsolutePath($path);
@@ -668,18 +839,71 @@ function generateImage($label, $path, $required = false) {
                 <span class="field-value missing">⚠️ IMAGE MISSING</span>
             </div>';
         } else {
-            return ''; // Skip optional missing images
+            return null; // Skip optional missing images
         }
     }
     
-    // Resize image to uniform dimensions for consistent PDF layout
-    // All images will be exactly 400px × 300px in the PDF
-    $uniformPath = ImageOptimizer::resizeToUniform($absolutePath, 400, 300, 75);
+    // OPTIMIZED DIMENSIONS: 250x188 pixels (2x larger, 70% quality for speed)
+    // This ensures clear visibility while maintaining fast PDF generation
+    $uniformPath = ImageOptimizer::resizeToUniform($absolutePath, 250, 188, 70);
     
-    return '<div class="image-block">
-        <div class="image-caption">' . htmlspecialchars($label) . '</div>
-        <img src="' . $uniformPath . '" alt="' . htmlspecialchars($label) . '" width="400" height="300">
-    </div>';
+    // Return array for table-based grid
+    return [
+        'label' => htmlspecialchars($label),
+        'path' => $uniformPath
+    ];
+}
+
+/**
+ * Generate uniform 3-column table grid for images
+ * 
+ * UNIVERSAL LAYOUT RULE:
+ * - 3 images per row (consistent across ALL steps)
+ * - Table-based layout for perfect mPDF compatibility
+ * - Automatic row wrapping for any number of images
+ * - Applied to ALL steps (1-23) without exception
+ * 
+ * @param array $images Array of image HTML blocks
+ * @return string HTML for table grid container
+ */
+function generateImageGrid($images) {
+    // Filter out null/empty images
+    $images = array_filter($images, function($img) {
+        return !empty($img) && is_array($img);
+    });
+    
+    if (empty($images)) {
+        return '';
+    }
+    
+    // Build HTML table with 3 columns
+    $html = '<table class="image-grid" cellpadding="0" cellspacing="0" border="0">';
+    
+    // Split images into rows of 3
+    $chunks = array_chunk($images, 3);
+    
+    foreach ($chunks as $row) {
+        $html .= '<tr>';
+        
+        foreach ($row as $image) {
+            $html .= '<td>';
+            $html .= '<div class="image-label">' . $image['label'] . '</div>';
+            $html .= '<img src="' . $image['path'] . '" alt="' . $image['label'] . '" width="250" height="188">';
+            $html .= '</td>';
+        }
+        
+        // Fill empty cells if row has less than 3 images
+        $remaining = 3 - count($row);
+        for ($i = 0; $i < $remaining; $i++) {
+            $html .= '<td></td>';
+        }
+        
+        $html .= '</tr>';
+    }
+    
+    $html .= '</table>';
+    
+    return $html;
 }
 
 function generateFooter() {

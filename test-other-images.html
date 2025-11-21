@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Other Images Upload</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Test Other Images Upload</h1>
+        </div>
+        
+        <div style="padding: 20px;">
+            <div class="form-group">
+                <label>Other Images (Optional - Max 5) <span id="otherImagesCount" style="color: #2196F3; font-weight: normal;">(0 selected)</span></label>
+                <div class="other-images-container">
+                    <div class="file-input-wrapper">
+                        <input type="file" 
+                               name="other_images[]" 
+                               id="otherImagesInput" 
+                               accept="image/*" 
+                               capture="camera" 
+                               multiple 
+                               class="other-images-input"
+                               data-max-files="5">
+                        <button type="button" class="btn-select-images" onclick="document.getElementById('otherImagesInput').click()">
+                            📁 Select Images (Max 5)
+                        </button>
+                        <button type="button" class="btn-camera-images" onclick="document.getElementById('otherImagesInput').click()">
+                            📷 Capture
+                        </button>
+                    </div>
+                    <div id="otherImagesPreview" class="images-preview-grid"></div>
+                    <small class="form-text">Select 0 to 5 additional images from gallery or camera</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Test console logging
+        console.log('Test page loaded');
+        console.log('otherImagesInput element:', document.getElementById('otherImagesInput'));
+        console.log('otherImagesPreview element:', document.getElementById('otherImagesPreview'));
+    </script>
+</body>
+</html>

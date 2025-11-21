@@ -101,9 +101,13 @@ try {
     
     error_log("T-SUBMIT: PDF generated successfully: {$pdfPath}");
     
+    // Convert absolute path to relative web path
+    $webPath = str_replace(DirectoryManager::getAbsolutePath(''), '', $pdfPath);
+    $webPath = str_replace('\\', '/', $webPath); // Convert Windows paths
+    
     $response['success'] = true;
     $response['message'] = "Test PDF generated successfully for steps 1-{$currentStep}";
-    $response['pdf_path'] = $pdfPath;
+    $response['pdf_path'] = $webPath;
     $response['steps_included'] = $currentStep;
     $response['images_processed'] = $fileCount;
     

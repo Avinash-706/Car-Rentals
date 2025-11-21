@@ -46,20 +46,47 @@ try {
         throw new Exception('Invalid draft data');
     }
     
-    // Verify uploaded files still exist
+    // Verify uploaded files still exist and convert to web paths
+    $webAccessibleFiles = [];
     if (isset($draftData['uploaded_files'])) {
         foreach ($draftData['uploaded_files'] as $fieldName => $filePath) {
-            $absolutePath = DirectoryManager::getAbsolutePath($filePath);
-            if (!file_exists($absolutePath)) {
-                // File was deleted, remove from draft
-                unset($draftData['uploaded_files'][$fieldName]);
+            // Handle both absolute and relative paths
+            if (file_exists($filePath)) {
+                // Already absolute path
+                $absolutePath = $filePath;
+            } else {
+                // Try as relative path
+                $absolutePath = DirectoryManager::getAbsolutePath($filePath);
+            }
+            
+            if (file_exists($absolutePath)) {
+                // Convert to web-accessible path
+                $webPath = DirectoryManager::toWebPath(DirectoryManager::getRelativePath($absolutePath));
+                $webAccessibleFiles[$fieldName] = $webPath;
+            } else {
+                // Try the path as-is (might already be a web path)
+                if (strpos($filePath, 'uploads/') === 0) {
+                    // It's already a relative web path, verify it exists
+                    $testPath = __DIR__ . '/' . $filePath;
+                    if (file_exists($testPath)) {
+                        $webAccessibleFiles[$fieldName] = $filePath;
+                    } else {
+                        error_log("Draft file missing during load: $filePath (tried: $absolutePath, $testPath)");
+                    }
+                } else {
+                    error_log("Draft file missing during load: $filePath (tried: $absolutePath)");
+                }
             }
         }
     }
     
+    // Update draft data with verified web-accessible paths
+    $draftData['uploaded_files'] = $webAccessibleFiles;
+    
     $response['success'] = true;
     $response['message'] = 'Draft loaded successfully';
     $response['draft_data'] = $draftData;
+    $response['files_loaded'] = count($webAccessibleFiles);
     
 } catch (Exception $e) {
     $response['message'] = $e->getMessage();

@@ -1,0 +1,259 @@
+═══════════════════════════════════════════════════════════════
+📄 PDF LAYOUT REDESIGN - VISUAL GUIDE
+═══════════════════════════════════════════════════════════════
+
+✅ COMPLETE - All 23 Steps Now Use Uniform Flex-Box Grid Layout
+
+───────────────────────────────────────────────────────────────
+🎨 NEW LAYOUT STRUCTURE
+───────────────────────────────────────────────────────────────
+
+BEFORE (Old Layout):
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 5 — BODY FRAME CHECKLIST                              │
+├─────────────────────────────────────────────────────────────┤
+│ Radiator Core Support: OK                                   │
+│                                                              │
+│ Radiator Core Support Image                                 │
+│ ┌──────────────────────────────────────────────────────┐   │
+│ │                                                       │   │
+│ │              [400x300 Image]                         │   │
+│ │                                                       │   │
+│ └──────────────────────────────────────────────────────┘   │
+│                                                              │
+│ Driver Side Strut Tower Apron: OK                           │
+│                                                              │
+│ Driver Side Strut Tower Apron Image                         │
+│ ┌──────────────────────────────────────────────────────┐   │
+│ │                                                       │   │
+│ │              [400x300 Image]                         │   │
+│ │                                                       │   │
+│ └──────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+
+AFTER (New Layout):
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 5 — BODY FRAME CHECKLIST                              │
+├─────────────────────────────────────────────────────────────┤
+│ Radiator Core Support: OK                                   │
+│ Driver Side Strut Tower Apron: OK                           │
+│ Passenger Strut Tower Apron: OK                             │
+│ Front Bonnet UnderBody: OK                                  │
+│ Boot Floor: OK                                              │
+│                                                              │
+│ ┌────────────┐  ┌────────────┐  ┌────────────┐            │
+│ │ Radiator   │  │ Driver     │  │ Passenger  │            │
+│ │ Core       │  │ Strut      │  │ Strut      │            │
+│ ├────────────┤  ├────────────┤  ├────────────┤            │
+│ │  [Image]   │  │  [Image]   │  │  [Image]   │            │
+│ │  180x140   │  │  180x140   │  │  180x140   │            │
+│ └────────────┘  └────────────┘  └────────────┘            │
+│                                                              │
+│ ┌────────────┐  ┌────────────┐                             │
+│ │ Front      │  │ Boot       │                             │
+│ │ Bonnet     │  │ Floor      │                             │
+│ ├────────────┤  ├────────────┤                             │
+│ │  [Image]   │  │  [Image]   │                             │
+│ │  180x140   │  │  180x140   │                             │
+│ └────────────┘  └────────────┘                             │
+└─────────────────────────────────────────────────────────────┘
+
+───────────────────────────────────────────────────────────────
+📐 LAYOUT SPECIFICATIONS
+───────────────────────────────────────────────────────────────
+
+Grid Structure:
+• 3 images per row
+• 15px gap between images
+• 15px gap between rows
+• Flex-wrap enabled (responsive)
+
+Image Block:
+• Width: 30% (min 170px)
+• Height: 140px (fixed)
+• Border: 2px solid #ddd
+• Border-radius: 6px
+• Object-fit: cover
+
+Label:
+• Position: Above image
+• Font-size: 10.8px (20% larger)
+• Font-weight: bold
+• Color: #333
+• Text-align: left
+• Padding-left: 5px
+
+Spacing:
+• Horizontal gap: 15px
+• Vertical gap: 15px
+• Section margin: 15px
+• Step header margin: 20px 0 15px 0
+
+───────────────────────────────────────────────────────────────
+📊 TEXT SIZE INCREASES (20%)
+───────────────────────────────────────────────────────────────
+
+Element              Before    After     Increase
+─────────────────────────────────────────────────
+Body text            10px      12px      +20%
+Step headers         13px      15.6px    +20%
+Field labels         10px      12px      +20%
+Field values         10px      12px      +20%
+Image labels         9px       10.8px    +20%
+Section labels       11px      13.2px    +20%
+Footer text          9px       10.8px    +20%
+
+Header (unchanged)   16pt      16pt      0%
+
+───────────────────────────────────────────────────────────────
+🎯 STEP-BY-STEP BREAKDOWN
+───────────────────────────────────────────────────────────────
+
+Step 1: Booking Details
+└─ Text fields only (no images)
+
+Step 2: Expert Details
+└─ 1 image in grid
+   └─ Your photo with car's number plate
+
+Step 3: Car Details
+└─ 2 images in grid (side-by-side)
+   ├─ Car KM Reading Photo
+   └─ Chassis No Plate
+
+Step 4: Car Documents
+└─ Text fields only (no images)
+
+Step 5: Body Frame Checklist
+└─ 5 images in grid (3 per row)
+   ├─ Radiator Core Support
+   ├─ Driver Side Strut Tower Apron
+   ├─ Passenger Strut Tower Apron
+   ├─ Front Bonnet UnderBody
+   └─ Boot Floor
+
+Step 6: Engine Compartment
+└─ 3 images in grid (3 per row)
+   ├─ Car Start
+   ├─ Wiring
+   └─ Engine Oil Quality
+
+Step 7: Exhaust Smoke
+└─ 1 image in grid
+   └─ Smoke Emission
+
+Step 8: OBD Scan
+└─ 1 image in grid
+   └─ OBD Scan Photo
+
+Step 9: Brakes
+└─ Text fields only (no images)
+
+Step 10: Multi Function Display
+└─ 1 image in grid
+   └─ Multi Function Display
+
+Step 11: Car Roof
+└─ 1 image in grid
+   └─ Car Roof From Inside
+
+Step 12: Electrical
+└─ Text fields only (no images)
+
+Step 13: Steering
+└─ Text fields only (no images)
+
+Step 14: Air Conditioning
+└─ 2 images in grid (side-by-side)
+   ├─ AC Cool Mode Temperature
+   └─ AC Hot Mode Temperature
+
+Step 15: Tyres
+└─ 5 images in grid (3 per row)
+   ├─ Driver Front Tyre
+   ├─ Driver Back Tyre
+   ├─ Passenger Back Tyre
+   ├─ Passenger Front Tyre
+   └─ Stepney Tyre
+
+Step 16: Engine Compartment Detailed
+└─ 1 image in grid
+   └─ Oil Leak Near Engine
+
+Step 17: Suspension
+└─ 4 images in grid (3 per row)
+   ├─ Driver Side Front Shocker
+   ├─ Passenger Side Front Shocker
+   ├─ Driver Side Rear Shocker
+   └─ Passenger Side Rear Shocker
+
+Step 18: Transmission
+└─ Text fields only (no images)
+
+Step 19: Underbody
+└─ 4 images in grid (3 per row)
+   ├─ Underbody Left
+   ├─ Underbody Rear
+   ├─ Underbody Right
+   └─ Underbody Front
+
+Step 20: Tool Kit
+└─ 1 image in grid
+   └─ Tool Kit
+
+Step 21: Issues
+└─ 1 optional image in grid
+   └─ Photos of Issues (if present)
+
+Step 22: Car Images From All Directions
+└─ 13 images in grid (3 per row)
+   ├─ Front
+   ├─ Corner Front - Driver
+   ├─ Driver Side
+   ├─ Corner Back - Driver
+   ├─ Back
+   ├─ Corner Back - Passenger
+   ├─ Passenger Side
+   ├─ Corner Front - Passenger
+   ├─ Front Interior
+   ├─ Rear Interior
+   ├─ 4 Way Switch Driver Side
+   ├─ Trunk Open
+   └─ Car KM Reading
+
+Step 23: Payment Details
+└─ Text fields only (no images)
+
+───────────────────────────────────────────────────────────────
+✅ IMPLEMENTATION CHECKLIST
+───────────────────────────────────────────────────────────────
+
+[✓] Universal flex-box grid layout
+[✓] 3 images per row structure
+[✓] Labels above images (bold)
+[✓] Equal image dimensions (180x140px)
+[✓] Consistent spacing (15px gaps)
+[✓] 20% text size increase
+[✓] Rounded borders (6px)
+[✓] Professional styling
+[✓] Applied to ALL 23 steps
+[✓] mPDF compatible CSS
+[✓] Responsive layout
+[✓] Clean, uniform appearance
+
+───────────────────────────────────────────────────────────────
+🎉 RESULT
+───────────────────────────────────────────────────────────────
+
+Your PDF now features:
+✓ Consistent grid layout across all steps
+✓ Professional 3-column image display
+✓ Labels above images (emphasized)
+✓ 20% larger text for better readability
+✓ Equal spacing and alignment
+✓ Clean, modern design
+✓ Matches reference image structure
+
+Every step follows the EXACT SAME visual pattern!
+
+═══════════════════════════════════════════════════════════════

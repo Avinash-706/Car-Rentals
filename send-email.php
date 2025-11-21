@@ -15,10 +15,18 @@ if (!defined('APP_INIT')) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 function sendEmail($pdfPath, $formData) {
+    $mail = null;
+    
     try {
+        // Validate PDF exists before attempting email
+        if (!file_exists($pdfPath)) {
+            error_log('Email sending aborted: PDF file not found at ' . $pdfPath);
+            return false;
+        }
+        
         $mail = new PHPMailer(true);
         
-        // SMTP Configuration
+        // SMTP Configuration with TIMEOUT settings
         $mail->isSMTP();
         $mail->Host = SMTP_HOST;
         $mail->SMTPAuth = true;
@@ -26,6 +34,23 @@ function sendEmail($pdfPath, $formData) {
         $mail->Password = SMTP_PASSWORD;
         $mail->SMTPSecure = SMTP_SECURE === 'tls' ? PHPMailer::ENCRYPTION_STARTTLS : PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = SMTP_PORT;
+        
+        // Set timeouts to prevent hanging (30 seconds max)
+        $mail->Timeout = 30;
+        $mail->SMTPKeepAlive = false;
+        
+        // Disable debug output (important for background execution)
+        $mail->SMTPDebug = 0;
+        
+        // Additional safety settings
+        $mail->SMTPAutoTLS = true;
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
         
         // Sender and recipient
         $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
@@ -40,9 +65,7 @@ function sendEmail($pdfPath, $formData) {
         $mail->AltBody = strip_tags($emailBody);
         
         // Attach PDF
-        if (file_exists($pdfPath)) {
-            $mail->addAttachment($pdfPath, 'inspection_report.pdf');
-        }
+        $mail->addAttachment($pdfPath, 'inspection_report.pdf');
         
         // Send email
         $mail->send();
@@ -50,11 +73,19 @@ function sendEmail($pdfPath, $formData) {
         return true;
         
     } catch (Exception $e) {
-        error_log('Email sending error: ' . $mail->ErrorInfo);
+        // Safe error logging even if $mail is not initialized
+        if ($mail !== null && isset($mail->ErrorInfo)) {
+            error_log('Email sending error (PHPMailer): ' . $mail->ErrorInfo);
+        }
         error_log('Email exception: ' . $e->getMessage());
-        // Log more details for debugging
-        error_log('SMTP Host: ' . SMTP_HOST . ':' . SMTP_PORT);
-        error_log('SMTP User: ' . SMTP_USERNAME);
+        error_log('Email exception trace: ' . $e->getTraceAsString());
+        
+        // Log configuration for debugging (without password)
+        if (defined('SMTP_HOST')) {
+            error_log('SMTP Config - Host: ' . SMTP_HOST . ':' . (defined('SMTP_PORT') ? SMTP_PORT : 'undefined'));
+            error_log('SMTP Config - User: ' . (defined('SMTP_USERNAME') ? SMTP_USERNAME : 'undefined'));
+        }
+        
         return false;
     }
 }
@@ -86,6 +117,7 @@ function generateEmailBody($data) {
         <div class="container">
             <div class="header">
                 <h1>🚗 Car Inspection Report</h1>
+                <h1>Car Inspection Report</h1>
                 <p>USED CAR 3.0</p>
             </div>
             <div class="content">

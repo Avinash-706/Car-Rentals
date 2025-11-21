@@ -39,16 +39,30 @@ try {
     // Delete all uploaded images
     if (isset($draftData['uploaded_files']) && is_array($draftData['uploaded_files'])) {
         foreach ($draftData['uploaded_files'] as $fieldName => $filePath) {
-            if (!empty($filePath) && file_exists($filePath)) {
-                if (unlink($filePath)) {
+            if (empty($filePath)) continue;
+            
+            // Handle both absolute and relative paths
+            if (file_exists($filePath)) {
+                $absolutePath = $filePath;
+            } else {
+                // Try as relative path from project root
+                $absolutePath = __DIR__ . '/../' . $filePath;
+            }
+            
+            if (file_exists($absolutePath)) {
+                if (@unlink($absolutePath)) {
                     $deletedImages++;
+                    error_log("Deleted draft image: $absolutePath");
                 }
                 
                 // Also delete thumbnail if exists
-                $thumbPath = dirname($filePath) . '/thumb_' . basename($filePath);
+                $thumbPath = dirname($absolutePath) . DIRECTORY_SEPARATOR . 'thumb_' . basename($absolutePath);
                 if (file_exists($thumbPath)) {
-                    unlink($thumbPath);
+                    @unlink($thumbPath);
+                    error_log("Deleted draft thumbnail: $thumbPath");
                 }
+            } else {
+                error_log("Draft image not found for deletion: $filePath (tried: $absolutePath)");
             }
         }
     }

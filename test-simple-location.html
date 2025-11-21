@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Location Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .help-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #1565c0;
+            font-size: 14px;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            padding: 12px 24px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+        }
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #66bb6a;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef5350;
+            white-space: pre-line;
+        }
+        .steps {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 4px;
+            margin-top: 30px;
+            border-left: 4px solid #ff9800;
+        }
+        .steps h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+        .steps ol {
+            margin-left: 20px;
+        }
+        .steps li {
+            margin: 10px 0;
+            color: #666;
+        }
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📍 Simple Location Test</h1>
+        <p class="subtitle">One button → Native permission popup → Auto-fill coordinates</p>
+        
+        <div class="help-box">
+            📍 <strong>Tap "Get Location"</strong> and allow permission when your browser asks. Your coordinates will be filled automatically.
+        </div>
+        
+        <div class="form-row">
+            <input type="text" id="latitude" placeholder="Latitude" readonly>
+            <input type="text" id="longitude" placeholder="Longitude" readonly>
+            <button id="getLocation">📍 Get Location</button>
+        </div>
+        
+        <textarea id="address" rows="3" placeholder="Address will appear here..." readonly></textarea>
+        
+        <div id="message" class="message"></div>
+        
+        <div class="steps">
+            <h3>🎯 How It Works:</h3>
+            <ol>
+                <li>Tap the <span class="highlight">"Get Location"</span> button</li>
+                <li>Browser shows <span class="highlight">native permission popup</span> (automatically)</li>
+                <li>Tap <span class="highlight">"Allow"</span> in the popup</li>
+                <li>Latitude & Longitude are <span class="highlight">filled automatically</span></li>
+                <li>Address is fetched and displayed</li>
+            </ol>
+            
+            <h3 style="margin-top: 20px;">✅ What Happens:</h3>
+            <ul style="list-style: none; margin-left: 0;">
+                <li>✅ Native browser popup appears immediately</li>
+                <li>✅ No manual settings navigation needed</li>
+                <li>✅ Coordinates auto-fill on "Allow"</li>
+                <li>✅ Works on Android & iOS</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        const btn = document.getElementById('getLocation');
+        const latInput = document.getElementById('latitude');
+        const lonInput = document.getElementById('longitude');
+        const addressInput = document.getElementById('address');
+        const message = document.getElementById('message');
+        
+        btn.addEventListener('click', function() {
+            // Hide previous messages
+            message.style.display = 'none';
+            message.className = 'message';
+            
+            // Check support
+            if (!navigator.geolocation) {
+                showMessage('❌ Geolocation not supported by your browser', 'error');
+                return;
+            }
+            
+            // Show loading
+            btn.textContent = '⏳ Getting...';
+            btn.disabled = true;
+            
+            // THIS IMMEDIATELY TRIGGERS THE NATIVE BROWSER PERMISSION POPUP
+            navigator.geolocation.getCurrentPosition(
+                // SUCCESS - User allowed permission
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const accuracy = position.coords.accuracy;
+                    
+                    // Auto-fill coordinates
+                    latInput.value = lat.toFixed(6);
+                    lonInput.value = lon.toFixed(6);
+                    
+                    // Show success
+                    showMessage(`✅ Location captured! (±${Math.round(accuracy)}m accuracy)`, 'success');
+                    
+                    // Fetch address
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`, {
+                        headers: { 'User-Agent': 'LocationTest/1.0' }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        addressInput.value = data.display_name || 'Address not found';
+                        btn.textContent = '✓ Success';
+                        btn.style.background = '#4CAF50';
+                        setTimeout(() => {
+                            btn.textContent = '📍 Get Location';
+                            btn.style.background = '';
+                            btn.disabled = false;
+                        }, 2000);
+                    })
+                    .catch(() => {
+                        addressInput.value = `Lat: ${lat}, Lon: ${lon}`;
+                        btn.textContent = '📍 Get Location';
+                        btn.disabled = false;
+                    });
+                },
+                // ERROR - User denied or other error
+                function(error) {
+                    let msg = '';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            msg = '🚫 Permission denied.\n\nTo enable:\n• Android: Settings → Apps → Browser → Permissions → Location\n• iOS: Settings → Privacy → Location Services → Browser';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            msg = '📡 Location unavailable. Check if Location Services are enabled.';
+                            break;
+                        case error.TIMEOUT:
+                            msg = '⏱️ Request timed out. Try again.';
+                            break;
+                        default:
+                            msg = '❌ Unable to get location. Try again.';
+                    }
+                    showMessage(msg, 'error');
+                    btn.textContent = '📍 Get Location';
+                    btn.disabled = false;
+                },
+                // OPTIONS
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        });
+        
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = 'message ' + type;
+            message.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

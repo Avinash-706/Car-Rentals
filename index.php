@@ -9,7 +9,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">🚗</div>
+            <div class="logo"> </div>
+            <br/>
             <h1>USED CAR 3.0</h1>
         </div>
 
@@ -121,14 +122,17 @@
 
                 <div class="form-group">
                     <label>Current Location <span class="required">*</span></label>
+                    <div class="location-help" style="background: #e3f2fd; padding: 10px; border-radius: 4px; margin-bottom: 10px; font-size: 13px; color: #1565c0;">
+                        📍 <strong>Tap "Get Location"</strong> and allow permission when your browser asks. Your coordinates will be filled automatically.
+                    </div>
                     <div class="location-group">
                         <div class="form-row">
-                            <input type="text" name="latitude" id="latitude" placeholder="Lat" readonly>
-                            <input type="text" name="longitude" id="longitude" placeholder="Long" readonly>
-                            <button type="button" class="btn-location" id="fetchLocation">📍</button>
+                            <input type="text" name="latitude" id="latitude" placeholder="Lat" readonly required>
+                            <input type="text" name="longitude" id="longitude" placeholder="Long" readonly required>
+                            <button type="button" class="btn-location" id="fetchLocation" title="Click to get your current location">📍 Get Location</button>
                         </div>
-                        <textarea name="location_address" id="locationAddress" rows="2" placeholder="Location where the inspection is happening" readonly></textarea>
-                        <div class="location-error" id="locationError"></div>
+                        <textarea name="location_address" id="locationAddress" rows="2" placeholder="Location where the inspection is happening" readonly required></textarea>
+                        <div class="location-error" id="locationError" style="display: none;"></div>
                     </div>
                 </div>
 
@@ -3370,6 +3374,78 @@
                             <input type="radio" name="taking_payment" value="No" required> No
                         </label>
                     </div>
+                </div>
+
+                <!-- OTHER IMAGES (Optional) - 5 separate image fields -->
+                <div class="form-group">
+                    <label>Other Images (Optional - Max 5)</label>
+                    
+                    <!-- Other Image 1 -->
+                    <div class="form-group">
+                        <label for="other_image_1">Other Image 1</label>
+                        <div class="file-upload">
+                            <input type="file" name="other_image_1" id="other_image_1" accept="image/*" capture="camera">
+                            <label for="other_image_1" class="file-label">
+                                <span class="camera-icon">📷</span>
+                                <span class="file-text">Choose Image</span>
+                            </label>
+                            <div class="file-preview" id="other_image_1Preview"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other Image 2 -->
+                    <div class="form-group">
+                        <label for="other_image_2">Other Image 2</label>
+                        <div class="file-upload">
+                            <input type="file" name="other_image_2" id="other_image_2" accept="image/*" capture="camera">
+                            <label for="other_image_2" class="file-label">
+                                <span class="camera-icon">📷</span>
+                                <span class="file-text">Choose Image</span>
+                            </label>
+                            <div class="file-preview" id="other_image_2Preview"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other Image 3 -->
+                    <div class="form-group">
+                        <label for="other_image_3">Other Image 3</label>
+                        <div class="file-upload">
+                            <input type="file" name="other_image_3" id="other_image_3" accept="image/*" capture="camera">
+                            <label for="other_image_3" class="file-label">
+                                <span class="camera-icon">📷</span>
+                                <span class="file-text">Choose Image</span>
+                            </label>
+                            <div class="file-preview" id="other_image_3Preview"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other Image 4 -->
+                    <div class="form-group">
+                        <label for="other_image_4">Other Image 4</label>
+                        <div class="file-upload">
+                            <input type="file" name="other_image_4" id="other_image_4" accept="image/*" capture="camera">
+                            <label for="other_image_4" class="file-label">
+                                <span class="camera-icon">📷</span>
+                                <span class="file-text">Choose Image</span>
+                            </label>
+                            <div class="file-preview" id="other_image_4Preview"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other Image 5 -->
+                    <div class="form-group">
+                        <label for="other_image_5">Other Image 5</label>
+                        <div class="file-upload">
+                            <input type="file" name="other_image_5" id="other_image_5" accept="image/*" capture="camera">
+                            <label for="other_image_5" class="file-label">
+                                <span class="camera-icon">📷</span>
+                                <span class="file-text">Choose Image</span>
+                            </label>
+                            <div class="file-preview" id="other_image_5Preview"></div>
+                        </div>
+                    </div>
+                    
+                    <small class="form-text">Upload 0 to 5 additional images (optional)</small>
                 </div>
 
             </div>

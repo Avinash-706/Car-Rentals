@@ -194,8 +194,39 @@ try {
         ];
     }
     
-    // Add file to uploaded_files
-    $draftData['uploaded_files'][$fieldName] = $targetPath;
+    // CLEANUP: Delete old image if this field already has one (user is replacing)
+    $oldImageDeleted = false;
+    if (isset($draftData['uploaded_files'][$fieldName])) {
+        $oldFilePath = $draftData['uploaded_files'][$fieldName];
+        
+        // Try to get absolute path of old file
+        if (file_exists($oldFilePath)) {
+            $oldAbsolutePath = $oldFilePath;
+        } else {
+            $oldAbsolutePath = DirectoryManager::getAbsolutePath($oldFilePath);
+        }
+        
+        // Delete old file if it exists and is different from new file
+        if (file_exists($oldAbsolutePath) && $oldAbsolutePath !== $targetPath) {
+            if (@unlink($oldAbsolutePath)) {
+                $oldImageDeleted = true;
+                error_log("Deleted replaced image: $oldAbsolutePath");
+                
+                // Also delete thumbnail if exists
+                $oldThumbPath = dirname($oldAbsolutePath) . DIRECTORY_SEPARATOR . 'thumb_' . basename($oldAbsolutePath);
+                if (file_exists($oldThumbPath)) {
+                    @unlink($oldThumbPath);
+                    error_log("Deleted replaced thumbnail: $oldThumbPath");
+                }
+            } else {
+                error_log("Failed to delete old image: $oldAbsolutePath");
+            }
+        }
+    }
+    
+    // Add file to uploaded_files - STORE RELATIVE WEB PATH, NOT ABSOLUTE
+    $relativePath = DirectoryManager::toWebPath(DirectoryManager::getRelativePath($targetPath));
+    $draftData['uploaded_files'][$fieldName] = $relativePath;
     $draftData['updated_at'] = $timestamp;
     $draftData['version'] = ($draftData['version'] ?? 0) + 1;
     
@@ -210,7 +241,11 @@ try {
     // Log to audit trail
     $auditDir = DirectoryManager::getAbsolutePath('drafts/audit');
     $auditLog = $auditDir . DIRECTORY_SEPARATOR . "{$draftId}.log";
-    $auditEntry = date('Y-m-d H:i:s') . " - Image uploaded: $fieldName -> $relativePath\n";
+    $auditEntry = date('Y-m-d H:i:s') . " - Image uploaded: $fieldName -> $relativePath";
+    if ($oldImageDeleted) {
+        $auditEntry .= " (replaced old image)";
+    }
+    $auditEntry .= "\n";
     @file_put_contents($auditLog, $auditEntry, FILE_APPEND);
     
     $relativeThumbPath = $relativePath;
@@ -227,6 +262,7 @@ try {
     $response['size'] = filesize($targetPath);
     $response['width'] = $imageInfo[0] ?? 0;
     $response['height'] = $imageInfo[1] ?? 0;
+    $response['old_image_deleted'] = $oldImageDeleted;
     $response['draft_id'] = $draftId;
     $response['version'] = $draftData['version'];
     

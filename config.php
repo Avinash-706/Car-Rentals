@@ -42,7 +42,7 @@ define('PDF_IMAGE_QUALITY', 75); // JPEG quality 0-100
 define('PDF_MAX_IMAGE_WIDTH', 800); // Max width in pixels
 
 // Form Settings
-define('TOTAL_STEPS', 16);
+define('TOTAL_STEPS', 23);
 define('ENABLE_DRAFT_SAVE', true);
 define('ENABLE_AUTO_SAVE', true);
 define('AUTO_SAVE_INTERVAL', 30000); // milliseconds

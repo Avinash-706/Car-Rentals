@@ -1,0 +1,130 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    DRAFT IMAGE RELOAD - QUICK REFERENCE                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+PROBLEM FIXED:
+  "0 images saved and 8 images could not be found" after page reload
+
+ROOT CAUSE:
+  Absolute paths stored instead of relative web paths
+
+FILES MODIFIED:
+  ✅ upload-image.php      - Store relative paths
+  ✅ save-draft.php        - Handle both path types
+  ✅ load-draft.php        - Verify and convert paths
+  ✅ script.js (2 places)  - Sync global variables
+
+═══════════════════════════════════════════════════════════════════════════════
+
+TESTING TOOLS:
+
+  1. test-draft-system.html       → Main test dashboard (START HERE)
+  2. debug-draft-paths.php        → Visual path debugger
+  3. test-draft-image-reload.html → Interactive reload test
+  4. test-complete-draft-flow.php → Automated flow test
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK TEST (2 MIN):
+
+  1. Open index.php
+  2. Upload 3-5 images
+  3. Click "Save Draft"
+  4. Refresh page (F5)
+  5. ✅ Images should load with "✅ Uploaded" indicator
+
+═══════════════════════════════════════════════════════════════════════════════
+
+DEBUGGING STEPS:
+
+  IF IMAGES DON'T LOAD:
+
+  1. Open test-draft-system.html
+  2. Click "Run Flow Test"
+     → Should show "All Tests Passed!"
+  
+  3. Click "Check LocalStorage"
+     → Should show files with paths like: uploads/drafts/xxxxx.jpg
+  
+  4. Click "Open Path Debugger"
+     → Images should have GREEN borders (not red)
+  
+  5. Check Browser Console (F12)
+     → Type: localStorage.getItem('uploadedFiles')
+     → Should show JSON with relative paths
+
+═══════════════════════════════════════════════════════════════════════════════
+
+PATH FORMAT:
+
+  ✅ CORRECT:  uploads/drafts/1732123456_guest_abc123_car.jpg
+  ❌ WRONG:    C:\xampp\htdocs\project\uploads\drafts\car.jpg
+
+═══════════════════════════════════════════════════════════════════════════════
+
+EXPECTED BEHAVIOR:
+
+  AFTER UPLOAD:
+    → Preview shows image
+    → Console: "Image uploaded: fieldName uploads/drafts/xxxxx.jpg"
+  
+  AFTER SAVE:
+    → Alert: "Draft saved successfully! X images saved."
+    → Console: "Draft saved: { files_saved: X }"
+  
+  AFTER RELOAD:
+    → Alert: "Draft loaded! X images restored."
+    → All images visible with "✅ Uploaded" indicator
+    → Console: "Restored X images, 0 failed"
+
+═══════════════════════════════════════════════════════════════════════════════
+
+BROWSER CONSOLE CHECKS:
+
+  localStorage.getItem('draftId')
+    → Should show: "draft_xxxxxxxxxxxxx"
+  
+  localStorage.getItem('uploadedFiles')
+    → Should show: {"field":"uploads/drafts/xxxxx.jpg",...}
+  
+  uploadedFiles
+    → Should match localStorage
+
+═══════════════════════════════════════════════════════════════════════════════
+
+NETWORK TAB CHECKS:
+
+  1. Open Network tab (F12)
+  2. Refresh page
+  3. Find "load-draft.php" request
+  4. Check Response:
+     ✅ success: true
+     ✅ files_loaded: X (should match uploaded count)
+     ✅ uploaded_files: {...} with relative paths
+
+═══════════════════════════════════════════════════════════════════════════════
+
+COMMON ISSUES:
+
+  ISSUE: "0 images saved"
+  FIX: Check that uploadedFiles global variable is populated
+       → Open console: uploadedFiles
+       → Should show object with file paths
+  
+  ISSUE: "X images could not be found"
+  FIX: Check path format in draft JSON
+       → Open debug-draft-paths.php
+       → Paths should be: uploads/drafts/xxxxx.jpg
+  
+  ISSUE: Images don't display
+  FIX: Check browser console for 404 errors
+       → Verify files exist in uploads/drafts/ folder
+       → Check file permissions
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS: ✅ PRODUCTION READY
+
+All fixes applied and tested. System working correctly.
+
+═══════════════════════════════════════════════════════════════════════════════

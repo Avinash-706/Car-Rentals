@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Other Images - Inline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Test Other Images Upload - Inline Script</h1>
+        </div>
+        
+        <div style="padding: 20px;">
+            <div class="form-group">
+                <label>Other Images (Optional - Max 5) <span id="otherImagesCount" style="color: #2196F3; font-weight: normal;">(0 selected)</span></label>
+                <div class="other-images-container">
+                    <div class="file-input-wrapper">
+                        <input type="file" 
+                               name="other_images[]" 
+                               id="otherImagesInput" 
+                               accept="image/*" 
+                               capture="camera" 
+                               multiple 
+                               class="other-images-input"
+                               data-max-files="5">
+                        <button type="button" class="btn-select-images" onclick="document.getElementById('otherImagesInput').click()">
+                            📁 Select Images (Max 5)
+                        </button>
+                        <button type="button" class="btn-camera-images" onclick="document.getElementById('otherImagesInput').click()">
+                            📷 Capture
+                        </button>
+                    </div>
+                    <div id="otherImagesPreview" class="images-preview-grid"></div>
+                    <small class="form-text">Select 0 to 5 additional images from gallery or camera</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let otherImagesFiles = [];
+        let otherImagesUploaded = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing...');
+            initializeOtherImagesUpload();
+        });
+
+        function initializeOtherImagesUpload() {
+            const input = document.getElementById('otherImagesInput');
+            if (!input) {
+                console.error('Other images input not found!');
+                return;
+            }
+            
+            console.log('Other images input found, adding listener');
+            input.addEventListener('change', handleOtherImagesSelection);
+        }
+
+        function handleOtherImagesSelection(e) {
+            const files = Array.from(e.target.files);
+            console.log('Files selected:', files.length, files);
+            
+            const maxFiles = 5;
+            const totalFiles = otherImagesFiles.length + files.length;
+            
+            if (totalFiles > maxFiles) {
+                alert(`Maximum ${maxFiles} images allowed. You selected ${files.length} but only ${maxFiles - otherImagesFiles.length} slots remaining.`);
+                const availableSlots = maxFiles - otherImagesFiles.length;
+                const filesToAdd = files.slice(0, availableSlots);
+                if (filesToAdd.length > 0) {
+                    processOtherImages(filesToAdd);
+                }
+            } else {
+                processOtherImages(files);
+            }
+            
+            e.target.value = '';
+        }
+
+        function processOtherImages(files) {
+            console.log('Processing images:', files.length);
+            files.forEach((file, index) => {
+                if (!file.type.startsWith('image/')) {
+                    alert(`File "${file.name}" is not an image.`);
+                    return;
+                }
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`File "${file.name}" exceeds 5MB limit.`);
+                    return;
+                }
+                
+                otherImagesFiles.push(file);
+            });
+            
+            updateOtherImagesPreview();
+            updateOtherImagesCount();
+        }
+
+        function updateOtherImagesPreview() {
+            const preview = document.getElementById('otherImagesPreview');
+            if (!preview) {
+                console.error('Preview container not found!');
+                return;
+            }
+            
+            console.log('Updating preview with', otherImagesFiles.length, 'files');
+            preview.innerHTML = '';
+            
+            otherImagesFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const item = document.createElement('div');
+                    item.className = 'preview-item';
+                    item.dataset.index = index;
+                    
+                    item.innerHTML = `
+                        <button type="button" class="remove-btn" onclick="removeOtherImage(${index})">×</button>
+                        <img src="${e.target.result}" alt="Other Image ${index + 1}">
+                        <div class="status uploaded">✅ Ready</div>
+                        <div class="label">Other Image ${index + 1}</div>
+                    `;
+                    
+                    preview.appendChild(item);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateOtherImagesCount() {
+            const countEl = document.getElementById('otherImagesCount');
+            if (countEl) {
+                const count = otherImagesFiles.length;
+                countEl.textContent = `(${count} selected)`;
+                countEl.style.color = count > 0 ? '#4CAF50' : '#2196F3';
+                console.log('Count updated:', count);
+            }
+        }
+
+        function removeOtherImage(index) {
+            console.log('Removing image at index:', index);
+            otherImagesFiles.splice(index, 1);
+            updateOtherImagesPreview();
+            updateOtherImagesCount();
+        }
+    </script>
+</body>
+</html>
