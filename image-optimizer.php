@@ -2,11 +2,106 @@
 /**
  * Fast Image Optimizer
  * Optimizes images for PDF generation with minimal processing time
+ * Cross-platform compatible with dynamic path handling
  */
 
 class ImageOptimizer {
     
     private static $cache = [];
+    private static $gdAvailable = null;
+    
+    /**
+     * Check if GD extension is available
+     */
+    private static function checkGDAvailability() {
+        if (self::$gdAvailable !== null) {
+            return self::$gdAvailable;
+        }
+        
+        if (!extension_loaded('gd')) {
+            self::$gdAvailable = false;
+            error_log('ERROR: GD extension is not loaded. Please install php-gd extension.');
+            return false;
+        }
+        
+        // Check for required functions
+        $requiredFunctions = [
+            'imagecreatefromjpeg',
+            'imagecreatefrompng',
+            'imagecreatefromgif',
+            'imagecreatetruecolor',
+            'imagecopyresampled',
+            'imagejpeg',
+            'imagedestroy',
+            'getimagesize'
+        ];
+        
+        foreach ($requiredFunctions as $func) {
+            if (!function_exists($func)) {
+                self::$gdAvailable = false;
+                error_log("ERROR: Required GD function '$func' is not available.");
+                return false;
+            }
+        }
+        
+        self::$gdAvailable = true;
+        return true;
+    }
+    
+    /**
+     * Normalize path to work cross-platform
+     */
+    private static function normalizePath($path) {
+        // Convert to absolute path if relative
+        if (!self::isAbsolutePath($path)) {
+            $path = __DIR__ . DIRECTORY_SEPARATOR . $path;
+        }
+        
+        // Normalize directory separators
+        $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+        
+        // Resolve real path
+        $realPath = realpath($path);
+        if ($realPath !== false) {
+            return $realPath;
+        }
+        
+        return $path;
+    }
+    
+    /**
+     * Check if path is absolute
+     */
+    private static function isAbsolutePath($path) {
+        // Windows: C:\ or \\server\share
+        if (preg_match('/^[a-zA-Z]:\\\\/', $path) || preg_match('/^\\\\\\\\/', $path)) {
+            return true;
+        }
+        // Unix: /path
+        if (substr($path, 0, 1) === '/') {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Ensure directory exists with proper permissions
+     */
+    private static function ensureDirectory($dirPath) {
+        $normalizedPath = self::normalizePath($dirPath);
+        
+        if (!file_exists($normalizedPath)) {
+            if (!@mkdir($normalizedPath, 0755, true)) {
+                throw new Exception("Failed to create directory: $normalizedPath");
+            }
+        }
+        
+        if (!is_writable($normalizedPath)) {
+            throw new Exception("Directory is not writable: $normalizedPath");
+        }
+        
+        return $normalizedPath;
+    }
     
     /**
      * Fast image compression and encoding
@@ -14,7 +109,17 @@ class ImageOptimizer {
      * Optimized for mPDF memory efficiency
      */
     public static function optimizeForPDF($imagePath, $maxWidth = 1200, $quality = 65) {
+        // Check GD availability
+        if (!self::checkGDAvailability()) {
+            error_log('GD extension not available for image optimization');
+            return '';
+        }
+        
+        // Normalize path
+        $imagePath = self::normalizePath($imagePath);
+        
         if (empty($imagePath) || !file_exists($imagePath)) {
+            error_log("Image file not found: $imagePath");
             return '';
         }
         
@@ -98,16 +203,53 @@ class ImageOptimizer {
      * Create image resource from file
      */
     private static function createImageResource($imagePath, $mimeType) {
-        switch ($mimeType) {
-            case 'image/jpeg':
-            case 'image/jpg':
-                return @imagecreatefromjpeg($imagePath);
-            case 'image/png':
-                return @imagecreatefrompng($imagePath);
-            case 'image/gif':
-                return @imagecreatefromgif($imagePath);
-            default:
-                return false;
+        if (!self::checkGDAvailability()) {
+            throw new Exception('GD extension is not available');
+        }
+        
+        $imagePath = self::normalizePath($imagePath);
+        
+        if (!file_exists($imagePath)) {
+            throw new Exception("Image file not found: $imagePath");
+        }
+        
+        try {
+            switch ($mimeType) {
+                case 'image/jpeg':
+                case 'image/jpg':
+                    if (!function_exists('imagecreatefromjpeg')) {
+                        throw new Exception('imagecreatefromjpeg function not available');
+                    }
+                    $resource = @imagecreatefromjpeg($imagePath);
+                    break;
+                    
+                case 'image/png':
+                    if (!function_exists('imagecreatefrompng')) {
+                        throw new Exception('imagecreatefrompng function not available');
+                    }
+                    $resource = @imagecreatefrompng($imagePath);
+                    break;
+                    
+                case 'image/gif':
+                    if (!function_exists('imagecreatefromgif')) {
+                        throw new Exception('imagecreatefromgif function not available');
+                    }
+                    $resource = @imagecreatefromgif($imagePath);
+                    break;
+                    
+                default:
+                    throw new Exception("Unsupported image type: $mimeType");
+            }
+            
+            if ($resource === false) {
+                throw new Exception("Failed to create image resource from: $imagePath");
+            }
+            
+            return $resource;
+            
+        } catch (Exception $e) {
+            error_log('Image resource creation error: ' . $e->getMessage());
+            throw $e;
         }
     }
     
@@ -140,16 +282,26 @@ class ImageOptimizer {
      * @return string Path to resized image or original if error
      */
     public static function resizeToUniform($imagePath, $uniformWidth = 400, $uniformHeight = 300, $quality = 75) {
+        // Check GD availability
+        if (!self::checkGDAvailability()) {
+            error_log('GD extension not available for uniform resize');
+            return $imagePath;
+        }
+        
+        // Normalize path
+        $imagePath = self::normalizePath($imagePath);
+        
         if (empty($imagePath) || !file_exists($imagePath)) {
+            error_log("Image file not found for uniform resize: $imagePath");
             return $imagePath;
         }
         
         try {
-            // Create uniform directory
-            $uniformDir = dirname($imagePath) . '/uniform/';
-            if (!file_exists($uniformDir)) {
-                mkdir($uniformDir, 0755, true);
-            }
+            // Create uniform directory with proper path handling
+            $imageDir = dirname($imagePath);
+            $uniformDir = $imageDir . DIRECTORY_SEPARATOR . 'uniform' . DIRECTORY_SEPARATOR;
+            
+            self::ensureDirectory($uniformDir);
             
             $filename = basename($imagePath);
             $uniformPath = $uniformDir . 'uniform_' . $uniformWidth . 'x' . $uniformHeight . '_' . $filename;
@@ -222,16 +374,26 @@ class ImageOptimizer {
      * Returns path to compressed image
      */
     public static function compressToFile($imagePath, $maxWidth = 1200, $quality = 65) {
+        // Check GD availability
+        if (!self::checkGDAvailability()) {
+            error_log('GD extension not available for image compression');
+            return $imagePath;
+        }
+        
+        // Normalize path
+        $imagePath = self::normalizePath($imagePath);
+        
         if (empty($imagePath) || !file_exists($imagePath)) {
+            error_log("Image file not found for compression: $imagePath");
             return $imagePath;
         }
         
         try {
-            // Check if already compressed
-            $compressedDir = dirname($imagePath) . '/compressed/';
-            if (!file_exists($compressedDir)) {
-                mkdir($compressedDir, 0755, true);
-            }
+            // Create compressed directory with proper path handling
+            $imageDir = dirname($imagePath);
+            $compressedDir = $imageDir . DIRECTORY_SEPARATOR . 'compressed' . DIRECTORY_SEPARATOR;
+            
+            self::ensureDirectory($compressedDir);
             
             $filename = basename($imagePath);
             $compressedPath = $compressedDir . 'compressed_' . $filename;

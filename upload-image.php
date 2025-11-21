@@ -2,25 +2,65 @@
 /**
  * Async Single Image Upload Handler
  * Uploads, compresses, and saves one image at a time
+ * Cross-platform compatible with guaranteed JSON responses
  */
 
-require_once 'auto-config.php';
-// Force high limits for image uploads
-@ini_set('memory_limit', '2048M');
-@ini_set('max_execution_time', '600');
-@ini_set('upload_max_filesize', '200M');
-@ini_set('post_max_size', '500M');
-@ini_set('max_file_uploads', '500');
+// Prevent any output before JSON
+ob_start();
 
-define('APP_INIT', true);
-require_once 'config.php';
-require_once 'image-optimizer.php';
+// Error handler to catch all errors and convert to exceptions
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+});
 
-header('Content-Type: application/json');
-
-$response = ['success' => false, 'message' => ''];
+// Exception handler to ensure JSON response even on fatal errors
+set_exception_handler(function($exception) {
+    ob_end_clean();
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'message' => $exception->getMessage(),
+        'error_type' => get_class($exception),
+        'file' => basename($exception->getFile()),
+        'line' => $exception->getLine()
+    ]);
+    exit;
+});
 
 try {
+    require_once __DIR__ . '/auto-config.php';
+    
+    // Force high limits for image uploads
+    @ini_set('memory_limit', '2048M');
+    @ini_set('max_execution_time', '600');
+    @ini_set('upload_max_filesize', '200M');
+    @ini_set('post_max_size', '500M');
+    @ini_set('max_file_uploads', '500');
+
+    define('APP_INIT', true);
+    require_once __DIR__ . '/config.php';
+    require_once __DIR__ . '/image-optimizer.php';
+    
+    // Clear any output buffer
+    ob_end_clean();
+    
+    // Set JSON header
+    header('Content-Type: application/json');
+
+    $response = ['success' => false, 'message' => ''];
+
+    // Check if GD extension is available
+    if (!extension_loaded('gd')) {
+        throw new Exception('GD extension is not installed. Please install php-gd to enable image processing.');
+    }
+    
+    // Check required GD functions
+    $requiredFunctions = ['imagecreatefromjpeg', 'imagecreatefrompng', 'imagecreatefromgif', 'imagecreatetruecolor'];
+    foreach ($requiredFunctions as $func) {
+        if (!function_exists($func)) {
+            throw new Exception("Required GD function '$func' is not available. Please check your PHP GD installation.");
+        }
+    }
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception('Invalid request method');
     }
@@ -62,10 +102,18 @@ try {
         throw new Exception('Invalid image file');
     }
     
-    // Create drafts directory
-    $draftDir = 'uploads/drafts/';
+    // Create drafts directory with absolute path
+    $baseDir = __DIR__;
+    $draftDir = $baseDir . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'drafts' . DIRECTORY_SEPARATOR;
+    
     if (!file_exists($draftDir)) {
-        mkdir($draftDir, 0755, true);
+        if (!@mkdir($draftDir, 0755, true)) {
+            throw new Exception('Failed to create drafts directory: ' . $draftDir);
+        }
+    }
+    
+    if (!is_writable($draftDir)) {
+        throw new Exception('Drafts directory is not writable: ' . $draftDir);
     }
     
     // Generate unique filename
@@ -79,31 +127,64 @@ try {
     // Move uploaded file temporarily
     $tempPath = $file['tmp_name'];
     
-    // Compress and resize image
-    $compressedPath = ImageOptimizer::compressToFile($tempPath, 1200, 70);
+    if (!file_exists($tempPath)) {
+        throw new Exception('Uploaded file not found in temporary location');
+    }
     
-    // If compression failed, use original
-    if (!$compressedPath || !file_exists($compressedPath)) {
-        if (!move_uploaded_file($tempPath, $targetPath)) {
-            throw new Exception('Failed to save uploaded file');
+    // Try to compress and resize image
+    try {
+        $compressedPath = ImageOptimizer::compressToFile($tempPath, 1200, 70);
+        
+        // If compression succeeded, use compressed version
+        if ($compressedPath && file_exists($compressedPath) && $compressedPath !== $tempPath) {
+            if (!@rename($compressedPath, $targetPath)) {
+                // If rename fails, try copy and delete
+                if (!@copy($compressedPath, $targetPath)) {
+                    throw new Exception('Failed to move compressed file');
+                }
+                @unlink($compressedPath);
+            }
+        } else {
+            // Compression failed or returned original, move uploaded file
+            if (!move_uploaded_file($tempPath, $targetPath)) {
+                throw new Exception('Failed to save uploaded file');
+            }
         }
-    } else {
-        // Move compressed file to target
-        rename($compressedPath, $targetPath);
+    } catch (Exception $e) {
+        // If compression fails, fall back to original upload
+        error_log('Image compression failed, using original: ' . $e->getMessage());
+        if (!move_uploaded_file($tempPath, $targetPath)) {
+            throw new Exception('Failed to save uploaded file: ' . $e->getMessage());
+        }
+    }
+    
+    // Verify file was saved
+    if (!file_exists($targetPath)) {
+        throw new Exception('File was not saved successfully');
     }
     
     // Get image dimensions and checksum
-    $imageInfo = getimagesize($targetPath);
-    $checksum = hash_file('sha256', $targetPath);
-    
-    // Create thumbnail (300px)
-    $thumbPath = $draftDir . "thumb_{$uniqueName}";
-    ImageOptimizer::compressToFile($targetPath, 300, 70);
-    if (file_exists($draftDir . 'compressed/compressed_' . basename($targetPath))) {
-        rename($draftDir . 'compressed/compressed_' . basename($targetPath), $thumbPath);
+    $imageInfo = @getimagesize($targetPath);
+    if ($imageInfo === false) {
+        error_log('Warning: Could not get image size for: ' . $targetPath);
+        $imageInfo = [0, 0]; // Default dimensions
     }
     
-    // Update draft JSON
+    $checksum = hash_file('sha256', $targetPath);
+    
+    // Create thumbnail (300px) - non-critical, don't fail if it doesn't work
+    $thumbPath = $draftDir . "thumb_{$uniqueName}";
+    try {
+        $thumbCompressed = ImageOptimizer::compressToFile($targetPath, 300, 70);
+        if ($thumbCompressed && file_exists($thumbCompressed) && $thumbCompressed !== $targetPath) {
+            @rename($thumbCompressed, $thumbPath);
+        }
+    } catch (Exception $e) {
+        error_log('Thumbnail creation failed (non-critical): ' . $e->getMessage());
+        // Thumbnail creation is optional, continue without it
+    }
+    
+    // Update draft JSON with absolute path
     $draftFile = $draftDir . $draftId . '.json';
     $draftData = [];
     
@@ -129,21 +210,37 @@ try {
     $draftData['version'] = ($draftData['version'] ?? 0) + 1;
     
     // Save draft
-    file_put_contents($draftFile, json_encode($draftData, JSON_PRETTY_PRINT));
-    
-    // Log to audit trail
-    $auditDir = 'drafts/audit';
-    if (!file_exists($auditDir)) {
-        mkdir($auditDir, 0755, true);
+    if (file_put_contents($draftFile, json_encode($draftData, JSON_PRETTY_PRINT)) === false) {
+        throw new Exception('Failed to save draft data');
     }
-    $auditLog = $auditDir . "/{$draftId}.log";
-    $auditEntry = date('Y-m-d H:i:s') . " - Image uploaded: $fieldName -> $targetPath\n";
-    file_put_contents($auditLog, $auditEntry, FILE_APPEND);
+    
+    // Log to audit trail with absolute path
+    $auditDir = $baseDir . DIRECTORY_SEPARATOR . 'drafts' . DIRECTORY_SEPARATOR . 'audit';
+    if (!file_exists($auditDir)) {
+        @mkdir($auditDir, 0755, true);
+    }
+    
+    if (is_writable($auditDir)) {
+        $auditLog = $auditDir . DIRECTORY_SEPARATOR . "{$draftId}.log";
+        $auditEntry = date('Y-m-d H:i:s') . " - Image uploaded: $fieldName -> $targetPath\n";
+        @file_put_contents($auditLog, $auditEntry, FILE_APPEND);
+    }
+    
+    // Convert absolute paths to relative for response
+    $relativePath = str_replace($baseDir . DIRECTORY_SEPARATOR, '', $targetPath);
+    $relativePath = str_replace('\\', '/', $relativePath); // Normalize for web
+    
+    $relativeThumbPath = $relativePath;
+    if (file_exists($thumbPath)) {
+        $relativeThumbPath = str_replace($baseDir . DIRECTORY_SEPARATOR, '', $thumbPath);
+        $relativeThumbPath = str_replace('\\', '/', $relativeThumbPath);
+    }
     
     $response['success'] = true;
     $response['message'] = 'Image uploaded and compressed successfully';
-    $response['path'] = $targetPath;
-    $response['thumb_path'] = file_exists($thumbPath) ? $thumbPath : $targetPath;
+    $response['file_path'] = $relativePath; // For backward compatibility
+    $response['path'] = $relativePath;
+    $response['thumb_path'] = $relativeThumbPath;
     $response['checksum'] = $checksum;
     $response['size'] = filesize($targetPath);
     $response['width'] = $imageInfo[0] ?? 0;
@@ -152,10 +249,18 @@ try {
     $response['version'] = $draftData['version'];
     
 } catch (Exception $e) {
+    $response['success'] = false;
     $response['message'] = $e->getMessage();
-    error_log('Image upload error: ' . $e->getMessage());
+    $response['error_type'] = get_class($e);
+    error_log('Image upload error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+} catch (Error $e) {
+    $response['success'] = false;
+    $response['message'] = 'PHP Error: ' . $e->getMessage();
+    $response['error_type'] = get_class($e);
+    error_log('Image upload PHP error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
 }
 
+// Ensure we always output valid JSON
 echo json_encode($response);
 exit;
 
