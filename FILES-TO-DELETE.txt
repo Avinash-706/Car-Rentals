@@ -1,0 +1,249 @@
+================================================================================
+CANDIDATE FILES FOR DELETION - Car Inspection Expert System
+Generated: 2024-11-21
+================================================================================
+
+This list contains files that are likely no longer needed for production deployment.
+Review carefully before deletion.
+
+================================================================================
+CATEGORY 1: DOCUMENTATION FILES (.md files)
+================================================================================
+Total: 21 files
+
+1.  ALL-23-STEPS-COMPLETE-SCHEMA.md
+2.  ALL-23-STEPS-FINAL-COMPLETE.md
+3.  CHECKBOX-MULTI-SELECT-FIX-COMPLETE.md
+4.  CHECKBOX-TROUBLESHOOTING-GUIDE.md
+5.  COMPLETE-FIX-SUMMARY.md
+6.  DEPLOYMENT-GUIDE.md (KEEP THIS - useful for deployment!)
+7.  DISCARD-DRAFT-FIX.md
+8.  DRAFT-STORAGE-EXPLAINED.md (KEEP THIS - useful reference!)
+9.  DRAFT-SYSTEM-README.md
+10. FINAL-STATUS-AND-ACTIONS.md
+11. IMPLEMENTATION-CHECKLIST.md
+12. PDF-GENERATION-GUIDE.md
+13. README.md (KEEP THIS - project documentation!)
+14. STEP-1-2-PDF-FIELDS.md
+15. STEP-3-VERIFICATION-CHECKLIST.md
+16. STEP-4-VERIFICATION-CHECKLIST.md
+17. STEP-9-10-COMPLETE-IMPLEMENTATION.md
+18. STEPS-3-7-VERIFICATION-REPORT.md
+19. T-SUBMIT-IMPLEMENTATION-GUIDE.md
+20. UNIFORM-IMAGE-RESIZE-IMPLEMENTATION.md
+21. UPLOAD-LIMITS-FIX.md
+
+RECOMMENDED: Delete 18 files, KEEP 3 (DEPLOYMENT-GUIDE, DRAFT-STORAGE-EXPLAINED, README)
+
+================================================================================
+CATEGORY 2: TEXT SUMMARY FILES (.txt files)
+================================================================================
+Total: 17 files
+
+1.  ALL-23-STEPS-COMPLETE-SUMMARY.txt
+2.  ALL-23-STEPS-QUICK-REFERENCE.txt
+3.  all-image-fields.txt
+4.  ALL-IMAGES-LIST.txt
+5.  CHECKBOX-FIX-SUMMARY.txt
+6.  COMPLETE-IMPLEMENTATION-SUMMARY.txt
+7.  MEMORY-FIX-COMPLETE.txt
+8.  PDF-ALL-FIELDS-FIXED.txt
+9.  PDF-FIX-COMPLETE.txt
+10. QUICK-START-UPLOAD-FIX.txt
+11. QUICKSTART.txt
+12. STEP-1-2-QUICK-REFERENCE.txt
+13. STEP-3-PERFECT-SUMMARY.txt
+14. STEP-4-PERFECT-SUMMARY.txt
+15. STEP-5-COMPLETE-SUMMARY.txt
+16. STEP-9-10-FINAL-STATUS.txt
+17. STEPS-1-5-FIXED-SUMMARY.txt
+18. STEPS-3-7-FINAL-SUMMARY.txt
+19. STEPS-6-7-8-COMPLETE.txt
+20. UNIFORM-IMAGE-COMPLETE-SUMMARY.txt
+21. UPLOAD-FIX-SUMMARY.txt
+
+RECOMMENDED: Delete ALL 21 files
+
+================================================================================
+CATEGORY 3: TEST FILES (test-*.php)
+================================================================================
+Total: 11 files
+
+1.  test-all-23-steps-complete.php
+2.  test-checkbox-fix.php
+3.  test-pdf-generation.php
+4.  test-post-simulation.php
+5.  test-step-9-10-fields.php
+6.  test-step1-2-fields.php
+7.  test-step3-perfect.php
+8.  test-step4-perfect.php
+9.  test-t-submit-endpoint.php
+10. test-uniform-image-resize.php
+11. test-upload-config.php
+
+RECOMMENDED: Delete ALL 11 files (unless you need them for testing)
+
+================================================================================
+CATEGORY 4: BACKUP FILES
+================================================================================
+Total: 3 files
+
+1.  generate-pdf.php.backup-20251120234627
+2.  index.php.backup
+3.  index.php.backup2
+
+RECOMMENDED: Delete ALL 3 files
+
+================================================================================
+CATEGORY 5: OLD/DEPRECATED PHP FILES
+================================================================================
+Total: 10 files
+
+1.  AUTO-FIX-STEP-5.php
+2.  cleanup.php
+3.  COMPLETE-FIX-STEPS-1-7.php
+4.  CORRECTED-STEPS-3-7-PDF.php
+5.  debug-post-data.php
+6.  pdf-generator-complete.php
+7.  STEP-3-PERFECT-PDF.php
+8.  STEP-4-PERFECT-PDF.php
+9.  STEP-5-PERFECT-PDF.php
+10. STEPS-6-7-PERFECT-PDF.php
+11. STEPS-6-7-PERFECT.php
+12. update_steps.php
+
+RECOMMENDED: Delete ALL 12 files
+
+================================================================================
+CATEGORY 6: VERIFICATION/DIAGNOSTIC TOOLS (Optional - Keep if useful)
+================================================================================
+Total: 4 files
+
+1.  pdf-verifier.php (useful for debugging PDFs)
+2.  verify-all-23-steps.php (useful for testing)
+3.  verify-upload-limits.php (useful for server config check)
+4.  view-drafts.php (useful for managing drafts)
+
+RECOMMENDED: KEEP these files - they're useful for maintenance
+
+================================================================================
+CATEGORY 7: GENERATED TEST PDFs (in pdfs/ folder)
+================================================================================
+Total: 21 files
+
+1.  pdfs/inspection_1_1763674784.pdf
+2.  pdfs/inspection_121_1763684300.pdf
+3.  pdfs/inspection_12215082_1763478465.pdf
+4.  pdfs/inspection_12215082_1763478563.pdf
+5.  pdfs/inspection_12215082_1763663941.pdf
+6.  pdfs/inspection_12215082_1763665833.pdf
+7.  pdfs/inspection_12215082_1763666630.pdf
+8.  pdfs/inspection_12215082_1763677317.pdf
+9.  pdfs/inspection_12215082_1763681115.pdf
+10. pdfs/inspection_12215082_1763687010.pdf
+11. pdfs/inspection_as_1763641316.pdf
+12. pdfs/inspection_hgfg_1763657322.pdf
+13. pdfs/TEST_inspection_step2_1763686095.pdf
+14. pdfs/TEST_step2_1763686159.pdf
+15. pdfs/TEST_step23_1763686923.pdf
+16. pdfs/TEST_step23_1763686951.pdf
+17. pdfs/TEST_step3_1763686169.pdf
+18. pdfs/TEST_step4_1763686398.pdf
+19. pdfs/TEST_step5_1763686298.pdf
+20. pdfs/TEST_step5_1763686302.pdf
+
+RECOMMENDED: Delete ALL 20 files (test PDFs)
+
+================================================================================
+CATEGORY 8: UPLOADED TEST IMAGES (in uploads/ folder)
+================================================================================
+Total: 500+ files
+
+All files in uploads/ folder with timestamps (test uploads)
+Examples:
+- uploads/car_photo_1763478463_691c8bbf93820.jpg
+- uploads/car_km_photo_1763660320_691f522040eb3.jpg
+- uploads/chassis_plate_photo_1763660320_691f522042538.jpg
+... and 500+ more test images
+
+RECOMMENDED: Delete ALL test images (keep folder structure)
+
+================================================================================
+CATEGORY 9: DRAFT IMAGES (in uploads/drafts/ folder)
+================================================================================
+Total: 500+ files
+
+All files in uploads/drafts/ folder (old draft images)
+Examples:
+- uploads/drafts/1763659765_691f4ff5f3299_IMG-20241120-WA0002.jpg
+- uploads/drafts/1763659766_691f4ff600752_IMG-20241120-WA0001.jpg
+... and 500+ more draft images
+
+RECOMMENDED: Delete ALL old draft images (keep folder structure)
+
+================================================================================
+CATEGORY 10: AUDIT LOGS (in drafts/audit/ folder)
+================================================================================
+Total: 3 files
+
+1.  drafts/audit/draft_691f6fe049b4d9.38759082.log
+2.  drafts/audit/draft_691f9559017ab9.07529941.log
+3.  drafts/audit/draft_691fb6ca7d2655.53609204.log
+
+RECOMMENDED: Delete ALL audit logs (or keep for reference)
+
+================================================================================
+CATEGORY 11: ERROR LOGS (in logs/ folder)
+================================================================================
+Total: 1 file
+
+1.  logs/error.log
+
+RECOMMENDED: Review and then delete (or keep for debugging)
+
+================================================================================
+CATEGORY 12: UTILITY SCRIPTS (Keep for maintenance)
+================================================================================
+Total: 3 files
+
+1.  scripts/cleanup_drafts.php (useful for maintenance)
+2.  scripts/diagnose_draft.php (useful for debugging)
+3.  prepare-deployment.php (useful for deployment)
+
+RECOMMENDED: KEEP these files
+
+================================================================================
+SUMMARY
+================================================================================
+
+SAFE TO DELETE:
+- 18 documentation .md files (keep 3)
+- 21 summary .txt files
+- 11 test-*.php files
+- 3 backup files
+- 12 old/deprecated PHP files
+- 20 test PDF files
+- 500+ test uploaded images
+- 500+ draft images
+- 3 audit log files
+- 1 error log file (after review)
+
+TOTAL FILES TO DELETE: ~1,100+ files
+
+KEEP FOR PRODUCTION:
+- All core PHP files (index.php, submit.php, generate-pdf.php, etc.)
+- config.php, auto-config.php
+- script.js, style.css
+- .htaccess
+- composer.json, composer.lock
+- vendor/ folder (all dependencies)
+- Empty folder structure (uploads/, drafts/, pdfs/, tmp/, logs/)
+- 3 key documentation files (README.md, DEPLOYMENT-GUIDE.md, DRAFT-STORAGE-EXPLAINED.md)
+- 4 utility files (verify-*.php, view-drafts.php)
+- 3 maintenance scripts (scripts/*.php, prepare-deployment.php)
+
+ESTIMATED SPACE SAVED: 500-1000 MB
+
+================================================================================
+END OF REPORT
+================================================================================

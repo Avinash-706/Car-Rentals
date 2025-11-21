@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Inspection Expert - USED CAR 3.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🚗</div>
+            <h1>USED CAR 3.0</h1>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-text" id="progressText">Step 1 of 16</div>
+        </div>
+
+        <!-- Form Container -->
+        <form id="inspectionForm" enctype="multipart/form-data">
+            
+            <!-- STEP 1: INSPECTION DETAILS -->
+            <div class="form-step active" data-step="1">
+                <h2>⊙ Inspection Details</h2>
+                
+                <div class="form-group">
+                    <label>Enter Booking ID <span class="required">*</span></label>
+                    <input type="text" name="booking_id" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Expert ID</label>
+                    <input type="text" name="expert_id">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <input type="text" name="customer_name">
+                    </div>
+                    <div class="form-group">
+                        <label>Customer Phone</label>
+                        <input type="tel" name="customer_phone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="inspection_date">
+                </div>
+
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="time" name="inspection_time">
+                </div>
+
+                <div class="form-group">
+                    <label>Inspection Address</label>
+                    <textarea name="inspection_address" rows="3" placeholder="Provide complete address..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>OBD Scanning</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="obd_scanning" value="Yes"> Yes
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="obd_scanning" value="No"> No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Car</label>
+                        <input type="text" name="car">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Lead Owner</label>
+                    <input type="text" name="lead_owner">
+                </div>
+
+                <div class="form-group">
+                    <label>Pending Amount</label>
+                    <input type="number" name="pending_amount" step="0.01">
+                </div>
+            </div>
+
+            <!-- STEP 2: EXPERT DETAILS -->
+            <div class="form-step" data-step="2">
+                <h2>⊙ Expert Details</h2>
+                
+                <div class="form-group">
+                    <label>Inspection 45 Minutes Delayed? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="inspection_delayed" value="Yes" required> Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="inspection_delayed" value="No"> No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your photo with car's number plate <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="car_photo" id="carPhoto" accept="image/*" required>
+                        <label for="carPhoto" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="carPhotoPreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Current Location <span class="required">*</span></label>
+                    <div class="location-group">
+                        <div class="form-row">
+                            <input type="text" name="latitude" id="latitude" placeholder="Lat" readonly>
+                            <input type="text" name="longitude" id="longitude" placeholder="Long" readonly>
+                            <button type="button" class="btn-location" id="fetchLocation">📍</button>
+                        </div>
+                        <textarea name="location_address" id="locationAddress" rows="2" placeholder="Location where the inspection is happening" readonly></textarea>
+                        <div class="location-error" id="locationError"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="text" name="expert_date" id="expertDate" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="text" name="expert_time" id="expertTime" readonly>
+                </div>
+            </div>
+
+            <!-- STEP 3: CAR DETAILS -->
+            <div class="form-step" data-step="3">
+                <h2>⊙ Car Details</h2>
+                
+                <div class="form-group">
+                    <label>Car Company <span class="required">*</span></label>
+                    <input type="text" name="car_company" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Registration Number <span class="required">*</span></label>
+                    <input type="text" name="car_registration_number" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Registration Year (YYYY) <span class="required">*</span></label>
+                    <input type="text" name="car_registration_year" required pattern="\d{4}" maxlength="4" placeholder="YYYY">
+                    <small>Enter 4-digit year</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Variant <span class="required">*</span></label>
+                    <input type="text" name="car_variant" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Registered State <span class="required">*</span></label>
+                    <input type="text" name="car_registered_state" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Registered City</label>
+                    <input type="text" name="car_registered_city">
+                </div>
+
+                <div class="form-group">
+                    <label>Fuel Type <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fuel_type[]" value="Petrol"> Petrol
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fuel_type[]" value="Diesel"> Diesel
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fuel_type[]" value="Electric"> Electric
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fuel_type[]" value="Hybrid"> Hybrid
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fuel_type[]" value="CNG"> CNG
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Engine Capacity (in CC) <span class="required">*</span></label>
+                    <input type="number" name="engine_capacity" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Transmission <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="transmission" value="Manual" required> Manual
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="transmission" value="Automatic"> Automatic
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Colour <span class="required">*</span></label>
+                    <input type="text" name="car_colour" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Car KM Current Reading <span class="required">*</span></label>
+                    <input type="number" name="car_km_reading" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Car KM Reading Photo <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="car_km_photo" id="carKmPhoto" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="carKmPhoto" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="carKmPhotoPreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Number of Car Keys Available <span class="required">*</span></label>
+                    <input type="number" name="car_keys_available" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Chassis Number <span class="required">*</span></label>
+                    <input type="text" name="chassis_number" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Engine Number <span class="required">*</span></label>
+                    <input type="text" name="engine_number" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Chassis No Plate <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="chassis_plate_photo" id="chassisPlatePhoto" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="chassisPlatePhoto" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="chassisPlatePhotoPreview"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: CAR DOCUMENTS -->
+            <div class="form-step" data-step="4">
+                <h2>⊙ Car Documents</h2>
+                
+                <div class="form-group">
+                    <label>Registration Certificate <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="registration_certificate[]" value="Available"> Available
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="registration_certificate[]" value="Expired"> Expired
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="registration_certificate[]" value="Not Available"> Not Available
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Insurance <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_insurance[]" value="Available"> Available
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_insurance[]" value="Not Available"> Not Available
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_insurance[]" value="Expired"> Expired
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Finance NOC <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_finance_noc[]" value="Available"> Available
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_finance_noc[]" value="Not Available"> Not Available
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_finance_noc[]" value="Not Required"> Not Required
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Purchase Invoice <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_purchase_invoice[]" value="Available"> Available
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_purchase_invoice[]" value="Not Available"> Not Available
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_purchase_invoice[]" value="Not Required"> Not Required
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Bi-Fuel Certification <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="bifuel_certification[]" value="Available"> Available
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="bifuel_certification[]" value="Not Required"> Not Required
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="bifuel_certification[]" value="Not Available"> Not Available
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 5: BODY FRAME ACCIDENTAL CHECKLIST -->
+            <div class="form-step" data-step="5">
+                <h2>⊙ Body Frame Accidental Checklist</h2>
+                
+                <!-- Radiator Core Support -->
+                <div class="form-group">
+                    <label>Radiator Core Support <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="radiator_core">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="radiator_core[]" value="Accidental"> Accidental
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="radiator_core[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="radiator_core[]" value="Rusted"> Rusted
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Radiator Core Support Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="radiator_core_image" id="radiatorCoreImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="radiatorCoreImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="radiatorCoreImagePreview"></div>
+                    </div>
+                </div>
+
+                <!-- Match Chassis No Plate -->
+                <div class="form-group">
+                    <label>Match Chassis No Plate with Real Body <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="match_chassis" value="Matching" required> Matching
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="match_chassis" value="Not Matching"> Not Matching
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="match_chassis" value="Not Able To Locate"> Not Able To Locate
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Driver Side Strut Tower Apron -->
+                <div class="form-group">
+                    <label>Driver Side Strut Tower Apron <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="driver_strut">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="driver_strut[]" value="Accidental"> Accidental
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="driver_strut[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="driver_strut[]" value="Rusted"> Rusted
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Driver Side Strut Tower Apron Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="driver_strut_image" id="driverStrutImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="driverStrutImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="driverStrutImagePreview"></div>
+                    </div>
+                </div>
+
+                <!-- Passenger Strut Tower Apron -->
+                <div class="form-group">
+                    <label>Passenger Strut Tower Apron <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="passenger_strut">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="passenger_strut[]" value="Accidental"> Accidental
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="passenger_strut[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="passenger_strut[]" value="Rusted"> Rusted
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Passenger Strut Tower Apron Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="passenger_strut_image" id="passengerStrutImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="passengerStrutImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="passengerStrutImagePreview"></div>
+                    </div>
+                </div>
+
+                <!-- Front Bonnet UnderBody -->
+                <div class="form-group">
+                    <label>Front Bonnet UnderBody <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="front_bonnet">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bonnet[]" value="Accidental"> Accidental
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bonnet[]" value="Scratches"> Scratches
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bonnet[]" value="Repainted"> Repainted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bonnet[]" value="Rusted"> Rusted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bonnet[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Front Bonnet UnderBody Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="front_bonnet_image" id="frontBonnetImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="frontBonnetImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="frontBonnetImagePreview"></div>
+                    </div>
+                </div>
+
+                <!-- Boot Floor -->
+                <div class="form-group">
+                    <label>Boot Floor <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="boot_floor">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="boot_floor[]" value="Scratches"> Scratches
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="boot_floor[]" value="Rusted"> Rusted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="boot_floor[]" value="Accidental"> Accidental
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="boot_floor[]" value="Repainted"> Repainted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="boot_floor[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Boot Floor Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="boot_floor_image" id="bootFloorImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="bootFloorImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="bootFloorImagePreview"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 6: EXTERIOR BODY -->
+            <div class="form-step" data-step="6">
+                <h2>⊙ Exterior Body</h2>
+                
+                <div class="form-group">
+                    <label>Front Bumper <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="front_bumper">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bumper[]" value="Scratches"> Scratches
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bumper[]" value="Dent"> Dent
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bumper[]" value="Repainted"> Repainted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="front_bumper[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Rear Bumper <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="rear_bumper">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="rear_bumper[]" value="Scratches"> Scratches
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="rear_bumper[]" value="Dent"> Dent
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="rear_bumper[]" value="Repainted"> Repainted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="rear_bumper[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Bonnet <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="bonnet">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="bonnet[]" value="Scratches"> Scratches
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="bonnet[]" value="Dent"> Dent
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="bonnet[]" value="Repainted"> Repainted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="bonnet[]" value="Rusted"> Rusted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="bonnet[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Roof <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="roof">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="roof[]" value="Scratches"> Scratches
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="roof[]" value="Dent"> Dent
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="roof[]" value="Repainted"> Repainted
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="roof[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Windshield <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="windshield">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="windshield[]" value="Cracked"> Cracked
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="windshield[]" value="Scratches"> Scratches
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="windshield[]" value="OK" data-ok-checkbox> OK
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 7: ENGINE (BEFORE TEST DRIVE) -->
+            <div class="form-step" data-step="7">
+                <h2>⊙ Engine (Before Test Drive)</h2>
+                
+                <div class="form-group">
+                    <label>Car Start Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="car_start_image" id="carStartImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="carStartImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="carStartImagePreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Car Start <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="car_start">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_start[]" value="Ok" data-ok-checkbox> Ok
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="car_start[]" value="Not Ok"> Not Ok
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Wiring Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="wiring_image" id="wiringImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="wiringImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="wiringImagePreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Wiring <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="wiring">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="wiring[]" value="Ok" data-ok-checkbox> Ok
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="wiring[]" value="Original Wiring Changed"> Original Wiring Changed
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="wiring[]" value="Damaged"> Damaged
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Engine Oil Quality Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="engine_oil_image" id="engineOilImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="engineOilImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="engineOilImagePreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Engine Oil Quality <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="engine_oil">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="engine_oil[]" value="Low Level"> Low Level
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="engine_oil[]" value="Oil Change Needed"> Oil Change Needed
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="engine_oil[]" value="Tar Found"> Tar Found
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="engine_oil[]" value="Clean and Complete"> Clean and Complete
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Engine Oil Cap <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="engine_oil_cap">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="engine_oil_cap[]" value="Clean"> Clean
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="engine_oil_cap[]" value="Sludge Present"> Sludge Present
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Engine Mounting and Components <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="engine_mounting">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="engine_mounting[]" value="Ok" data-ok-checkbox> Ok
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="engine_mounting[]" value="Not Ok"> Not Ok
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Coolant Level <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="coolant_level">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="coolant_level[]" value="Ok" data-ok-checkbox> Ok
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="coolant_level[]" value="Not Ok"> Not Ok
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Coolant Quality <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="coolant_quality">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="coolant_quality[]" value="Ok" data-ok-checkbox> Ok
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="coolant_quality[]" value="Oil Present"> Oil Present
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="coolant_quality[]" value="Water Mixed"> Water Mixed
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Smoke Emission Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="smoke_emission_image" id="smokeEmissionImage" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="smokeEmissionImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="smokeEmissionImagePreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Smoke Emission <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="smoke_emission">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="smoke_emission[]" value="Present"> Present
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="smoke_emission[]" value="Ok" data-ok-checkbox> Ok
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Battery <span class="required">*</span></label>
+                    <div class="checkbox-group" data-ok-group="battery">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="battery[]" value="Damaged"> Damaged
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="battery[]" value="Acid Leakage"> Acid Leakage
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="battery[]" value="Rusted / Dissolved Tray"> Rusted / Dissolved Tray
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="battery[]" value="Ok" data-ok-checkbox> Ok
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 8: OBD SCAN -->
+            <div class="form-step" data-step="8">
+                <h2>⊙ OBD Scan</h2>
+                
+                <div class="form-group">
+                    <label>Any Fault Codes Present? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fault_codes[]" value="Yes"> Yes
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fault_codes[]" value="No"> No
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fault_codes[]" value="Port Not Working"> Port Not Working
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="fault_codes[]" value="Not Checked"> Not Checked
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>OBD Scan Photo <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="obd_scan_photo" id="obdScanPhoto" accept="image/jpeg,image/jpg,image/png" required>
+                        <label for="obdScanPhoto" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="obdScanPhotoPreview"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-step" data-step="11">
+                <h2>⊙ Step 11 - Transmission</h2>
+                <div class="form-group">
+                    <label>Transmission Status</label>
+                    <textarea name="transmission_status" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="form-step" data-step="12">
+                <h2>⊙ Step 12 - AC & Heating</h2>
+                <div class="form-group">
+                    <label>AC/Heating Status</label>
+                    <textarea name="ac_heating_status" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="form-step" data-step="13">
+                <h2>⊙ Step 13 - Safety Features</h2>
+                <div class="form-group">
+                    <label>Safety Features Check</label>
+                    <textarea name="safety_features" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="form-step" data-step="14">
+                <h2>⊙ Step 14 - Test Drive</h2>
+                <div class="form-group">
+                    <label>Test Drive Notes</label>
+                    <textarea name="test_drive_notes" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="form-step" data-step="15">
+                <h2>⊙ Step 15 - Overall Assessment</h2>
+                <div class="form-group">
+                    <label>Overall Assessment</label>
+                    <textarea name="overall_assessment" rows="4"></textarea>
+                </div>
+            </div>
+
+            <div class="form-step" data-step="16">
+                <h2>⊙ Step 16 - Final Remarks</h2>
+                <div class="form-group">
+                    <label>Final Remarks</label>
+                    <textarea name="final_remarks" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Recommended Price</label>
+                    <input type="number" name="recommended_price" step="0.01">
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-navigation">
+                <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
+                <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+                <button type="submit" class="btn btn-success" id="submitBtn" style="display:none;">Submit</button>
+                <button type="button" class="btn btn-info" id="saveDraftBtn">Save Draft</button>
+                <button type="button" class="btn btn-secondary" id="discardDraftBtn">Discard Draft</button>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+                <p>Processing your submission...</p>
+            </div>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <div class="success-content">
+                    <div class="success-icon">✓</div>
+                    <h3>Inspection Submitted Successfully!</h3>
+                    <p>PDF has been generated and sent to the email.</p>
+                    <button type="button" class="btn btn-primary" onclick="location.reload()">New Inspection</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

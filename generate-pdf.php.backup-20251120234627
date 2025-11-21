@@ -1,0 +1,388 @@
+<?php
+/**
+ * Complete PDF Generation - All 23 Steps, All Fields
+ * Ensures NO field is ever missing
+ */
+
+// Auto-configure PHP settings
+require_once __DIR__ . '/auto-config.php';
+// CRITICAL: Support for 500+ image uploads in PDF
+@ini_set('memory_limit', '2048M');
+@ini_set('max_execution_time', '600');
+@ini_set('max_file_uploads', '500');
+@ini_set('max_input_vars', '5000');
+@set_time_limit(600);
+
+if (!defined('APP_INIT')) {
+    define('APP_INIT', true);
+    require_once __DIR__ . '/config.php';
+}
+
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/image-optimizer.php';
+
+function generatePDF($data) {
+    try {
+        // Compress all images first
+        $data = compressAllImages($data);
+        
+        // Create mPDF with memory-efficient settings
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 15,
+            'margin_bottom' => 15,
+            'tempDir' => __DIR__ . '/tmp',
+            'useSubstitutions' => false,
+            'simpleTables' => true,
+            'dpi' => 96,
+            'img_dpi' => 96,
+        ]);
+        
+        $mpdf->use_kwt = false;
+        $mpdf->SetTitle('Car Inspection Report');
+        $mpdf->SetAuthor('Car Inspection Expert');
+        
+        // Generate complete HTML
+        $html = generateCompleteHTML($data);
+        $mpdf->WriteHTML($html);
+        
+        // Save PDF
+        $pdfFilename = 'inspection_' . ($data['booking_id'] ?? 'unknown') . '_' . time() . '.pdf';
+        $pdfPath = PDF_DIR . $pdfFilename;
+        $mpdf->Output($pdfPath, \Mpdf\Output\Destination::FILE);
+        
+        return $pdfPath;
+        
+    } catch (Exception $e) {
+        error_log('PDF Generation Error: ' . $e->getMessage());
+        return false;
+    }
+}
+
+function generateCompleteHTML($data) {
+    $html = generateStyles();
+    $html .= generateHeader($data);
+    
+    // ========================================================================
+    // STEP 1: Booking Details
+    // ========================================================================
+    $html .= generateStepHeader(1, 'Booking Details');
+    
+    // Step 1 - Mandatory Fields (ONLY Booking ID is mandatory)
+    $html .= generateField('Booking ID', $data['booking_id'] ?? '', true);
+    
+    // Step 1 - Optional Fields (print only if filled by user)
+    $html .= generateField('Expert ID', $data['expert_id'] ?? '', false);
+    $html .= generateField('Customer Name', $data['customer_name'] ?? '', false);
+    $html .= generateField('Customer Phone', $data['customer_phone'] ?? '', false);
+    $html .= generateField('Date', $data['inspection_date'] ?? '', false);
+    $html .= generateField('Time', $data['inspection_time'] ?? '', false);
+    $html .= generateField('Inspection Address', $data['inspection_address'] ?? '', false);
+    $html .= generateField('OBD Scanning', $data['obd_scanning'] ?? '', false);
+    $html .= generateField('Car', $data['car'] ?? '', false);
+    $html .= generateField('Lead Owner', $data['lead_owner'] ?? '', false);
+    $html .= generateField('Pending Amount', $data['pending_amount'] ?? '', false);
+    
+    // ========================================================================
+    // STEP 2: Expert Details (Car Photo & Location)
+    // ========================================================================
+    $html .= generateStepHeader(2, 'Expert Details');
+    
+    // Step 2 - Mandatory Fields (ALL must appear in PDF)
+    $html .= generateField('Inspection 45 Minutes Delayed?', $data['inspection_delayed'] ?? '', true);
+    $html .= generateImage('Your photo with car\'s number plate', $data['car_photo_path'] ?? '', true);
+    
+    // Current Location section (all mandatory)
+    $html .= '<div class="location-section">';
+    $html .= '<div class="field-row"><span class="field-label section-label">Current Location:</span></div>';
+    $html .= generateField('Latitude', $data['latitude'] ?? '', true);
+    $html .= generateField('Longitude', $data['longitude'] ?? '', true);
+    $html .= generateField('Full Location Address', $data['location_address'] ?? '', true);
+    $html .= '</div>';
+    
+    // Step 2 - Optional Fields (print only if filled by user)
+    $html .= generateField('Date', $data['expert_date'] ?? '', false);
+    $html .= generateField('Time', $data['expert_time'] ?? '', false);
+    
+    // STEP 3: Car Details
+    $html .= generateStepHeader(3, 'Car Details');
+    $html .= generateField('Car Company', $data['car_company'] ?? '', true);
+    $html .= generateField('Car Registration Number', $data['car_registration_number'] ?? '', true);
+    $html .= generateField('Car Registration Year', $data['car_registration_year'] ?? '', true);
+    $html .= generateField('Car Variant', $data['car_variant'] ?? '', true);
+    $html .= generateField('Car Registered State', $data['car_registered_state'] ?? '', true);
+    $html .= generateField('Car Registered City', $data['car_registered_city'] ?? '', true);
+    $html .= generateField('Fuel Type', formatArray($data['fuel_type'] ?? []), true);
+    $html .= generateField('Engine Capacity (CC)', $data['engine_capacity'] ?? '', true);
+    $html .= generateField('Transmission', $data['transmission'] ?? '', true);
+    $html .= generateField('Car Colour', $data['car_colour'] ?? '', true);
+    $html .= generateField('Car KM Reading', $data['car_km_reading'] ?? '', true);
+    $html .= generateImage('Car KM Reading Photo', $data['car_km_photo_path'] ?? '', true);
+    $html .= generateField('Car Keys Available', $data['car_keys_available'] ?? '', true);
+    
+    // STEP 4: Chassis & Engine
+    $html .= generateStepHeader(4, 'Chassis & Engine Numbers');
+    $html .= generateField('Chassis Number', $data['chassis_number'] ?? '', true);
+    $html .= generateImage('Chassis No Plate Photo', $data['chassis_plate_photo_path'] ?? '', true);
+    $html .= generateField('Engine Number', $data['engine_number'] ?? '', true);
+    
+    // STEP 5: Documents
+    $html .= generateStepHeader(5, 'Car Documents');
+    $html .= generateField('Registration Certificate', formatArray($data['registration_certificate'] ?? []), true);
+    $html .= generateField('Car Insurance', formatArray($data['car_insurance'] ?? []), true);
+    $html .= generateField('Car Finance NOC', formatArray($data['car_finance_noc'] ?? []), true);
+    $html .= generateField('Car Purchase Invoice', formatArray($data['car_purchase_invoice'] ?? []), true);
+    $html .= generateField('Bifuel Certification', formatArray($data['bifuel_certification'] ?? []), true);
+    
+    // STEP 6: Structural Inspection
+    $html .= generateStepHeader(6, 'Structural Inspection');
+    $html .= generateField('Radiator Core Support', formatArray($data['radiator_core'] ?? []), true);
+    $html .= generateImage('Radiator Core Support Image', $data['radiator_core_image_path'] ?? '', true);
+    $html .= generateField('Match Chassis', $data['match_chassis'] ?? '', true);
+    
+    // STEP 7: Driver Strut Tower
+    $html .= generateStepHeader(7, 'Driver Side Strut Tower');
+    $html .= generateField('Driver Side Strut Tower Apron', formatArray($data['driver_strut'] ?? []), true);
+    $html .= generateImage('Driver Side Strut Tower Apron Image', $data['driver_strut_image_path'] ?? '', true);
+    
+    // STEP 8: Passenger Strut Tower
+    $html .= generateStepHeader(8, 'Passenger Side Strut Tower');
+    $html .= generateField('Passenger Strut Tower Apron', formatArray($data['passenger_strut'] ?? []), true);
+    $html .= generateImage('Passenger Strut Tower Apron Image', $data['passenger_strut_image_path'] ?? '', true);
+    
+    // STEP 9: Front Bonnet
+    $html .= generateStepHeader(9, 'Front Bonnet UnderBody');
+    $html .= generateField('Front Bonnet UnderBody', formatArray($data['front_bonnet'] ?? []), true);
+    $html .= generateImage('Front Bonnet UnderBody Image', $data['front_bonnet_image_path'] ?? '', true);
+    
+    // STEP 10: Boot Floor
+    $html .= generateStepHeader(10, 'Boot Floor');
+    $html .= generateField('Boot Floor', formatArray($data['boot_floor'] ?? []), true);
+    $html .= generateImage('Boot Floor Image', $data['boot_floor_image_path'] ?? '', true);
+    
+    // STEP 11: Exterior Body
+    $html .= generateStepHeader(11, 'Exterior Body Inspection');
+    $html .= generateField('Front Bumper', formatArray($data['front_bumper'] ?? []), true);
+    $html .= generateField('Rear Bumper', formatArray($data['rear_bumper'] ?? []), true);
+    $html .= generateField('Bonnet', formatArray($data['bonnet'] ?? []), true);
+    $html .= generateField('Roof', formatArray($data['roof'] ?? []), true);
+    $html .= generateField('Windshield', formatArray($data['windshield'] ?? []), true);
+    
+    // STEP 12: Engine Inspection
+    $html .= generateStepHeader(12, 'Engine Inspection');
+    $html .= generateField('Car Start', formatArray($data['car_start'] ?? []), true);
+    $html .= generateImage('Car Start Image', $data['car_start_image_path'] ?? '', true);
+    $html .= generateField('Wiring', formatArray($data['wiring'] ?? []), true);
+    $html .= generateImage('Wiring Image', $data['wiring_image_path'] ?? '', true);
+    
+    // STEP 13: Engine Oil
+    $html .= generateStepHeader(13, 'Engine Oil Quality');
+    $html .= generateField('Engine Oil', formatArray($data['engine_oil'] ?? []), true);
+    $html .= generateImage('Engine Oil Quality Image', $data['engine_oil_image_path'] ?? '', true);
+    $html .= generateField('Engine Oil Cap', formatArray($data['engine_oil_cap'] ?? []), true);
+    $html .= generateField('Engine Mounting', formatArray($data['engine_mounting'] ?? []), true);
+    $html .= generateField('Coolant Level', formatArray($data['coolant_level'] ?? []), true);
+    $html .= generateField('Coolant Quality', formatArray($data['coolant_quality'] ?? []), true);
+    
+    // STEP 14: Smoke & Battery
+    $html .= generateStepHeader(14, 'Smoke Emission & Battery');
+    $html .= generateField('Smoke Emission', formatArray($data['smoke_emission'] ?? []), true);
+    $html .= generateImage('Smoke Emission Image', $data['smoke_emission_image_path'] ?? '', true);
+    $html .= generateField('Battery', formatArray($data['battery'] ?? []), true);
+    
+    // STEP 15: OBD Scan
+    $html .= generateStepHeader(15, 'OBD Scan');
+    $html .= generateField('Fault Codes', $data['fault_codes'] ?? '', true);
+    $html .= generateImage('OBD Scan Photo', $data['obd_scan_photo_path'] ?? '', true);
+    
+    // STEP 16: Electrical & Suspension
+    $html .= generateStepHeader(16, 'Electrical, Suspension & Assessment');
+    $html .= generateField('Electrical Status', $data['electrical_status'] ?? '', true);
+    $html .= generateField('Suspension Condition', $data['suspension_condition'] ?? '', true);
+    $html .= generateField('Transmission Status', $data['transmission_status'] ?? '', true);
+    $html .= generateField('AC/Heating Status', $data['ac_heating_status'] ?? '', true);
+    $html .= generateField('Safety Features', $data['safety_features'] ?? '', true);
+    $html .= generateField('Test Drive Notes', $data['test_drive_notes'] ?? '', true);
+    $html .= generateField('Overall Assessment', $data['overall_assessment'] ?? '', true);
+    $html .= generateField('Final Remarks', $data['final_remarks'] ?? '', true);
+    $html .= generateField('Recommended Price', '₹' . ($data['recommended_price'] ?? ''), true);
+    
+    // STEP 17: Multi Function Display
+    $html .= generateStepHeader(17, 'Multi Function Display');
+    $html .= generateImage('Multi Function Display Image', $data['multi_function_display_image_path'] ?? '', true);
+    
+    // STEP 18: Interior Roof
+    $html .= generateStepHeader(18, 'Interior Roof');
+    $html .= generateImage('Car Roof From Inside Image', $data['car_roof_inside_image_path'] ?? '', true);
+    
+    // STEP 19: AC Temperature
+    $html .= generateStepHeader(19, 'AC Temperature Check');
+    $html .= generateImage('AC Cool Mode Temperature Image', $data['ac_cool_image_path'] ?? '', true);
+    $html .= generateImage('AC Hot Mode Temperature Image', $data['ac_hot_image_path'] ?? '', true);
+    
+    // STEP 20: Tyre Inspection
+    $html .= generateStepHeader(20, 'Tyre Tread Depth Inspection');
+    $html .= generateImage('Driver Front Tyre Tread Depth', $data['driver_front_tyre_image_path'] ?? '', true);
+    $html .= generateImage('Driver Back Tyre Tread Depth', $data['driver_back_tyre_image_path'] ?? '', true);
+    $html .= generateImage('Passenger Back Tyre Tread Depth', $data['passenger_back_tyre_image_path'] ?? '', true);
+    $html .= generateImage('Passenger Front Tyre Tread Depth', $data['passenger_front_tyre_image_path'] ?? '', true);
+    $html .= generateImage('Stepney Tyre Tread Depth', $data['stepney_tyre_image_path'] ?? '', true);
+    
+    // STEP 21: Oil Leak
+    $html .= generateStepHeader(21, 'Oil Leak Inspection');
+    $html .= generateImage('Oil Leak Near Engine Image', $data['oil_leak_image_path'] ?? '', true);
+    
+    // STEP 22: Additional Images
+    $html .= generateStepHeader(22, 'Additional Inspection Images');
+    $html .= generateImage('Additional Image 1', $data['additional_image_1_path'] ?? '');
+    $html .= generateImage('Additional Image 2', $data['additional_image_2_path'] ?? '');
+    $html .= generateImage('Additional Image 3', $data['additional_image_3_path'] ?? '');
+    
+    // STEP 23: Final Review
+    $html .= generateStepHeader(23, 'Final Review');
+    $html .= '<p style="text-align: center; padding: 20px; color: #666;">All inspection data has been recorded above.</p>';
+    
+    $html .= generateFooter();
+    
+    return $html;
+}
+
+function generateStyles() {
+    return '
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 10px; line-height: 1.4; }
+        .header { text-align: center; background: #2196F3; color: white; padding: 15px; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 20px; }
+        .step-header { 
+            background: #f0f0f0; 
+            padding: 10px; 
+            font-size: 13px; 
+            font-weight: bold;
+            margin: 15px 0 10px 0;
+            border-left: 4px solid #2196F3;
+            page-break-after: avoid;
+        }
+        .field-row { 
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+            page-break-inside: avoid;
+        }
+        .field-label { font-weight: bold; color: #333; display: inline-block; width: 40%; }
+        .field-value { color: #000; display: inline-block; width: 58%; }
+        .field-value.missing { color: #d32f2f; font-weight: bold; }
+        .image-block { 
+            text-align: center; 
+            margin: 10px 0;
+            page-break-inside: avoid;
+        }
+        .image-block img { 
+            max-width: 350px !important;
+            max-height: 350px !important;
+            width: auto !important;
+            height: auto !important;
+            border: 1px solid #ddd;
+        }
+        .image-caption { 
+            font-size: 9px; 
+            color: #666; 
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .location-section {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #4CAF50;
+        }
+        .section-label {
+            font-size: 11px;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .footer { text-align: center; margin-top: 20px; padding-top: 15px; border-top: 2px solid #2196F3; font-size: 9px; color: #666; }
+    </style>';
+}
+
+function generateHeader($data) {
+    return '
+    <div class="header">
+        <h1>🚗 CAR INSPECTION REPORT</h1>
+        <p>' . APP_TITLE . '</p>
+        <p>Booking ID: ' . htmlspecialchars($data['booking_id'] ?? 'N/A') . '</p>
+        <p>Generated: ' . date('Y-m-d H:i:s') . '</p>
+    </div>';
+}
+
+function generateStepHeader($stepNumber, $title) {
+    return '<div class="step-header">STEP ' . $stepNumber . ' — ' . strtoupper($title) . '</div>';
+}
+
+function generateField($label, $value, $required = false) {
+    // Handle arrays
+    if (is_array($value)) {
+        $value = implode(', ', $value);
+    }
+    
+    // Check if value is empty
+    if ($value === '' || $value === null) {
+        if ($required) {
+            return '<div class="field-row">
+                <span class="field-label">' . htmlspecialchars($label) . ':</span>
+                <span class="field-value missing">⚠️ MISSING</span>
+            </div>';
+        } else {
+            return ''; // Skip optional empty fields
+        }
+    }
+    
+    return '<div class="field-row">
+        <span class="field-label">' . htmlspecialchars($label) . ':</span>
+        <span class="field-value">' . nl2br(htmlspecialchars($value)) . '</span>
+    </div>';
+}
+
+function generateImage($label, $path, $required = false) {
+    if (empty($path) || !file_exists($path)) {
+        if ($required) {
+            return '<div class="field-row">
+                <span class="field-label">' . htmlspecialchars($label) . ':</span>
+                <span class="field-value missing">⚠️ IMAGE MISSING</span>
+            </div>';
+        } else {
+            return ''; // Skip optional missing images
+        }
+    }
+    
+    return '<div class="image-block">
+        <div class="image-caption">' . htmlspecialchars($label) . '</div>
+        <img src="' . $path . '" alt="' . htmlspecialchars($label) . '">
+    </div>';
+}
+
+function generateFooter() {
+    return '<div class="footer">
+        <p><strong>Car Inspection Expert System</strong></p>
+        <p>This report contains complete inspection data from all 23 steps.</p>
+        <p>Report generated on ' . date('Y-m-d H:i:s') . '</p>
+    </div>';
+}
+
+function formatArray($value) {
+    if (is_array($value)) {
+        return implode(', ', array_filter($value));
+    }
+    return $value;
+}
+
+function compressAllImages($data) {
+    foreach ($data as $key => $value) {
+        if (strpos($key, '_path') !== false && !empty($value) && file_exists($value)) {
+            $data[$key] = ImageOptimizer::compressToFile($value, 1200, 65);
+        }
+    }
+    return $data;
+}

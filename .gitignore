@@ -1,0 +1,50 @@
+# Dependencies
+/vendor/
+composer.lock
+
+# Uploaded files
+/uploads/*
+!/uploads/.gitkeep
+
+# Generated PDFs
+/pdfs/*
+!/pdfs/.gitkeep
+
+# Logs
+/logs/*
+!/logs/.gitkeep
+
+# Configuration (if using .env)
+.env
+config.local.php
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.backup
+
+# Test files (keep in repo but ignore output)
+test-output/
+
+# WordPress specific (if integrated)
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+
