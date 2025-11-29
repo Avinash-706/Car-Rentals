@@ -75,111 +75,35 @@ function testGenerateHTML($data, $maxStep) {
     // Use same styles as production but with ORANGE theme
     $html = '<style>
         /* Base styles - Same as production */
-        body { 
-            font-family: Arial, Helvetica, sans-serif; 
-            font-size: 12px; 
-            line-height: 1.6; 
-            margin: 0;
-            padding: 0;
-        }
+        body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 1.6; margin: 0; padding: 0; }
         
         /* Step header - ORANGE theme for test */
-        .step-header { 
-            background: #fff3e0; 
-            padding: 12px 15px; 
-            font-size: 15.6px; 
-            font-weight: bold;
-            margin: 20px 0 15px 0;
-            border-left: 5px solid #FF9800;
-            page-break-after: avoid;
-            color: #f57c00;
-        }
+        .step-header { background: #fff3e0; padding: 12px 15px; font-size: 15.6px; font-weight: bold; margin: 20px 0 15px 0; border-left: 5px solid #FF9800; page-break-after: avoid; color: #f57c00; }
         
         /* Field rows - Same as production */
-        .field-row { 
-            margin: 6px 0;
-            padding: 6px 0;
-            border-bottom: 1px solid #e0e0e0;
-            page-break-inside: avoid;
-        }
-        .field-label { 
-            font-weight: bold; 
-            color: #333; 
-            display: inline-block; 
-            width: 40%; 
-            font-size: 12px;
-        }
-        .field-value { 
-            color: #000; 
-            display: inline-block; 
-            width: 58%; 
-            font-size: 12px;
-        }
-        .field-value.missing { 
-            color: #ff9800; 
-            font-weight: bold; 
-        }
+        .field-row { margin: 6px 0; padding: 6px 0; border-bottom: 1px solid #e0e0e0; page-break-inside: avoid; }
+        .field-label { font-weight: bold; color: #333; display: inline-block; width: 40%; font-size: 12px; }
+        .field-value { color: #000; display: inline-block; width: 58%; font-size: 12px; }
+        .field-value.missing { color: #ff9800; font-weight: bold; }
         
         /* Image grid table - Same as production */
-        .image-grid {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 10px;
-            margin: 20px 0;
-        }
+        .image-grid { width: 100%; border-collapse: separate; border-spacing: 10px; margin: 20px 0; }
         
         /* Individual image cell - Same as production */
-        .image-grid td {
-            width: 33.333%;
-            vertical-align: top;
-            text-align: center;
-            padding: 5px;
-        }
+        .image-grid td { width: 33.333%; vertical-align: top; text-align: center; padding: 5px; }
         
         /* Image label - ORANGE theme for test */
-        .image-label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #f57c00;
-            margin-bottom: 8px;
-            text-align: center;
-            line-height: 1.4;
-            min-height: 32px;
-            display: block;
-        }
+        .image-label { font-size: 14px; font-weight: bold; color: #f57c00; margin-bottom: 8px; text-align: center; line-height: 1.4; min-height: 32px; display: block; }
         
         /* Image styling - Same as production */
-        .image-grid img {
-            width: 250px !important;
-            height: 188px !important;
-            border: none;
-            display: block;
-            margin: 0 auto;
-        }
+        .image-grid img { width: 250px !important; height: 188px !important; border: none; display: block; margin: 0 auto; }
         
         /* Location section - ORANGE theme for test */
-        .location-section {
-            background: #fff3e0;
-            padding: 12px;
-            margin: 12px 0;
-            border-left: 4px solid #FF9800;
-            font-size: 12px;
-        }
-        .section-label {
-            font-size: 13.2px;
-            color: #f57c00;
-            font-weight: bold;
-        }
+        .location-section { background: #fff3e0; padding: 12px; margin: 12px 0; border-left: 4px solid #FF9800; font-size: 12px; }
+        .section-label { font-size: 13.2px; color: #f57c00; font-weight: bold; }
         
         /* Footer - ORANGE theme for test */
-        .footer { 
-            text-align: center; 
-            margin-top: 25px; 
-            padding-top: 18px; 
-            border-top: 2px solid #FF9800; 
-            font-size: 10.8px; 
-            color: #666; 
-        }
+        .footer { text-align: center; margin-top: 25px; padding-top: 18px; border-top: 2px solid #FF9800; font-size: 10.8px; color: #666; }
     </style>';
     
     $html .= generateTestHeader($data, $maxStep);
@@ -400,7 +324,9 @@ function testFormatArray($value) {
         if (!empty($filtered)) {
             return implode(', ', $filtered);
         }
+        
         return '';
     }
+    
     return (string)$value;
 }

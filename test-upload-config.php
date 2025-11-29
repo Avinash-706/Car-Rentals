@@ -1,80 +1,209 @@
 <?php
 /**
- * Quick Upload Configuration Test
- * Run this to verify your upload limits are properly set
+ * Test Upload Configuration
+ * Displays current PHP upload settings and tests image upload capability
  */
 
 require_once 'auto-config.php';
 
-header('Content-Type: application/json');
-
-$config = [
-    'upload_max_filesize' => ini_get('upload_max_filesize'),
-    'post_max_size' => ini_get('post_max_size'),
-    'max_file_uploads' => ini_get('max_file_uploads'),
-    'max_execution_time' => ini_get('max_execution_time'),
-    'max_input_time' => ini_get('max_input_time'),
-    'memory_limit' => ini_get('memory_limit'),
-    'max_input_vars' => ini_get('max_input_vars'),
-];
-
-$required = [
-    'upload_max_filesize' => 200 * 1024 * 1024, // 200M in bytes
-    'post_max_size' => 500 * 1024 * 1024, // 500M in bytes
-    'max_file_uploads' => 500,
-    'max_execution_time' => 600,
-    'max_input_time' => 600,
-    'memory_limit' => 2048 * 1024 * 1024, // 2048M in bytes
-    'max_input_vars' => 5000,
-];
-
-function convertToBytes($value) {
-    $value = trim($value);
-    $last = strtolower($value[strlen($value)-1]);
-    $num = (int)$value;
+header('Content-Type: text/html; charset=utf-8');
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Configuration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 { color: #2196F3; }
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #2196F3;
+            color: white;
+        }
+        .ok { color: #4CAF50; font-weight: bold; }
+        .warning { color: #ff9800; font-weight: bold; }
+        .error { color: #f44336; font-weight: bold; }
+        .test-upload {
+            margin: 20px 0;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        #result.success {
+            background: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+        }
+        #result.error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>📤 Upload Configuration Test</h1>
     
-    switch($last) {
-        case 'g': $num *= 1024;
-        case 'm': $num *= 1024;
-        case 'k': $num *= 1024;
-    }
+    <div class="section">
+        <h2>PHP Upload Settings</h2>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Current Value</th>
+                <th>Recommended</th>
+                <th>Status</th>
+            </tr>
+            <?php
+            $settings = [
+                'upload_max_filesize' => ['current' => ini_get('upload_max_filesize'), 'recommended' => '200M'],
+                'post_max_size' => ['current' => ini_get('post_max_size'), 'recommended' => '500M'],
+                'max_file_uploads' => ['current' => ini_get('max_file_uploads'), 'recommended' => '500'],
+                'memory_limit' => ['current' => ini_get('memory_limit'), 'recommended' => '2048M'],
+                'max_execution_time' => ['current' => ini_get('max_execution_time'), 'recommended' => '600'],
+                'max_input_vars' => ['current' => ini_get('max_input_vars'), 'recommended' => '5000']
+            ];
+            
+            foreach ($settings as $name => $values) {
+                $current = $values['current'];
+                $recommended = $values['recommended'];
+                
+                // Simple comparison (not perfect but good enough)
+                $currentNum = (int)$current;
+                $recommendedNum = (int)$recommended;
+                
+                if ($currentNum >= $recommendedNum) {
+                    $status = '<span class="ok">✓ OK</span>';
+                } elseif ($currentNum >= $recommendedNum * 0.5) {
+                    $status = '<span class="warning">⚠ Low</span>';
+                } else {
+                    $status = '<span class="error">✗ Too Low</span>';
+                }
+                
+                echo "<tr>";
+                echo "<td><strong>$name</strong></td>";
+                echo "<td>$current</td>";
+                echo "<td>$recommended</td>";
+                echo "<td>$status</td>";
+                echo "</tr>";
+            }
+            ?>
+        </table>
+    </div>
     
-    return $num;
-}
-
-$results = [];
-$allPassed = true;
-
-foreach ($config as $key => $value) {
-    $currentBytes = is_numeric($value) ? (int)$value : convertToBytes($value);
-    $requiredBytes = $required[$key];
-    $passed = $currentBytes >= $requiredBytes;
+    <div class="section">
+        <h2>PHP Extensions</h2>
+        <table>
+            <tr>
+                <th>Extension</th>
+                <th>Status</th>
+            </tr>
+            <?php
+            $extensions = ['gd', 'mbstring', 'fileinfo', 'zip'];
+            foreach ($extensions as $ext) {
+                $loaded = extension_loaded($ext);
+                $status = $loaded ? '<span class="ok">✓ Loaded</span>' : '<span class="error">✗ Not Loaded</span>';
+                echo "<tr><td><strong>$ext</strong></td><td>$status</td></tr>";
+            }
+            ?>
+        </table>
+    </div>
     
-    if (!$passed) {
-        $allPassed = false;
-    }
+    <div class="section">
+        <h2>Test Image Upload</h2>
+        <div class="test-upload">
+            <p>Upload a test image to verify the system is working:</p>
+            <input type="file" id="testImage" accept="image/*">
+            <button onclick="testUpload()">Test Upload</button>
+            <div id="result"></div>
+        </div>
+    </div>
     
-    $results[$key] = [
-        'current' => $value,
-        'current_bytes' => $currentBytes,
-        'required_bytes' => $requiredBytes,
-        'passed' => $passed,
-        'status' => $passed ? 'PASS' : 'FAIL'
-    ];
-}
-
-$response = [
-    'success' => $allPassed,
-    'message' => $allPassed ? 'All upload limits are properly configured!' : 'Some upload limits need adjustment',
-    'php_version' => phpversion(),
-    'sapi' => php_sapi_name(),
-    'config_file' => php_ini_loaded_file(),
-    'results' => $results,
-    'summary' => [
-        'total_checks' => count($results),
-        'passed' => array_sum(array_column($results, 'passed')),
-        'failed' => count($results) - array_sum(array_column($results, 'passed'))
-    ]
-];
-
-echo json_encode($response, JSON_PRETTY_PRINT);
+    <script>
+        function testUpload() {
+            const fileInput = document.getElementById('testImage');
+            const result = document.getElementById('result');
+            
+            if (!fileInput.files || !fileInput.files[0]) {
+                alert('Please select an image first');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('field_name', 'test_upload');
+            formData.append('current_step', 1);
+            
+            result.style.display = 'block';
+            result.className = '';
+            result.innerHTML = '⏳ Uploading...';
+            
+            fetch('upload-image.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    result.className = 'success';
+                    result.innerHTML = `
+                        <strong>✅ Upload Successful!</strong><br>
+                        File Path: ${data.file_path}<br>
+                        Size: ${(data.size / 1024).toFixed(2)} KB<br>
+                        Dimensions: ${data.width} x ${data.height}<br>
+                        Draft ID: ${data.draft_id}
+                    `;
+                } else {
+                    result.className = 'error';
+                    result.innerHTML = `<strong>❌ Upload Failed</strong><br>${data.message}`;
+                }
+            })
+            .catch(error => {
+                result.className = 'error';
+                result.innerHTML = `<strong>❌ Error</strong><br>${error.message}`;
+            });
+        }
+    </script>
+</body>
+</html>
