@@ -906,6 +906,12 @@ function submitForm(event) {
     
     const formData = new FormData(document.getElementById('inspectionForm'));
     
+    // Add draft_id for cleanup after successful submission
+    const draftId = localStorage.getItem('draftId');
+    if (draftId) {
+        formData.append('draft_id', draftId);
+    }
+    
     // Add progressively uploaded file paths
     for (const fieldName in uploadedFiles) {
         formData.append('existing_' + fieldName, uploadedFiles[fieldName]);

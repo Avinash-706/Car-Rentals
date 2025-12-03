@@ -1,3 +1,11 @@
+<?php
+/**
+ * Auto-cleanup old drafts on page load
+ * Runs lightweight check (5% of page loads)
+ */
+define('AUTO_CLEANUP_ENABLED', true);
+require_once __DIR__ . '/drafts/auto-cleanup.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

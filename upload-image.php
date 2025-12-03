@@ -106,12 +106,15 @@ try {
     // Get drafts directory using DirectoryManager
     $draftDir = DirectoryManager::getAbsolutePath('uploads/drafts') . DIRECTORY_SEPARATOR;
     
-    // Generate unique filename
+    // Generate unique filename with proper prefix
     $timestamp = time();
     $random = substr(md5(uniqid()), 0, 8);
     $slug = preg_replace('/[^a-zA-Z0-9_.-]/', '', pathinfo($file['name'], PATHINFO_FILENAME));
     $slug = substr($slug, 0, 50); // Limit length
-    $uniqueName = "{$timestamp}_{$userId}_{$random}_{$slug}.jpg"; // Always save as JPG
+    
+    // Use field name as prefix for better organization
+    $fieldPrefix = preg_replace('/[^a-zA-Z0-9_]/', '_', $fieldName);
+    $uniqueName = "{$fieldPrefix}_{$timestamp}_{$random}.jpg"; // Always save as JPG
     $targetPath = $draftDir . $uniqueName;
     
     // Move uploaded file temporarily
@@ -121,31 +124,10 @@ try {
         throw new Exception('Uploaded file not found in temporary location');
     }
     
-    // Try to compress and resize image
-    try {
-        $compressedPath = ImageOptimizer::compressToFile($tempPath, 1200, 70);
-        
-        // If compression succeeded, use compressed version
-        if ($compressedPath && file_exists($compressedPath) && $compressedPath !== $tempPath) {
-            if (!@rename($compressedPath, $targetPath)) {
-                // If rename fails, try copy and delete
-                if (!@copy($compressedPath, $targetPath)) {
-                    throw new Exception('Failed to move compressed file');
-                }
-                @unlink($compressedPath);
-            }
-        } else {
-            // Compression failed or returned original, move uploaded file
-            if (!move_uploaded_file($tempPath, $targetPath)) {
-                throw new Exception('Failed to save uploaded file');
-            }
-        }
-    } catch (Exception $e) {
-        // If compression fails, fall back to original upload
-        error_log('Image compression failed, using original: ' . $e->getMessage());
-        if (!move_uploaded_file($tempPath, $targetPath)) {
-            throw new Exception('Failed to save uploaded file: ' . $e->getMessage());
-        }
+    // Simply move the uploaded file (no compression during upload)
+    // Compression will happen during PDF generation
+    if (!move_uploaded_file($tempPath, $targetPath)) {
+        throw new Exception('Failed to save uploaded file');
     }
     
     // Verify file was saved
@@ -162,12 +144,46 @@ try {
     
     $checksum = hash_file('sha256', $targetPath);
     
-    // Create thumbnail (300px) - non-critical, don't fail if it doesn't work
+    // Create thumbnail (300px) using GD directly - no extra compressed files
     $thumbPath = $draftDir . "thumb_{$uniqueName}";
     try {
-        $thumbCompressed = ImageOptimizer::compressToFile($targetPath, 300, 70);
-        if ($thumbCompressed && file_exists($thumbCompressed) && $thumbCompressed !== $targetPath) {
-            @rename($thumbCompressed, $thumbPath);
+        $imageInfo = @getimagesize($targetPath);
+        if ($imageInfo !== false) {
+            list($width, $height) = $imageInfo;
+            $mimeType = $imageInfo['mime'];
+            
+            // Create image resource
+            switch ($mimeType) {
+                case 'image/jpeg':
+                case 'image/jpg':
+                    $source = @imagecreatefromjpeg($targetPath);
+                    break;
+                case 'image/png':
+                    $source = @imagecreatefrompng($targetPath);
+                    break;
+                case 'image/gif':
+                    $source = @imagecreatefromgif($targetPath);
+                    break;
+                default:
+                    $source = false;
+            }
+            
+            if ($source) {
+                // Calculate thumbnail dimensions
+                $thumbWidth = 300;
+                $thumbHeight = (int)($height * ($thumbWidth / $width));
+                
+                // Create thumbnail
+                $thumb = imagecreatetruecolor($thumbWidth, $thumbHeight);
+                imagecopyresampled($thumb, $source, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height);
+                
+                // Save thumbnail
+                imagejpeg($thumb, $thumbPath, 70);
+                
+                // Clean up
+                imagedestroy($source);
+                imagedestroy($thumb);
+            }
         }
     } catch (Exception $e) {
         error_log('Thumbnail creation failed (non-critical): ' . $e->getMessage());

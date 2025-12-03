@@ -12,14 +12,13 @@ class DirectoryManager {
     
     /**
      * Required directories for the application
+     * Optimized structure - removed unused folders
      */
     private static $requiredDirectories = [
         'uploads',
         'uploads/drafts',
         'uploads/drafts/compressed',
         'uploads/drafts/uniform',
-        'uploads/compressed',
-        'uploads/uniform',
         'pdfs',
         'tmp',
         'tmp/mpdf',
@@ -191,34 +190,22 @@ class DirectoryManager {
     
     /**
      * Get directory for compressed images
+     * Always use uploads/drafts/compressed for draft images
      */
     public static function getCompressedDir($sourceFile = null) {
-        if ($sourceFile) {
-            // Get directory of source file
-            $sourceDir = dirname(self::getAbsolutePath($sourceFile));
-            $compressedDir = $sourceDir . DIRECTORY_SEPARATOR . 'compressed';
-        } else {
-            // Use main compressed directory
-            $compressedDir = self::getAbsolutePath('uploads/compressed');
-        }
-        
+        // Always use drafts/compressed directory for all compressed images
+        $compressedDir = self::getAbsolutePath('uploads/drafts/compressed');
         self::ensureDirectory($compressedDir);
         return $compressedDir;
     }
     
     /**
      * Get directory for uniform images
+     * Always use uploads/drafts/uniform for draft images
      */
     public static function getUniformDir($sourceFile = null) {
-        if ($sourceFile) {
-            // Get directory of source file
-            $sourceDir = dirname(self::getAbsolutePath($sourceFile));
-            $uniformDir = $sourceDir . DIRECTORY_SEPARATOR . 'uniform';
-        } else {
-            // Use main uniform directory
-            $uniformDir = self::getAbsolutePath('uploads/uniform');
-        }
-        
+        // Always use drafts/uniform directory for all uniform images
+        $uniformDir = self::getAbsolutePath('uploads/drafts/uniform');
         self::ensureDirectory($uniformDir);
         return $uniformDir;
     }

@@ -602,7 +602,6 @@ function generateCompleteHTML($data) {
         if (!empty($data['payment_screenshot_path'])) {
             $paymentImages = [];
             $paymentImages[] = generateImage('Payment Screenshot', $data['payment_screenshot_path'], false);
-            $paymentImages[] = generateImage('Payment Screenshot', $data['payment_screenshot_path'], false);
             $html .= '<div style="margin-top: 15px;">';
             $html .= generateImageGrid($paymentImages);
             $html .= '</div>';

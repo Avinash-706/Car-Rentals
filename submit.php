@@ -126,11 +126,120 @@ try {
     
     error_log("PDF generated successfully: $pdfPath");
     
-    // IMMEDIATE RESPONSE: Return success to user immediately after PDF generation
+    // ========================================================================
+    // PHASE 1: PDF GENERATED SUCCESSFULLY - NOW CLEANUP ALL USER MEDIA
+    // ========================================================================
+    
+    error_log("=== CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===");
+    
+    $draftId = $_POST['draft_id'] ?? $formData['draft_id'] ?? null;
+    $submissionFiles = $uploadedFiles; // Track files uploaded during submission
+    
+    // STEP 1: Delete draft JSON and all original uploaded images
+    $cleanupStats = [
+        'draft_deleted' => false,
+        'images_deleted' => 0,
+        'compressed_deleted' => 0,
+        'uniform_deleted' => 0,
+        'thumbnails_deleted' => 0,
+        'total_freed' => 0
+    ];
+    
+    if ($draftId) {
+        error_log("Cleanup: Deleting draft and all images for draft ID: $draftId");
+        require_once 'cleanup-after-submission.php';
+        $draftCleanup = cleanupAfterSubmission($draftId, $formData);
+        
+        if ($draftCleanup['success']) {
+            $cleanupStats['draft_deleted'] = true;
+            $cleanupStats['images_deleted'] = $draftCleanup['deleted_images'];
+            $cleanupStats['total_freed'] += $draftCleanup['freed_space'];
+            error_log("Cleanup: Draft deleted - {$draftCleanup['deleted_images']} images, " . 
+                     formatBytes($draftCleanup['freed_space']) . " freed");
+        } else {
+            error_log("Cleanup WARNING: Draft cleanup failed - " . $draftCleanup['message']);
+        }
+    }
+    
+    // STEP 2: Delete ALL compressed images from uploads/drafts/compressed/
+    $compressedDir = DirectoryManager::getAbsolutePath('uploads/drafts/compressed');
+    if (is_dir($compressedDir)) {
+        $compressedFiles = glob($compressedDir . DIRECTORY_SEPARATOR . '*');
+        foreach ($compressedFiles as $file) {
+            if (is_file($file) && basename($file) !== '.gitkeep') {
+                $fileSize = @filesize($file);
+                if (@unlink($file)) {
+                    $cleanupStats['compressed_deleted']++;
+                    $cleanupStats['total_freed'] += $fileSize;
+                    error_log("Cleanup: Deleted compressed image: " . basename($file));
+                }
+            }
+        }
+    }
+    
+    // STEP 3: Delete ALL uniform images from uploads/drafts/uniform/
+    $uniformDir = DirectoryManager::getAbsolutePath('uploads/drafts/uniform');
+    if (is_dir($uniformDir)) {
+        $uniformFiles = glob($uniformDir . DIRECTORY_SEPARATOR . '*');
+        foreach ($uniformFiles as $file) {
+            if (is_file($file) && basename($file) !== '.gitkeep') {
+                $fileSize = @filesize($file);
+                if (@unlink($file)) {
+                    $cleanupStats['uniform_deleted']++;
+                    $cleanupStats['total_freed'] += $fileSize;
+                    error_log("Cleanup: Deleted uniform image: " . basename($file));
+                }
+            }
+        }
+    }
+    
+    // STEP 4: Delete ALL thumbnails from uploads/drafts/
+    $draftsDir = DirectoryManager::getAbsolutePath('uploads/drafts');
+    $thumbnails = glob($draftsDir . DIRECTORY_SEPARATOR . 'thumb_*');
+    foreach ($thumbnails as $thumb) {
+        if (is_file($thumb)) {
+            $fileSize = @filesize($thumb);
+            if (@unlink($thumb)) {
+                $cleanupStats['thumbnails_deleted']++;
+                $cleanupStats['total_freed'] += $fileSize;
+                error_log("Cleanup: Deleted thumbnail: " . basename($thumb));
+            }
+        }
+    }
+    
+    // STEP 5: Delete any remaining images in uploads/drafts/ (except .gitkeep and .json)
+    $remainingImages = glob($draftsDir . DIRECTORY_SEPARATOR . '*');
+    foreach ($remainingImages as $file) {
+        $basename = basename($file);
+        if (is_file($file) && 
+            $basename !== '.gitkeep' && 
+            !preg_match('/\.json$/', $basename)) {
+            $fileSize = @filesize($file);
+            if (@unlink($file)) {
+                $cleanupStats['images_deleted']++;
+                $cleanupStats['total_freed'] += $fileSize;
+                error_log("Cleanup: Deleted remaining image: $basename");
+            }
+        }
+    }
+    
+    error_log("=== CLEANUP PHASE 1 COMPLETE ===");
+    error_log("Draft deleted: " . ($cleanupStats['draft_deleted'] ? 'Yes' : 'No'));
+    error_log("Images deleted: {$cleanupStats['images_deleted']}");
+    error_log("Compressed deleted: {$cleanupStats['compressed_deleted']}");
+    error_log("Uniform deleted: {$cleanupStats['uniform_deleted']}");
+    error_log("Thumbnails deleted: {$cleanupStats['thumbnails_deleted']}");
+    error_log("Total space freed: " . formatBytes($cleanupStats['total_freed']));
+    
+    // ========================================================================
+    // PHASE 2: SEND RESPONSE TO USER (User can start new inspection now)
+    // ========================================================================
+    
     $response['success'] = true;
     $response['message'] = SUCCESS_MESSAGE;
     $response['pdf_path'] = $pdfPath;
     $response['images_processed'] = $fileCount;
+    $response['cleanup_stats'] = $cleanupStats;
     
     // Prepare JSON response
     $jsonResponse = json_encode($response);
@@ -138,7 +247,7 @@ try {
     // Clear any previous output
     ob_end_clean();
     
-    // Send response to user BEFORE email sending
+    // Send response to user
     echo $jsonResponse;
     
     // Close connection to user but continue script execution
@@ -153,19 +262,35 @@ try {
         flush();
     }
     
-    // NOW send email in background (user already got response)
+    error_log("=== USER RESPONSE SENT - User can now start new inspection ===");
+    
+    // ========================================================================
+    // PHASE 3: SEND EMAIL IN BACKGROUND (Non-blocking)
+    // ========================================================================
+    
+    error_log("=== SMTP PHASE: Starting email sending in background ===");
+    
     try {
         require_once 'send-email.php';
         $emailSent = sendEmail($pdfPath, $formData);
         
-        if (!$emailSent) {
-            error_log('Background email sending failed for: ' . $pdfPath);
+        if ($emailSent) {
+            error_log('SMTP: Email sent successfully for: ' . $pdfPath);
+            
+            // OPTIONAL: Delete PDF after successful email (uncomment if needed)
+            // if (file_exists($pdfPath)) {
+            //     @unlink($pdfPath);
+            //     error_log('SMTP: PDF deleted after email: ' . $pdfPath);
+            // }
         } else {
-            error_log('Background email sent successfully for: ' . $pdfPath);
+            error_log('SMTP WARNING: Email sending failed for: ' . $pdfPath);
         }
     } catch (Exception $emailError) {
-        error_log('Background email exception: ' . $emailError->getMessage());
+        error_log('SMTP ERROR: ' . $emailError->getMessage());
     }
+    
+    error_log("=== SMTP PHASE COMPLETE ===");
+    error_log("=== SUBMISSION WORKFLOW COMPLETE ===");
     
     exit;
     
@@ -173,11 +298,25 @@ try {
     $response['message'] = $e->getMessage();
     $response['error_details'] = [
         'message' => $e->getMessage(),
-        'file' => $e->getFile(),
-        'line' => $e->getLine()
+        'file' => basename($e->getFile()),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString()
     ];
     error_log('Submission error: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
-    logError('Submission error: ' . $e->getMessage(), $_POST);
+    error_log('Stack trace: ' . $e->getTraceAsString());
+    if (function_exists('logError')) {
+        logError('Submission error: ' . $e->getMessage(), $_POST);
+    }
+} catch (Error $e) {
+    $response['message'] = 'PHP Error: ' . $e->getMessage();
+    $response['error_details'] = [
+        'message' => $e->getMessage(),
+        'file' => basename($e->getFile()),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString()
+    ];
+    error_log('PHP Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
+    error_log('Stack trace: ' . $e->getTraceAsString());
 }
 
 // Clean output and send JSON (only for error cases)
@@ -188,7 +327,23 @@ if (!$response['success']) {
 exit;
 
 /**
+ * Format bytes to human-readable size
+ */
+if (!function_exists('formatBytes')) {
+    function formatBytes($bytes, $precision = 2) {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        
+        for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
+            $bytes /= 1024;
+        }
+        
+        return round($bytes, $precision) . ' ' . $units[$i];
+    }
+}
+
+/**
  * Handle file upload with validation
+ * IMPORTANT: All uploads during submission should go to uploads/drafts/
  */
 function handleFileUpload($file, $uploadDir) {
     // Get file extension
@@ -204,9 +359,12 @@ function handleFileUpload($file, $uploadDir) {
         throw new Exception('File size exceeds 15MB limit');
     }
     
+    // ALWAYS use uploads/drafts/ directory for submission files
+    $draftDir = DirectoryManager::getAbsolutePath('uploads/drafts') . DIRECTORY_SEPARATOR;
+    
     // Generate unique filename
-    $filename = 'car_photo_' . time() . '_' . uniqid() . '.' . $extension;
-    $targetPath = $uploadDir . $filename;
+    $filename = 'submission_' . time() . '_' . uniqid() . '.' . $extension;
+    $targetPath = $draftDir . $filename;
     
     // Move uploaded file
     if (!move_uploaded_file($file['tmp_name'], $targetPath)) {

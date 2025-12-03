@@ -303,7 +303,7 @@ class ImageOptimizer {
             $uniformDir = DirectoryManager::getUniformDir($imagePath);
             
             $filename = basename($imagePath);
-            $uniformPath = $uniformDir . 'uniform_' . $uniformWidth . 'x' . $uniformHeight . '_' . $filename;
+            $uniformPath = $uniformDir . DIRECTORY_SEPARATOR . 'uniform_' . $uniformWidth . 'x' . $uniformHeight . '_' . $filename;
             
             // If uniform version exists and is newer, use it
             if (file_exists($uniformPath) && filemtime($uniformPath) >= filemtime($imagePath)) {
@@ -392,7 +392,7 @@ class ImageOptimizer {
             $compressedDir = DirectoryManager::getCompressedDir($imagePath);
             
             $filename = basename($imagePath);
-            $compressedPath = $compressedDir . 'compressed_' . $filename;
+            $compressedPath = $compressedDir . DIRECTORY_SEPARATOR . 'compressed_' . $filename;
             
             // If compressed version exists and is newer, use it
             if (file_exists($compressedPath) && filemtime($compressedPath) >= filemtime($imagePath)) {

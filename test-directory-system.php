@@ -19,8 +19,8 @@ $response = [
 $directories = [
     'uploads',
     'uploads/drafts',
-    'uploads/compressed',
-    'uploads/uniform',
+    'uploads/drafts/compressed',
+    'uploads/drafts/uniform',
     'pdfs',
     'logs',
     'tmp',
