@@ -201,7 +201,7 @@ function handleFileUpload($file, $uploadDir) {
     
     // Validate file size
     if ($file['size'] > MAX_FILE_SIZE) {
-        throw new Exception('File size exceeds 5MB limit');
+        throw new Exception('File size exceeds 15MB limit');
     }
     
     // Generate unique filename

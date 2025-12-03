@@ -95,8 +95,8 @@ function testGenerateHTML($data, $maxStep) {
         /* Image label - ORANGE theme for test */
         .image-label { font-size: 14px; font-weight: bold; color: #f57c00; margin-bottom: 8px; text-align: center; line-height: 1.4; min-height: 32px; display: block; }
         
-        /* Image styling - Same as production */
-        .image-grid img { width: 250px !important; height: 188px !important; border: none; display: block; margin: 0 auto; }
+        /* Image styling - Increased size */
+        .image-grid img { width: 300px !important; height: 225px !important; border: none; display: block; margin: 0 auto; }
         
         /* Location section - ORANGE theme for test */
         .location-section { background: #fff3e0; padding: 12px; margin: 12px 0; border-left: 4px solid #FF9800; font-size: 12px; }
@@ -217,10 +217,21 @@ function testGenerateHTML($data, $maxStep) {
         $html .= '<p style="padding: 10px; color: #666;">Step ' . $i . ' data included (text fields only)...</p>';
     }
     
-    // Step 23 with OTHER IMAGES support
+    // Step 23 with PAYMENT SCREENSHOT and OTHER IMAGES support
     if ($maxStep >= 23) {
         $html .= '<div class="step-header">STEP 23 — PAYMENT DETAILS</div>';
         $html .= testField('Taking Payment', $data['taking_payment'] ?? '');
+        
+        // Payment Screenshot (if payment was made)
+        if (isset($data['taking_payment']) && $data['taking_payment'] === 'Yes') {
+            if (!empty($data['payment_screenshot_path'])) {
+                $paymentImages = [];
+                $paymentImages[] = testGenerateImage('Payment Screenshot', $data['payment_screenshot_path']);
+                $html .= '<div style="margin-top: 15px;">';
+                $html .= testGenerateImageGrid($paymentImages);
+                $html .= '</div>';
+            }
+        }
         
         // OTHER IMAGES (Optional - only show if images exist)
         $otherImages = [];
@@ -253,8 +264,8 @@ function testGenerateImage($label, $path) {
         return null;
     }
     
-    // Resize to uniform dimensions - SAME AS PRODUCTION
-    $uniformPath = ImageOptimizer::resizeToUniform($path, 250, 188, 70);
+    // Resize to uniform dimensions - INCREASED SIZE (300x225)
+    $uniformPath = ImageOptimizer::resizeToUniform($path, 300, 225, 70);
     
     return [
         'label' => htmlspecialchars($label),
@@ -282,7 +293,7 @@ function testGenerateImageGrid($images) {
         foreach ($row as $image) {
             $html .= '<td>';
             $html .= '<div class="image-label">' . $image['label'] . '</div>';
-            $html .= '<img src="' . $image['path'] . '" alt="' . $image['label'] . '" width="250" height="188">';
+            $html .= '<img src="' . $image['path'] . '" alt="' . $image['label'] . '" width="300" height="225">';
             $html .= '</td>';
         }
         

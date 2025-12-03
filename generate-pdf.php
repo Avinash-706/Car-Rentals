@@ -597,6 +597,18 @@ function generateCompleteHTML($data) {
     
     $html .= generateField('Taking Payment', $data['taking_payment'] ?? '', true);
     
+    // Payment Screenshot (if payment was made)
+    if (isset($data['taking_payment']) && $data['taking_payment'] === 'Yes') {
+        if (!empty($data['payment_screenshot_path'])) {
+            $paymentImages = [];
+            $paymentImages[] = generateImage('Payment Screenshot', $data['payment_screenshot_path'], false);
+            $paymentImages[] = generateImage('Payment Screenshot', $data['payment_screenshot_path'], false);
+            $html .= '<div style="margin-top: 15px;">';
+            $html .= generateImageGrid($paymentImages);
+            $html .= '</div>';
+        }
+    }
+    
     // OTHER IMAGES (Optional - only show if images exist)
     $otherImages = [];
     for ($i = 1; $i <= 5; $i++) {
@@ -623,7 +635,7 @@ function generateCompleteHTML($data) {
  * Generate PDF styles with UNIVERSAL LAYOUT RULES
  * 
  * MANDATORY SPECIFICATIONS:
- * 1. All images: EXACTLY 180x135 pixels (no exceptions)
+ * 1. All images: EXACTLY 300x225 pixels (no exceptions)
  * 2. Flex-box grid: 3 images per row (all steps)
  * 3. Gap: 12px between images (horizontal & vertical)
  * 4. Text: 20% larger than original (except header)
@@ -711,8 +723,8 @@ function generateStyles() {
         
         /* Image styling - LARGER uniform dimensions, clean and professional */
         .image-grid img {
-            width: 250px !important;
-            height: 188px !important;
+            width: 300px !important;
+            height: 225px !important;
             border: none;
             display: block;
             margin: 0 auto;
@@ -817,7 +829,7 @@ function generateField($label, $value, $required = false) {
  * Generate image with OPTIMIZED UNIFORM DIMENSIONS
  * 
  * UNIVERSAL IMAGE PROCESSING RULE:
- * - ALL images are resized to EXACTLY 250x188 pixels (2x larger for clarity)
+ * - ALL images are resized to EXACTLY 300x225 pixels (larger for clarity)
  * - Compressed to 70% quality for fast PDF generation
  * - Maintains aspect ratio with letterboxing/cropping
  * - Ensures perfect alignment in 3-column table grid
@@ -843,9 +855,9 @@ function generateImage($label, $path, $required = false) {
         }
     }
     
-    // OPTIMIZED DIMENSIONS: 250x188 pixels (2x larger, 70% quality for speed)
+    // OPTIMIZED DIMENSIONS: 300x225 pixels (larger, 70% quality for speed)
     // This ensures clear visibility while maintaining fast PDF generation
-    $uniformPath = ImageOptimizer::resizeToUniform($absolutePath, 250, 188, 70);
+    $uniformPath = ImageOptimizer::resizeToUniform($absolutePath, 300, 225, 70);
     
     // Return array for table-based grid
     return [
@@ -888,7 +900,7 @@ function generateImageGrid($images) {
         foreach ($row as $image) {
             $html .= '<td>';
             $html .= '<div class="image-label">' . $image['label'] . '</div>';
-            $html .= '<img src="' . $image['path'] . '" alt="' . $image['label'] . '" width="250" height="188">';
+            $html .= '<img src="' . $image['path'] . '" alt="' . $image['label'] . '" width="300" height="225">';
             $html .= '</td>';
         }
         

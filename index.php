@@ -9,9 +9,9 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo"> </div>
-            <br/>
-            <h1>USED CAR 3.0</h1>
+            <div class="logo"><img src="https://carinspectionexpert.com/wp-content/uploads/2025/03/Black-and-Red-Modern-Car-Services-Logo-2-e1742534862460.png"
+        alt="Car Inspection Expert Logo" class="logo"> </div>
+            <h1 class="logo-title">USED CAR INSPECTION REPORT</h1>
         </div>
 
         <!-- Progress Bar -->
@@ -1807,7 +1807,7 @@
 
                         <!-- STEP 11: AIR CONDITIONING -->
             <div class="form-step" data-step="11">
-                <h2> Air Conditioning</h2>
+                <h2>⊙ Air Conditioning</h2>
 
                 <div class="form-group">
                     <label>Air Conditioning Turning On <span class="required">*</span></label>
@@ -1922,7 +1922,7 @@
 
             <!-- STEP 12: TYRES -->
             <div class="form-step" data-step="12">
-                <h2> Tyres</h2>
+                <h2>⊙ Tyres</h2>
 
                 <div class="form-group">
                     <label>Tyre Size <span class="required">*</span></label>
@@ -2192,7 +2192,7 @@
 
             <!-- STEP 13: TRANSMISSION & CLUTCH PEDAL -->
             <div class="form-step" data-step="13">
-                <h2> Transmission & Clutch Pedal</h2>
+                <h2>⊙ Transmission & Clutch Pedal</h2>
                 <small>During Test Drive</small>
 
                 <div class="form-group">
@@ -2283,7 +2283,7 @@
 
             <!-- STEP 14: AXLE -->
             <div class="form-step" data-step="14">
-                <h2> Axle</h2>
+                <h2>⊙ Axle</h2>
                 <small>During Test Drive</small>
 
                 <div class="form-group">
@@ -2326,7 +2326,7 @@
 
             <!-- STEP 15: ENGINE (AFTER TEST DRIVE) -->
             <div class="form-step" data-step="15">
-                <h2> Engine (After Test Drive)</h2>
+                <h2>⊙ Engine (After Test Drive)</h2>
 
                 <div class="form-group">
                     <label>Check for Oil Leaks Near Engine <span class="required">*</span></label>
@@ -2687,7 +2687,7 @@
 
             <!-- STEP 17: SUSPENSION -->
             <div class="form-step" data-step="17">
-                <h2> Suspension</h2>
+                <h2>⊙ Suspension</h2>
 
                 <div class="form-group">
                     <label>Car Height <span class="required">*</span></label>
@@ -2813,7 +2813,7 @@
 
             <!-- STEP 18: BRAKES & STEERING (TEST DRIVE) -->
             <div class="form-step" data-step="18">
-                <h2> Brakes & Steering</h2>
+                <h2>⊙ Brakes & Steering</h2>
                 <small>During Test Drive</small>
 
                 <div class="form-group">
@@ -2904,7 +2904,7 @@
 
             <!-- STEP 19: UNDERBODY -->
             <div class="form-step" data-step="19">
-                <h2> Underbody</h2>
+                <h2>⊙ Underbody</h2>
 
                 <div class="form-group">
                     <label>Driver Side Body Chasis <span class="required">*</span></label>
@@ -3147,7 +3147,7 @@
 
             <!-- STEP 20: EQUIPMENTS -->
             <div class="form-step" data-step="20">
-                <h2> Equipments</h2>
+                <h2>⊙ Equipments</h2>
 
                 <div class="form-group">
                     <label>Tool Kit <span class="required">*</span></label>
@@ -3177,7 +3177,7 @@
 
             <!-- STEP 21: FINAL CAR RESULT -->
             <div class="form-step" data-step="21">
-                <h2> Final Car Result</h2>
+                <h2>⊙ Final Car Result</h2>
 
                 <div class="form-group">
                     <label>Any Issues Found in the Car? <span class="required">*</span></label>
@@ -3200,7 +3200,7 @@
 
             <!-- STEP 22: CAR IMAGES FROM ALL DIRECTIONS -->
             <div class="form-step" data-step="22">
-                <h2> Car Images From All Directions</h2>
+                <h2>⊙ Car Images From All Directions</h2>
 
                 <div class="form-group">
                     <label>Front <span class="required">*</span></label>
@@ -3362,17 +3362,44 @@
 
             <!-- STEP 23: PAYMENT DETAILS -->
             <div class="form-step" data-step="23">
-                <h2> Payment Details</h2>
+                <h2>⊙ Payment Details</h2>
 
                 <div class="form-group">
                     <label>Taking Payment <span class="required">*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="taking_payment" value="Yes" required> Yes
+                            <input type="radio" name="taking_payment" value="Yes" id="payment_yes" required> Yes
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="taking_payment" value="No" required> No
+                            <input type="radio" name="taking_payment" value="No" id="payment_no" required> No
                         </label>
+                    </div>
+                </div>
+
+                <!-- Payment QR Code and Screenshot (shown only when Yes is selected) -->
+                <div id="payment_details_section" style="display: none;">
+                    <!-- QR Code Display -->
+                    <div class="form-group">
+                        <label>Scan QR Code for Payment</label>
+                        <div style="text-align: center; padding: 20px; background: #f5f5f5; border-radius: 8px; margin: 10px 0;">
+                            <img src="https://carinspectionexpert.com/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-07-at-5.55.42-PM.jpeg" 
+                                 alt="Payment QR Code" 
+                                 style="max-width: 300px; width: 100%; height: auto; border: 2px solid #ddd; border-radius: 8px;">
+                        </div>
+                    </div>
+
+                    <!-- Payment Screenshot Upload -->
+                    <div class="form-group">
+                        <label for="payment_screenshot">Upload Payment Screenshot <span class="required">*</span></label>
+                        <div class="file-upload">
+                            <input type="file" name="payment_screenshot" id="payment_screenshot" accept="image/*" capture="camera">
+                            <label for="payment_screenshot" class="file-label">
+                                <span class="camera-icon">📷</span>
+                                <span class="file-text">Choose Payment Screenshot</span>
+                            </label>
+                            <div class="file-preview" id="payment_screenshotPreview"></div>
+                        </div>
+                        <small class="form-text">Upload a screenshot of your payment confirmation</small>
                     </div>
                 </div>
 

@@ -4,11 +4,19 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: #f5f5f5;
     color: #333;
     line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
 }
 
 .container {
@@ -16,33 +24,63 @@ body {
     margin: 0 auto;
     background: white;
     min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .header {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
     color: white;
     padding: 20px;
     text-align: center;
 }
 
 .logo {
+    margin-top: -20px;
+    transform: scale(0.80);
     font-size: 32px;
-    margin-bottom: 10px;
+    margin-bottom: -20px;
+    max-width: 100%;
+    overflow: hidden;
 }
+
+.logo img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 
 .header h1 {
     font-size: 20px;
     font-weight: 600;
 }
 
+.logo-title {
+    background: #D32F2F;
+    color: white;
+    padding: 12px 30px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    letter-spacing: 1px;
+    max-width: 600px;
+    display: inline-block;
+}
+
 .progress-container {
     background: #e0e0e0;
     height: 4px;
     position: relative;
+    margin-bottom: 20px;
 }
 
 .progress-bar {
-    background: #2196F3;
+    background: #eb2e2e;
     height: 100%;
     width: 6.25%;
     transition: width 0.3s ease;
@@ -243,12 +281,16 @@ small {
 
 .file-preview {
     margin-top: 10px;
+    max-width: 300px;
 }
 
 .file-preview img {
     max-width: 100%;
+    max-height: 420px;
     border-radius: 4px;
     border: 1px solid #ddd;
+    object-fit: contain;
+    display: block;
 }
 
 .location-group {
@@ -433,6 +475,16 @@ small {
     .btn {
         width: 100%;
     }
+    
+    /* Responsive image previews on mobile */
+    .file-preview,
+    .preview-item {
+        max-width: 100%;
+    }
+    
+    .file-preview img {
+        max-height: 250px;
+    }
 }
 
 /* Other Images - Single Multi-File Input for Step 23 */
@@ -493,11 +545,12 @@ small {
     border-radius: 8px;
     overflow: hidden;
     background: #f9f9f9;
+    max-width: 250px;
 }
 
 .preview-item img {
     width: 100%;
-    height: 120px;
+    height: 100px;
     object-fit: cover;
     display: block;
 }
@@ -553,4 +606,403 @@ small {
     text-align: center;
     background: white;
     border-top: 1px solid #e0e0e0;
+}
+
+/* ========================================================================
+   COMPREHENSIVE MOBILE RESPONSIVE DESIGN
+   ======================================================================== */
+
+/* Tablet Landscape and Below (768px) */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .header {
+        padding: 15px 10px;
+    }
+    
+    .logo {
+        transform: scale(0.70);
+        margin-top: -15px;
+        margin-bottom: -15px;
+    }
+    
+    .logo img {
+        max-width: 90%;
+    }
+    
+    .logo-title {
+        font-size: 18px;
+        padding: 10px 20px;
+        margin: 8px auto;
+    }
+    
+    .form-step {
+        padding: 15px;
+    }
+    
+    .form-step h2 {
+        font-size: 16px;
+    }
+    
+    .form-navigation {
+        padding: 15px;
+    }
+}
+
+/* Mobile Landscape and Below (600px) */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .header {
+        padding: 12px 8px;
+    }
+    
+    .logo {
+        transform: scale(0.80);
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+    
+    .logo img {
+        max-width: 85%;
+    }
+    
+    .logo-title {
+        font-size: 16px;
+        padding: 8px 15px;
+        margin: 5px 10px;
+        letter-spacing: 0.5px;
+        max-width: calc(100% - 20px);
+    }
+    
+    .progress-text {
+        font-size: 13px;
+        padding: 8px;
+    }
+    
+    .form-step {
+        padding: 12px;
+    }
+    
+    .form-step h2 {
+        font-size: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group input[type="date"],
+    .form-group input[type="time"],
+    .form-group input[type="number"],
+    .form-group textarea {
+        padding: 10px;
+        font-size: 14px;
+        width: 100%;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .radio-group {
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .radio-label {
+        font-size: 14px;
+    }
+    
+    .checkbox-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .checkbox-label {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .file-label {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .btn-location {
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+    
+    .form-navigation {
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .btn {
+        width: 100%;
+        min-width: auto;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    
+    .file-input-wrapper {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .btn-select-images,
+    .btn-camera-images {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .images-preview-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+    }
+    
+    .success-content {
+        padding: 30px 20px;
+        margin: 0 15px;
+        max-width: calc(100% - 30px);
+    }
+    
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 36px;
+    }
+    
+    .loading-overlay p {
+        font-size: 14px;
+        padding: 0 20px;
+    }
+}
+
+/* Mobile Portrait (480px) */
+@media (max-width: 480px) {
+    .header {
+        padding: 10px 5px;
+    }
+    
+    .logo {
+        transform: scale(0.85);
+        margin-top: -5px;
+        margin-bottom: -5px;
+    }
+    
+    .logo img {
+        max-width: 80%;
+    }
+    
+    .logo-title {
+        font-size: 14px;
+        padding: 8px 12px;
+        margin: 5px 8px;
+        max-width: calc(100% - 16px);
+    }
+    
+    .form-step {
+        padding: 10px;
+    }
+    
+    .form-step h2 {
+        font-size: 14px;
+    }
+    
+    .form-group label {
+        font-size: 12px;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group input[type="date"],
+    .form-group input[type="time"],
+    .form-group input[type="number"],
+    .form-group textarea {
+        padding: 9px;
+        font-size: 13px;
+    }
+    
+    .radio-label,
+    .checkbox-label {
+        font-size: 13px;
+        padding: 8px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    
+    .form-navigation {
+        padding: 10px;
+    }
+    
+    .images-preview-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 8px;
+    }
+    
+    .preview-item img {
+        height: 80px;
+    }
+}
+
+/* Small Mobile (414px) */
+@media (max-width: 414px) {
+    .logo {
+        transform: scale(0.80);
+    }
+    
+    .logo img {
+        max-width: 75%;
+    }
+    
+    .logo-title {
+        transform: scale(0.9);
+        font-size: 13px;
+        padding: 7px 10px;
+    }
+    
+    .progress-text {
+        font-size: 12px;
+    }
+    
+    .form-step h2 {
+        font-size: 13px;
+    }
+}
+
+/* Extra Small Mobile (360px) */
+@media (max-width: 360px) {
+    .logo {
+        transform: scale(0.75);
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    
+    .logo img {
+        max-width: 70%;
+    }
+    
+    .logo-title {
+        transform: scale(0.7);
+        font-size: 12px;
+        padding: 6px 8px;
+        margin: 3px 5px;
+        max-width: calc(100% - 10px);
+    }
+    
+    .form-step {
+        padding: 8px;
+    }
+    
+    .form-step h2 {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .form-group label {
+        font-size: 11px;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group input[type="date"],
+    .form-group input[type="time"],
+    .form-group input[type="number"],
+    .form-group textarea {
+        padding: 8px;
+        font-size: 12px;
+    }
+    
+    .radio-label,
+    .checkbox-label {
+        font-size: 12px;
+        padding: 7px;
+    }
+    
+    .btn {
+        padding: 9px 14px;
+        font-size: 12px;
+    }
+    
+    .form-navigation {
+        padding: 8px;
+        gap: 6px;
+    }
+    
+    .file-label {
+        padding: 10px;
+        font-size: 12px;
+    }
+    
+    .btn-location {
+        padding: 9px 12px;
+        font-size: 14px;
+    }
+    
+    .images-preview-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 6px;
+    }
+    
+    .preview-item img {
+        height: 70px;
+    }
+    
+    .preview-item .label {
+        font-size: 10px;
+        padding: 4px;
+    }
+    
+    small {
+        font-size: 11px;
+    }
+}
+
+/* Prevent horizontal scroll on all devices */
+@media (max-width: 768px) {
+    * {
+        max-width: 100%;
+    }
+    
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    input,
+    textarea,
+    select,
+    button {
+        max-width: 100%;
+    }
 }

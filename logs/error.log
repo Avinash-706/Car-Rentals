@@ -1,0 +1,527 @@
+[18-Nov-2025 20:37:52 Asia/Kolkata] Email sending error: SMTP Error: Could not authenticate.
+2025-11-18 20:37:52 - Submission error: Failed to send email - Context: {"booking_id":"12215082","expert_id":"121","customer_name":"Avinash Dhanuka","customer_phone":"07063628574","inspection_date":"2004-11-10","inspection_time":"05:24","inspection_address":"Near Kali Mandir","obd_scanning":"Yes","car":"Yes","lead_owner":"Hummun","pending_amount":"12121","inspection_delayed":"Yes","latitude":"31.250952","longitude":"75.699752","location_address":"Lovely Professional University, NH44, \u092b\u0917\u0935\u093e\u0921\u093c\u093e, Phagwara Tahsil, \u0915\u092a\u0942\u0930\u0925\u0932\u093e, Punjab, 144411, India","expert_date":"18-11-2025","expert_time":"08:34 PM","vehicle_make":"as","vehicle_model":"asdas","vehicle_year":"2004","engine_condition":"asdas","exterior_condition":"asd","interior_condition":"asds","tire_condition":"as","brake_condition":"asdas","electrical_status":"asdas","suspension_condition":"asda","transmission_status":"asda","ac_heating_status":"asdas","safety_features":"asdsa","test_drive_notes":"asda","overall_assessment":"asdas","final_remarks":"aSDAS","recommended_price":"500000"}
+2025-11-20 17:43:33 - Submission error: Invalid file type. Only JPG, PNG, and GIF allowed. - Context: {"booking_id":"as","expert_id":"","customer_name":"","customer_phone":"","inspection_date":"","inspection_time":"","inspection_address":"","car":"","lead_owner":"","pending_amount":"","inspection_delayed":"Yes","latitude":"31.642764","longitude":"74.856561","location_address":"Mall Road; The Cantt., Cantonment, Amritsar, Amritsar I Tahsil, \u0905\u092e\u0943\u0924\u0938\u0930, Punjab, 143001, India","expert_date":"20-11-2025","expert_time":"05:37 PM","car_company":"sad","car_registration_number":"asd","car_registration_year":"2022","car_variant":"sa","car_registered_state":"as","car_registered_city":"as","fuel_type":["Petrol","Diesel"],"engine_capacity":"20","transmission":"Manual","car_colour":"asd","car_km_reading":"110","car_keys_available":"2","chassis_number":"2522","engine_number":"112","registration_certificate":["Available","Expired"],"car_insurance":["Available","Not Available"],"car_finance_noc":["Not Available"],"car_purchase_invoice":["Not Available"],"bifuel_certification":["Not Required"],"radiator_core":["OK"],"match_chassis":"Not Able To Locate","driver_strut":["Accidental"],"passenger_strut":["Accidental"],"front_bonnet":["Accidental"],"boot_floor":["Scratches","Rusted"],"front_bumper":["OK"],"rear_bumper":["OK"],"bonnet":["OK"],"roof":["OK"],"windshield":["OK"],"car_start":["Ok"],"wiring":["Ok"],"engine_oil":["Low Level","Clean and Complete"],"engine_oil_cap":["Sludge Present"],"engine_mounting":["Not Ok"],"coolant_level":["Not Ok"],"coolant_quality":["Oil Present"],"smoke_emission":["Ok"],"battery":["Damaged","Acid Leakage"],"fault_codes":["Yes"],"electrical_status":"s","suspension_condition":"s","transmission_status":"s","ac_heating_status":"s","safety_features":"sa","test_drive_notes":"saa","overall_assessment":"saa","final_remarks":"sa","recommended_price":"60000"}
+2025-11-20 17:43:44 - Submission error: Invalid file type. Only JPG, PNG, and GIF allowed. - Context: {"booking_id":"as","expert_id":"","customer_name":"","customer_phone":"","inspection_date":"","inspection_time":"","inspection_address":"","car":"","lead_owner":"","pending_amount":"","inspection_delayed":"Yes","latitude":"31.642764","longitude":"74.856561","location_address":"Mall Road; The Cantt., Cantonment, Amritsar, Amritsar I Tahsil, \u0905\u092e\u0943\u0924\u0938\u0930, Punjab, 143001, India","expert_date":"20-11-2025","expert_time":"05:37 PM","car_company":"sad","car_registration_number":"asd","car_registration_year":"2022","car_variant":"sa","car_registered_state":"as","car_registered_city":"as","fuel_type":["Petrol","Diesel"],"engine_capacity":"20","transmission":"Manual","car_colour":"asd","car_km_reading":"110","car_keys_available":"2","chassis_number":"2522","engine_number":"112","registration_certificate":["Available","Expired"],"car_insurance":["Available","Not Available"],"car_finance_noc":["Not Available"],"car_purchase_invoice":["Not Available"],"bifuel_certification":["Not Required"],"radiator_core":["OK"],"match_chassis":"Not Able To Locate","driver_strut":["Accidental"],"passenger_strut":["Accidental"],"front_bonnet":["Accidental"],"boot_floor":["Scratches","Rusted"],"front_bumper":["OK"],"rear_bumper":["OK"],"bonnet":["OK"],"roof":["OK"],"windshield":["OK"],"car_start":["Ok"],"wiring":["Ok"],"engine_oil":["Low Level","Clean and Complete"],"engine_oil_cap":["Sludge Present"],"engine_mounting":["Not Ok"],"coolant_level":["Not Ok"],"coolant_quality":["Oil Present"],"smoke_emission":["Ok"],"battery":["Damaged","Acid Leakage"],"fault_codes":["Yes"],"electrical_status":"s","suspension_condition":"s","transmission_status":"s","ac_heating_status":"s","safety_features":"sa","test_drive_notes":"saa","overall_assessment":"saa","final_remarks":"sa","recommended_price":"60000"}
+2025-11-20 17:44:07 - Submission error: Invalid file type. Only JPG, PNG, and GIF allowed. - Context: {"booking_id":"as","expert_id":"","customer_name":"","customer_phone":"","inspection_date":"","inspection_time":"","inspection_address":"","car":"","lead_owner":"","pending_amount":"","inspection_delayed":"Yes","latitude":"31.642764","longitude":"74.856561","location_address":"Mall Road; The Cantt., Cantonment, Amritsar, Amritsar I Tahsil, \u0905\u092e\u0943\u0924\u0938\u0930, Punjab, 143001, India","expert_date":"20-11-2025","expert_time":"05:37 PM","car_company":"sad","car_registration_number":"asd","car_registration_year":"2022","car_variant":"sa","car_registered_state":"as","car_registered_city":"as","fuel_type":["Petrol","Diesel"],"engine_capacity":"20","transmission":"Manual","car_colour":"asd","car_km_reading":"110","car_keys_available":"2","chassis_number":"2522","engine_number":"112","registration_certificate":["Available","Expired"],"car_insurance":["Available","Not Available"],"car_finance_noc":["Not Available"],"car_purchase_invoice":["Not Available"],"bifuel_certification":["Not Required"],"radiator_core":["OK"],"match_chassis":"Not Able To Locate","driver_strut":["Accidental"],"passenger_strut":["Accidental"],"front_bonnet":["Accidental"],"boot_floor":["Scratches","Rusted"],"front_bumper":["OK"],"rear_bumper":["OK"],"bonnet":["OK"],"roof":["OK"],"windshield":["OK"],"car_start":["Ok"],"wiring":["Ok"],"engine_oil":["Low Level","Clean and Complete"],"engine_oil_cap":["Sludge Present"],"engine_mounting":["Not Ok"],"coolant_level":["Not Ok"],"coolant_quality":["Oil Present"],"smoke_emission":["Ok"],"battery":["Damaged","Acid Leakage"],"fault_codes":["Yes"],"electrical_status":"s","suspension_condition":"s","transmission_status":"s","ac_heating_status":"s","safety_features":"sa","test_drive_notes":"saa","overall_assessment":"saa","final_remarks":"sa","recommended_price":"60000"}
+2025-11-20 22:18:35 - Warning: Car photo missing but continuing submission
+[20-Nov-2025 23:28:07 Asia/Kolkata] PDF Generation Error: mbstring extension must be loaded in order to run mPDF
+2025-11-20 23:28:07 - Submission error: Failed to generate PDF - Context: {"booking_id":"111","expert_id":"11","customer_name":"11","customer_phone":"11","inspection_date":"2025-11-18","inspection_time":"22:50","inspection_address":"asdsa","obd_scanning":"Yes","car":"asd","lead_owner":"Hummun","pending_amount":"12212","inspection_delayed":"Yes","latitude":"31.250950","longitude":"75.699765","location_address":"Lovely Professional University, NH44, \u092b\u0917\u0935\u093e\u0921\u093c\u093e, Phagwara Tahsil, \u0915\u092a\u0942\u0930\u0925\u0932\u093e, Punjab, 144411, India","expert_date":"20-11-2025","expert_time":"10:49 PM","car_company":"as","car_registration_number":"asas","car_registration_year":"2022","car_variant":"asd","car_registered_state":"sad","car_registered_city":"sdsa","engine_capacity":"6625","transmission":"Manual","car_colour":"asd","car_km_reading":"52","car_keys_available":"2","chassis_number":"2115","engine_number":"2115","match_chassis":"Matching","central_lock":"Ok","ignition_switch":"Ok","driver_front_indicator":"Working","passenger_front_indicator":"Working","driver_headlight":"Working","driver_headlight_highbeam":"Working","passenger_headlight":"Working","passenger_headlight_highbeam":"Working","front_number_plate_light":"Working","driver_back_indicator":"Working","passenger_back_indicator":"Working","back_number_plate_light":"Working","brake_light_driver":"Working","brake_light_passenger":"Working","driver_tail_light":"Working","passenger_tail_light":"Working","steering_wheel_condition":"Ok","steering_mounted_controls":"Working","back_camera":"Working","reverse_parking_sensor":"Working","multi_function_display":"Working","in_car_start":"asdsa","car_horn":"Working","entertainment_system":"Not Working","cruise_control":"Working","interior_lights":"Not Working","sun_roof":"Working","bonnet_release_operation":"Not Working","fuel_cap_release_operation":"Not Working","adblue_level":"Working","window_safety_lock":"Not Working","driver_orvm_controls":"Ok","passenger_orvm_controls":"Not Ok","glove_box":"Ok","wiper":"Not Ok","rear_view_mirror":"Ok","dashboard_condition":"Not Ok","car_roof_from_inside":"Ok","seat_adjustment_driver":"Not Working","seat_adjustment_driver_rear":"Working","front_driver_seat_condition":"Not Ok","front_driver_floor":"Ok","front_driver_seat_belt":"Not Ok","front_passenger_seat_condition":"Ok","front_passenger_floor":"Not Ok","front_passenger_seat_belt":"Not Ok","seat_adjustment_passenger":"Not Working","window_driver_side":"Not Working","window_passenger_side":"Not Working","window_passenger_rear":"Not Working","window_driver_rear":"Working","back_driver_floor":"Not Ok","back_driver_seat_belt":"Ok","back_driver_seat_condition":"Ok","seat_adjustment_passenger_rear":"Working","back_passenger_floor":"Ok","back_passenger_seat_condition":"Not Ok","back_passenger_seat_belt":"Ok","rear_side_floor_7seater":"Not Ok","rear_seat_condition_7seater":"Ok","rear_seat_belt_7seater":"Not Ok","child_safety_lock":"Working","check_all_buttons":"sad","check_engine":"Present","power_steering_problem":"Present","abs_sensor_problem":"Present","airbag_sensor_problem":"Present","battery_problem":"Present","low_engine_oil":"Present","low_coolant_overheating":"Present","brake_system_warning":"Present","any_other_lights":"Present","control_lights_present":"zsad","ac_turning_on":"Ok","ac_cool_temperature":"asd","ac_hot_temperature":"asd","ac_direction_mode":"Ok","defogger_front":"Ok","defogger_rear":"Ok","ac_all_vents":"Ok","ac_vibration":"Present","tyre_size":"asd","tyre_type":"With Tube","rim_type":"Normal","driver_front_tyre_depth":"Good","driver_front_tyre_date":"asd","driver_front_tyre_shape":"Ok","driver_back_tyre_depth":"Average","driver_back_tyre_date":"21","driver_back_tyre_shape":"Ok","passenger_back_tyre_depth":"Average","passenger_back_tyre_date":"sad","passenger_back_tyre_shape":"Ok","passenger_front_tyre_depth":"Average","passenger_front_tyre_date":"12\/12","passenger_front_tyre_shape":"Ok","stepney_tyre_depth":"Good","stepney_tyre_date":"21","stepney_tyre_shape":"Ok","camber_issue":"Present","gearbox_shifting":"Ok","check_4x4":"Not Ok","clutch_pedal":"Not Ok","clutch_rpm_downgrade":"Not Ok","clutch_rpm_upgrade":"Not Ok","clutch_rpm_acceleration":"Not Ok","left_axle":"Ok","right_axle":"Not Ok","abnormal_noise":"Present","oil_leaks_engine":"Present","radiator_fan":"Working","radiator_condition":"Not Ok","smoke_dipstick":"Not Present","transmission_oil_leakage":"Present","engine_noise":"Not Present","engine_vibration":"Present","hoses":"Ok","exhaust_sound":"Not Present","brake_pads_front_driver":"Ok","brake_discs_front_driver":"Ok","brake_calipers_front_driver":"Not Ok","brake_pads_front_passenger":"Not Ok","brake_discs_front_passenger":"Not Ok","brake_calipers_front_passenger":"Not Ok","brake_pads_back_passenger":"Not Ok","brake_discs_back_passenger":"Not Ok","brake_calipers_back_passenger":"Not Ok","brake_pads_back_driver":"Not Ok","brake_discs_back_driver":"Not Ok","brake_calipers_back_driver":"Not Ok","brake_fluid_reservoir":"Ok","brake_fluid_cap":"Ok","parking_hand_brake":"Ok","car_height":"Ok","shocker_bounce_test":"Ok","driver_suspension_assembly":"Ok","driver_shocker_leakage":"Present","passenger_suspension_assembly":"Ok","passenger_shocker_leakage":"Present","brake_pedal":"Ok","steering_rotating_smoothly":"Not Ok","steering_coming_back":"Ok","steering_weird_noise":"Not Present","alignment":"Ok","bubbling":"Not Present","steering_vibration":"Present","driver_body_chasis":"Not Ok","passenger_body_chasis":"Rusted","rear_subframe":"Not Ok","engine_damage_underbody":"Rusted","under_trays":"Ok","front_protection_cover":"Ok","rear_protection_cover":"Not Ok","silencer":"Rusted","fuel_tank":"Ok","fluid_leaks_underbody":"Present","tool_kit":"Present","issues_found":"asd","taking_payment":"Yes","existing_car_photo":"uploads\/drafts\/1763659298_691f4e22a4658_IMG-20241120-WA0003.jpg","existing_car_km_photo":"uploads\/drafts\/1763659298_691f4e22a839f_IMG-20241120-WA0001.jpg","existing_chassis_plate_photo":"uploads\/drafts\/1763659883_691f506bed2b2_IMG-20241120-WA0002.jpg","existing_radiator_core_image":"uploads\/drafts\/1763659883_691f506bee5c4_IMG-20241120-WA0001.jpg","existing_driver_strut_image":"uploads\/drafts\/1763659883_691f506bf0075_IMG-20241120-WA0004.jpg","existing_passenger_strut_image":"uploads\/drafts\/1763659883_691f506bf1ffb_IMG-20241120-WA0001.jpg","existing_front_bonnet_image":"uploads\/drafts\/1763659883_691f506bf3c47_IMG-20241120-WA0004.jpg","existing_boot_floor_image":"uploads\/drafts\/1763659884_691f506c01f16_IMG-20241120-WA0004.jpg","existing_car_start_image":"uploads\/drafts\/1763659884_691f506c0534f_IMG-20241120-WA0001.jpg","existing_wiring_image":"uploads\/drafts\/1763659884_691f506c079e4_IMG-20241120-WA0001.jpg","existing_engine_oil_image":"uploads\/drafts\/1763659884_691f506c098d9_IMG-20241120-WA0001.jpg","existing_smoke_emission_image":"uploads\/drafts\/1763659884_691f506c0bbf7_IMG-20241120-WA0001.jpg","existing_obd_scan_photo":"uploads\/drafts\/1763659884_691f506c0da7a_IMG-20241120-WA0002.jpg","existing_multi_function_display_image":"uploads\/drafts\/1763659884_691f506c0feeb_IMG-20241120-WA0001.jpg","existing_car_roof_inside_image":"uploads\/drafts\/1763659884_691f506c119b9_IMG-20241120-WA0001.jpg","existing_ac_cool_image":"uploads\/drafts\/1763659884_691f506c1433f_IMG-20241120-WA0003.jpg","existing_ac_hot_image":"uploads\/drafts\/1763659884_691f506c15c7d_IMG-20241120-WA0003.jpg","existing_driver_front_tyre_image":"uploads\/drafts\/1763659884_691f506c17afc_IMG-20241120-WA0001.jpg","existing_driver_back_tyre_image":"uploads\/drafts\/1763659884_691f506c19a82_IMG-20241120-WA0002.jpg","existing_passenger_back_tyre_image":"uploads\/drafts\/1763659884_691f506c1ae3c_IMG-20241120-WA0004.jpg","existing_passenger_front_tyre_image":"uploads\/drafts\/1763659884_691f506c1c7bc_IMG-20241120-WA0001.jpg","existing_stepney_tyre_image":"uploads\/drafts\/1763659884_691f506c1df3f_IMG-20241120-WA0003.jpg","existing_oil_leak_image":"uploads\/drafts\/1763660652_691f536cdb9f9_IMG-20241120-WA0001.jpg","existing_driver_front_shocker_photo":"uploads\/drafts\/1763660652_691f536cdd8c0_IMG-20241120-WA0001.jpg","existing_passenger_front_shocker_photo":"uploads\/drafts\/1763660652_691f536cdf18d_IMG-20241120-WA0001.jpg","existing_driver_rear_shocker_photo":"uploads\/drafts\/1763660652_691f536ce0e74_IMG-20241120-WA0003.jpg","existing_passenger_rear_shocker_photo":"uploads\/drafts\/1763660652_691f536ce2af8_IMG-20241120-WA0004.jpg","existing_underbody_left":"uploads\/drafts\/1763660652_691f536ce43a1_IMG-20241120-WA0001.jpg","existing_underbody_rear":"uploads\/drafts\/1763660652_691f536ce593b_IMG-20241120-WA0003.jpg","existing_underbody_right":"uploads\/drafts\/1763660652_691f536ce6efc_IMG-20241120-WA0004.jpg","existing_underbody_front":"uploads\/drafts\/1763660652_691f536ce8ab2_IMG-20241120-WA0001.jpg","existing_tool_kit_image":"uploads\/drafts\/1763660652_691f536cea1a9_IMG-20241120-WA0001.jpg","existing_issues_photo":"uploads\/drafts\/1763660652_691f536ceb5d6_IMG-20241120-WA0005.jpg","existing_car_front":"uploads\/drafts\/1763660652_691f536cecdf2_IMG-20241120-WA0004.jpg","existing_car_corner_front_driver":"uploads\/drafts\/1763660652_691f536cee773_IMG-20241120-WA0004.jpg","existing_car_driver_side":"uploads\/drafts\/1763660652_691f536cefffb_IMG-20241120-WA0004.jpg","existing_car_corner_back_driver":"uploads\/drafts\/1763660652_691f536cf1ddf_IMG-20241120-WA0004.jpg","existing_car_back":"uploads\/drafts\/1763660652_691f536cf3844_IMG-20241120-WA0004.jpg","existing_car_corner_back_passenger":"uploads\/drafts\/1763660653_691f536d0145c_IMG-20241120-WA0004.jpg","existing_car_passenger_side":"uploads\/drafts\/1763660653_691f536d02f4b_IMG-20241120-WA0004.jpg","existing_car_corner_front_passenger":"uploads\/drafts\/1763660653_691f536d04abc_IMG-20241120-WA0004.jpg","existing_car_front_interior":"uploads\/drafts\/1763660653_691f536d0671f_IMG-20241120-WA0004.jpg"}
+2025-11-21 00:09:34 - Draft load error: Draft not found - Context: {"draft_id":"draft_691f4e22a38c34.92147843"}
+2025-11-21 00:10:06 - Draft load error: Draft not found - Context: {"draft_id":"draft_691f4e22a38c34.92147843"}
+2025-11-21 00:10:13 - Draft load error: Draft not found - Context: {"draft_id":"draft_691f4e22a38c34.92147843"}
+2025-11-21 00:10:14 - Draft load error: Draft not found - Context: {"draft_id":"draft_691f4e22a38c34.92147843"}
+[21-Nov-2025 00:53:33 Asia/Kolkata] Form submission received. Files count: 46, POST fields: 236
+[21-Nov-2025 00:53:33 Asia/Kolkata] Total files processed: 46
+[21-Nov-2025 00:53:33 Asia/Kolkata] Generating PDF with 46 images
+[21-Nov-2025 00:53:51 Asia/Kolkata] PDF generated successfully: pdfs/inspection_12215082_1763666630.pdf
+[21-Nov-2025 03:09:00 Asia/Kolkata] Form submission received. Files count: 46, POST fields: 235
+[21-Nov-2025 03:09:00 Asia/Kolkata] Total files processed: 46
+[21-Nov-2025 03:09:00 Asia/Kolkata] Generating PDF with 46 images
+[21-Nov-2025 03:09:45 Asia/Kolkata] PDF generated successfully: pdfs/inspection_1_1763674784.pdf
+2025-11-21 03:10:25 - Draft load error: Draft not found - Context: {"draft_id":"draft_691f6fe049b4d9.38759082"}
+[21-Nov-2025 03:51:48 Asia/Kolkata] Form submission received. Files count: 46, POST fields: 236
+[21-Nov-2025 03:51:48 Asia/Kolkata] Total files processed: 46
+[21-Nov-2025 03:51:48 Asia/Kolkata] Generating PDF with 46 images
+[21-Nov-2025 03:51:58 Asia/Kolkata] PDF generated successfully: pdfs/inspection_12215082_1763677317.pdf
+2025-11-21 03:53:39 - Draft load error: Draft not found - Context: {"draft_id":"draft_691f6fe049b4d9.38759082"}
+[21-Nov-2025 04:54:57 Asia/Kolkata] Form submission received. Files count: 46, POST fields: 236
+[21-Nov-2025 04:54:57 Asia/Kolkata] Total files processed: 46
+[21-Nov-2025 04:54:57 Asia/Kolkata] Generating PDF with 46 images
+[21-Nov-2025 04:55:15 Asia/Kolkata] PDF generated successfully: pdfs/inspection_12215082_1763681115.pdf
+2025-11-21 04:58:58 - Draft load error: Draft not found - Context: {"draft_id":"draft_691f9559017ab9.07529941"}
+[21-Nov-2025 05:48:11 Asia/Kolkata] Form submission received. Files count: 46, POST fields: 236
+[21-Nov-2025 05:48:11 Asia/Kolkata] Total files processed: 46
+[21-Nov-2025 05:48:11 Asia/Kolkata] Generating PDF with 46 images
+[21-Nov-2025 05:48:20 Asia/Kolkata] PDF generated successfully: pdfs/inspection_121_1763684300.pdf
+2025-11-21 05:52:24 - Draft load error: Draft not found - Context: {"draft_id":"draft_691f9559017ab9.07529941"}
+[21-Nov-2025 06:14:05 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 06:14:05 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 06:14:05 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 06:14:05 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 06:15:30 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[21-Nov-2025 06:15:30 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 06:15:30 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 06:15:30 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[21-Nov-2025 06:15:55 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[21-Nov-2025 06:15:55 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 06:15:55 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 06:15:55 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[21-Nov-2025 06:18:15 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[21-Nov-2025 06:18:15 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 06:18:15 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 06:18:15 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[21-Nov-2025 06:18:15 Asia/Kolkata] T-SUBMIT: PDF generated successfully: pdfs/TEST_inspection_step2_1763686095.pdf
+[21-Nov-2025 06:19:19 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[21-Nov-2025 06:19:19 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 06:19:19 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 06:19:19 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[21-Nov-2025 06:19:19 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2/pdfs/TEST_step2_1763686159.pdf
+[21-Nov-2025 06:19:29 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-3
+[21-Nov-2025 06:19:29 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 06:19:29 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 06:19:29 Asia/Kolkata] T-SUBMIT: Steps to include: 1-3
+[21-Nov-2025 06:19:29 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2/pdfs/TEST_step3_1763686169.pdf
+[21-Nov-2025 06:21:37 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-5
+[21-Nov-2025 06:21:37 Asia/Kolkata] T-SUBMIT: Found 1 uploaded images
+[21-Nov-2025 06:21:37 Asia/Kolkata] T-SUBMIT: Generating PDF with 1 images
+[21-Nov-2025 06:21:37 Asia/Kolkata] T-SUBMIT: Steps to include: 1-5
+[21-Nov-2025 06:21:38 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2/pdfs/TEST_step5_1763686298.pdf
+[21-Nov-2025 06:21:42 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-5
+[21-Nov-2025 06:21:42 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 06:21:42 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 06:21:42 Asia/Kolkata] T-SUBMIT: Steps to include: 1-5
+[21-Nov-2025 06:21:42 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2/pdfs/TEST_step5_1763686302.pdf
+[21-Nov-2025 06:23:18 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-4
+[21-Nov-2025 06:23:18 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 06:23:18 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 06:23:18 Asia/Kolkata] T-SUBMIT: Steps to include: 1-4
+[21-Nov-2025 06:23:18 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2/pdfs/TEST_step4_1763686398.pdf
+[21-Nov-2025 06:32:02 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[21-Nov-2025 06:32:02 Asia/Kolkata] T-SUBMIT: Found 32 uploaded images
+[21-Nov-2025 06:32:02 Asia/Kolkata] T-SUBMIT: Generating PDF with 32 images
+[21-Nov-2025 06:32:02 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[21-Nov-2025 06:32:03 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2/pdfs/TEST_step23_1763686923.pdf
+[21-Nov-2025 06:32:31 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[21-Nov-2025 06:32:31 Asia/Kolkata] T-SUBMIT: Found 46 uploaded images
+[21-Nov-2025 06:32:31 Asia/Kolkata] T-SUBMIT: Generating PDF with 46 images
+[21-Nov-2025 06:32:31 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[21-Nov-2025 06:32:31 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2/pdfs/TEST_step23_1763686951.pdf
+[21-Nov-2025 06:33:08 Asia/Kolkata] Form submission received. Files count: 46, POST fields: 261
+[21-Nov-2025 06:33:08 Asia/Kolkata] Step 4 Checkbox Debug:
+[21-Nov-2025 06:33:08 Asia/Kolkata]   registration_certificate: Array
+(
+    [0] => Available
+    [1] => Expired
+    [2] => Not Available
+)
+
+[21-Nov-2025 06:33:08 Asia/Kolkata]   car_insurance: Array
+(
+    [0] => Available
+    [1] => Not Available
+    [2] => Expired
+)
+
+[21-Nov-2025 06:33:08 Asia/Kolkata]   car_finance_noc: Array
+(
+    [0] => Available
+    [1] => Not Available
+    [2] => Not Required
+)
+
+[21-Nov-2025 06:33:08 Asia/Kolkata]   car_purchase_invoice: Array
+(
+    [0] => Available
+    [1] => Not Available
+)
+
+[21-Nov-2025 06:33:08 Asia/Kolkata]   bifuel_certification: Array
+(
+    [0] => Not Required
+    [1] => Not Available
+)
+
+[21-Nov-2025 06:33:09 Asia/Kolkata] Total files processed: 46
+[21-Nov-2025 06:33:09 Asia/Kolkata] Generating PDF with 46 images
+[21-Nov-2025 06:33:30 Asia/Kolkata] PDF generated successfully: pdfs/inspection_12215082_1763687010.pdf
+2025-11-21 15:40:47 - Draft load error: Draft not found - Context: {"draft_id":"draft_691fb6ca7d2655.53609204"}
+[21-Nov-2025 16:41:09 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:41:18 Asia/Kolkata] Image upload error: Undefined variable $relativePath in D:\SEMESTER - VII\php2\upload-image.php:210
+[21-Nov-2025 16:41:24 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:44:23 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:44:27 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:44:27 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:44:27 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:44:27 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:44:27 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:44:28 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:44:28 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:45:19 Asia/Kolkata] Image upload error: Invalid file type. Only JPG, PNG, GIF, WebP allowed. in D:\SEMESTER - VII\php2\upload-image.php:94
+[21-Nov-2025 16:45:21 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 16:45:22 Asia/Kolkata] Image upload error: No image uploaded in D:\SEMESTER - VII\php2\upload-image.php:70
+[21-Nov-2025 17:22:34 Asia/Kolkata] Form submission received. Files count: 46, POST fields: 261
+[21-Nov-2025 17:22:34 Asia/Kolkata] Step 4 Checkbox Debug:
+[21-Nov-2025 17:22:34 Asia/Kolkata]   registration_certificate: Array
+(
+    [0] => Expired
+)
+
+[21-Nov-2025 17:22:34 Asia/Kolkata]   car_insurance: Array
+(
+    [0] => Available
+    [1] => Not Available
+    [2] => Expired
+)
+
+[21-Nov-2025 17:22:34 Asia/Kolkata]   car_finance_noc: Array
+(
+    [0] => Available
+    [1] => Not Required
+)
+
+[21-Nov-2025 17:22:34 Asia/Kolkata]   car_purchase_invoice: Array
+(
+    [0] => Not Available
+)
+
+[21-Nov-2025 17:22:34 Asia/Kolkata]   bifuel_certification: Array
+(
+    [0] => Available
+    [1] => Not Required
+    [2] => Not Available
+)
+
+[21-Nov-2025 17:22:35 Asia/Kolkata] Total files processed: 46
+[21-Nov-2025 17:22:35 Asia/Kolkata] Generating PDF with 46 images
+[21-Nov-2025 17:23:29 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_12215082_1763726008.pdf
+2025-11-21 17:32:24 - Draft load error: Draft not found - Context: {"draft_id":"draft_69205041c88487.33108604"}
+[21-Nov-2025 18:07:07 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:07:07 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:07:07 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:07:07 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:07:07 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763728627.pdf
+[21-Nov-2025 18:13:14 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:13:14 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:13:14 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:13:14 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:13:14 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763728994.pdf
+[21-Nov-2025 18:13:30 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:13:30 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:13:30 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:13:30 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:13:30 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763729010.pdf
+[21-Nov-2025 18:14:39 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:14:39 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:14:39 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:14:39 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:14:40 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763729080.pdf
+[21-Nov-2025 18:16:10 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:16:10 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:16:10 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:16:10 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:16:11 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763729171.pdf
+[21-Nov-2025 18:20:35 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:20:35 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:20:35 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:20:35 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:20:36 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763729436.pdf
+[21-Nov-2025 18:33:11 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:33:11 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:33:11 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:33:11 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:33:12 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763730192.pdf
+[21-Nov-2025 18:34:33 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:34:33 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:34:33 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:34:33 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:34:34 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763730274.pdf
+[21-Nov-2025 18:35:22 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:35:22 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:35:22 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:35:22 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:35:24 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763730323.pdf
+[21-Nov-2025 18:36:39 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[21-Nov-2025 18:36:39 Asia/Kolkata] T-SUBMIT: Found 0 uploaded images
+[21-Nov-2025 18:36:39 Asia/Kolkata] T-SUBMIT: Generating PDF with 0 images
+[21-Nov-2025 18:36:39 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[21-Nov-2025 18:36:40 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step1_1763730400.pdf
+[21-Nov-2025 20:42:29 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-5
+[21-Nov-2025 20:42:29 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 20:42:29 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 20:42:29 Asia/Kolkata] T-SUBMIT: Steps to include: 1-5
+[21-Nov-2025 20:42:31 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step5_1763737950.pdf
+[21-Nov-2025 20:59:19 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-10
+[21-Nov-2025 20:59:19 Asia/Kolkata] T-SUBMIT: Found 15 uploaded images
+[21-Nov-2025 20:59:19 Asia/Kolkata] T-SUBMIT: Generating PDF with 15 images
+[21-Nov-2025 20:59:19 Asia/Kolkata] T-SUBMIT: Steps to include: 1-10
+[21-Nov-2025 20:59:20 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step10_1763738960.pdf
+[21-Nov-2025 21:04:52 Asia/Kolkata] Form submission received. Files count: 46, POST fields: 260
+[21-Nov-2025 21:04:52 Asia/Kolkata] Step 4 Checkbox Debug:
+[21-Nov-2025 21:04:52 Asia/Kolkata]   registration_certificate: Array
+(
+    [0] => Available
+    [1] => Expired
+    [2] => Not Available
+)
+
+[21-Nov-2025 21:04:52 Asia/Kolkata]   car_insurance: Array
+(
+    [0] => Not Available
+)
+
+[21-Nov-2025 21:04:52 Asia/Kolkata]   car_finance_noc: Array
+(
+    [0] => Available
+    [1] => Not Available
+)
+
+[21-Nov-2025 21:04:52 Asia/Kolkata]   car_purchase_invoice: Array
+(
+    [0] => Available
+    [1] => Not Available
+)
+
+[21-Nov-2025 21:04:52 Asia/Kolkata]   bifuel_certification: Array
+(
+    [0] => Not Required
+    [1] => Not Available
+)
+
+[21-Nov-2025 21:04:52 Asia/Kolkata] Total files processed: 46
+[21-Nov-2025 21:04:52 Asia/Kolkata] Generating PDF with 46 images
+[21-Nov-2025 21:05:19 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_12215082_1763739319.pdf
+2025-11-21 21:17:38 - Draft load error: Draft not found - Context: {"draft_id":"draft_6920829cc19de0.88541076"}
+[21-Nov-2025 21:18:57 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-3
+[21-Nov-2025 21:18:57 Asia/Kolkata] T-SUBMIT: Found 3 uploaded images
+[21-Nov-2025 21:18:57 Asia/Kolkata] T-SUBMIT: Generating PDF with 3 images
+[21-Nov-2025 21:18:57 Asia/Kolkata] T-SUBMIT: Steps to include: 1-3
+[21-Nov-2025 21:18:59 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step3_1763740139.pdf
+[21-Nov-2025 21:20:50 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-3
+[21-Nov-2025 21:20:50 Asia/Kolkata] T-SUBMIT: Found 3 uploaded images
+[21-Nov-2025 21:20:50 Asia/Kolkata] T-SUBMIT: Generating PDF with 3 images
+[21-Nov-2025 21:20:50 Asia/Kolkata] T-SUBMIT: Steps to include: 1-3
+[21-Nov-2025 21:20:52 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step3_1763740251.pdf
+[21-Nov-2025 21:22:33 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-5
+[21-Nov-2025 21:22:33 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 21:22:33 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 21:22:33 Asia/Kolkata] T-SUBMIT: Steps to include: 1-5
+[21-Nov-2025 21:22:34 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step5_1763740354.pdf
+[21-Nov-2025 21:28:04 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-6
+[21-Nov-2025 21:28:04 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 21:28:04 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 21:28:04 Asia/Kolkata] T-SUBMIT: Steps to include: 1-6
+[21-Nov-2025 21:28:06 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step6_1763740685.pdf
+[21-Nov-2025 21:30:06 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-6
+[21-Nov-2025 21:30:06 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 21:30:06 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 21:30:06 Asia/Kolkata] T-SUBMIT: Steps to include: 1-6
+[21-Nov-2025 21:30:08 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step6_1763740808.pdf
+[21-Nov-2025 21:43:14 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-16
+[21-Nov-2025 21:43:14 Asia/Kolkata] T-SUBMIT: Found 23 uploaded images
+[21-Nov-2025 21:43:14 Asia/Kolkata] T-SUBMIT: Generating PDF with 23 images
+[21-Nov-2025 21:43:14 Asia/Kolkata] T-SUBMIT: Steps to include: 1-16
+[21-Nov-2025 21:43:14 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 293
+[21-Nov-2025 21:43:15 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step16_1763741595.pdf
+[21-Nov-2025 22:22:33 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[21-Nov-2025 22:22:33 Asia/Kolkata] T-SUBMIT: Found 48 uploaded images
+[21-Nov-2025 22:22:33 Asia/Kolkata] T-SUBMIT: Generating PDF with 48 images
+[21-Nov-2025 22:22:33 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[21-Nov-2025 22:22:35 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 316
+[21-Nov-2025 22:22:36 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step23_1763743956.pdf
+[21-Nov-2025 22:23:26 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[21-Nov-2025 22:23:26 Asia/Kolkata] T-SUBMIT: Found 50 uploaded images
+[21-Nov-2025 22:23:26 Asia/Kolkata] T-SUBMIT: Generating PDF with 50 images
+[21-Nov-2025 22:23:26 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[21-Nov-2025 22:23:26 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 316
+[21-Nov-2025 22:23:27 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step23_1763744006.pdf
+[21-Nov-2025 22:23:52 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[21-Nov-2025 22:23:52 Asia/Kolkata] T-SUBMIT: Found 50 uploaded images
+[21-Nov-2025 22:23:52 Asia/Kolkata] T-SUBMIT: Generating PDF with 50 images
+[21-Nov-2025 22:23:52 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[21-Nov-2025 22:23:52 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 316
+[21-Nov-2025 22:23:53 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step23_1763744033.pdf
+[21-Nov-2025 22:24:08 Asia/Kolkata] Form submission received. Files count: 51, POST fields: 265
+[21-Nov-2025 22:24:08 Asia/Kolkata] Step 4 Checkbox Debug:
+[21-Nov-2025 22:24:08 Asia/Kolkata]   registration_certificate: Array
+(
+    [0] => Available
+)
+
+[21-Nov-2025 22:24:08 Asia/Kolkata]   car_insurance: Array
+(
+    [0] => Not Available
+    [1] => Expired
+)
+
+[21-Nov-2025 22:24:08 Asia/Kolkata]   car_finance_noc: Array
+(
+    [0] => Available
+    [1] => Not Available
+    [2] => Not Required
+)
+
+[21-Nov-2025 22:24:08 Asia/Kolkata]   car_purchase_invoice: Array
+(
+    [0] => Available
+    [1] => Not Available
+)
+
+[21-Nov-2025 22:24:08 Asia/Kolkata]   bifuel_certification: Array
+(
+    [0] => Not Required
+    [1] => Not Available
+)
+
+[21-Nov-2025 22:24:08 Asia/Kolkata] Total files processed: 50
+[21-Nov-2025 22:24:08 Asia/Kolkata] Generating PDF with 50 images
+[21-Nov-2025 22:24:13 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_ad_1763744053.pdf
+[21-Nov-2025 22:24:33 Asia/Kolkata] Background email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_ad_1763744053.pdf
+[21-Nov-2025 22:34:18 Asia/Kolkata] Form submission received. Files count: 51, POST fields: 215
+[21-Nov-2025 22:34:18 Asia/Kolkata] Step 4 Checkbox Debug:
+[21-Nov-2025 22:34:18 Asia/Kolkata]   registration_certificate: Array
+(
+    [0] => Available
+)
+
+[21-Nov-2025 22:34:18 Asia/Kolkata]   car_insurance: Array
+(
+    [0] => Not Available
+    [1] => Expired
+)
+
+[21-Nov-2025 22:34:18 Asia/Kolkata]   car_finance_noc: Array
+(
+    [0] => Available
+    [1] => Not Available
+    [2] => Not Required
+)
+
+[21-Nov-2025 22:34:18 Asia/Kolkata]   car_purchase_invoice: Array
+(
+    [0] => Available
+    [1] => Not Available
+)
+
+[21-Nov-2025 22:34:18 Asia/Kolkata]   bifuel_certification: Array
+(
+    [0] => Not Required
+    [1] => Not Available
+)
+
+[21-Nov-2025 22:34:18 Asia/Kolkata] Total files processed: 0
+[21-Nov-2025 22:34:18 Asia/Kolkata] Generating PDF with 0 images
+[21-Nov-2025 22:34:20 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_ad_1763744659.pdf
+[21-Nov-2025 22:34:28 Asia/Kolkata] Background email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_ad_1763744659.pdf
+[21-Nov-2025 22:36:49 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-6
+[21-Nov-2025 22:36:49 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 22:36:49 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 22:36:49 Asia/Kolkata] T-SUBMIT: Steps to include: 1-6
+[21-Nov-2025 22:36:50 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step6_1763744810.pdf
+[21-Nov-2025 22:38:56 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-6
+[21-Nov-2025 22:38:56 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 22:38:56 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 22:38:56 Asia/Kolkata] T-SUBMIT: Steps to include: 1-6
+[21-Nov-2025 22:38:57 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step6_1763744937.pdf
+[21-Nov-2025 22:39:39 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-4
+[21-Nov-2025 22:39:39 Asia/Kolkata] T-SUBMIT: Found 8 uploaded images
+[21-Nov-2025 22:39:39 Asia/Kolkata] T-SUBMIT: Generating PDF with 8 images
+[21-Nov-2025 22:39:39 Asia/Kolkata] T-SUBMIT: Steps to include: 1-4
+[21-Nov-2025 22:39:40 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step4_1763744980.pdf
+[25-Nov-2025 19:07:49 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[25-Nov-2025 19:07:49 Asia/Kolkata] T-SUBMIT: Found 13 uploaded images
+[25-Nov-2025 19:07:49 Asia/Kolkata] T-SUBMIT: Generating PDF with 13 images
+[25-Nov-2025 19:07:49 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[25-Nov-2025 19:07:49 Asia/Kolkata] T-SUBMIT error: generate-test-pdf.php not found in D:\SEMESTER - VII\php2\t-submit.php on line 87
+[25-Nov-2025 19:07:51 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[25-Nov-2025 19:07:51 Asia/Kolkata] T-SUBMIT: Found 13 uploaded images
+[25-Nov-2025 19:07:51 Asia/Kolkata] T-SUBMIT: Generating PDF with 13 images
+[25-Nov-2025 19:07:51 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[25-Nov-2025 19:07:51 Asia/Kolkata] T-SUBMIT error: generate-test-pdf.php not found in D:\SEMESTER - VII\php2\t-submit.php on line 87
+[25-Nov-2025 19:08:09 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[25-Nov-2025 19:08:09 Asia/Kolkata] T-SUBMIT: Found 13 uploaded images
+[25-Nov-2025 19:08:09 Asia/Kolkata] T-SUBMIT: Generating PDF with 13 images
+[25-Nov-2025 19:08:09 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[25-Nov-2025 19:08:09 Asia/Kolkata] T-SUBMIT error: generate-test-pdf.php not found in D:\SEMESTER - VII\php2\t-submit.php on line 87
+[25-Nov-2025 19:09:05 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-1
+[25-Nov-2025 19:09:05 Asia/Kolkata] T-SUBMIT: Found 13 uploaded images
+[25-Nov-2025 19:09:05 Asia/Kolkata] T-SUBMIT: Generating PDF with 13 images
+[25-Nov-2025 19:09:05 Asia/Kolkata] T-SUBMIT: Steps to include: 1-1
+[25-Nov-2025 19:09:05 Asia/Kolkata] T-SUBMIT error: generate-test-pdf.php not found in D:\SEMESTER - VII\php2\t-submit.php on line 87
+[25-Nov-2025 19:13:25 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[25-Nov-2025 19:13:25 Asia/Kolkata] T-SUBMIT: Found 13 uploaded images
+[25-Nov-2025 19:13:25 Asia/Kolkata] T-SUBMIT: Generating PDF with 13 images
+[25-Nov-2025 19:13:25 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[25-Nov-2025 19:13:25 Asia/Kolkata] PHP Warning:  Constant APP_INIT already defined in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 9
+[25-Nov-2025 19:13:30 Asia/Kolkata] T-SUBMIT error: generateTestPDF function not found in D:\SEMESTER - VII\php2\t-submit.php on line 93
+[25-Nov-2025 19:13:30 Asia/Kolkata] T-SUBMIT: Unexpected output before JSON: Generating test PDF...
+✅ PDF generated successfully!
+Path: D:\SEMESTER - VII\php2\pdfs\inspection_TEST123_1764078210.pdf
+Size: 561731 bytes
+<h2>✅ Test PDF Generated Successfully!</h2><p><a href='pdfs/inspection_TEST123_1764078210.pdf' target='_blank'>Open PDF</a></p><p>Path: D:\SEMESTER - VII\php2\pdfs\inspection_TEST123_1764078210.pdf</p><p>Size: 561,731 bytes</p>
+[25-Nov-2025 19:15:32 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[25-Nov-2025 19:15:32 Asia/Kolkata] T-SUBMIT: Found 13 uploaded images
+[25-Nov-2025 19:15:32 Asia/Kolkata] T-SUBMIT: Generating PDF with 13 images
+[25-Nov-2025 19:15:32 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[25-Nov-2025 19:15:32 Asia/Kolkata] T-SUBMIT error: generate-test-pdf.php not found in D:\SEMESTER - VII\php2\t-submit.php on line 87
+[25-Nov-2025 19:25:35 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[25-Nov-2025 19:25:35 Asia/Kolkata] T-SUBMIT: Found 13 uploaded images
+[25-Nov-2025 19:25:35 Asia/Kolkata] T-SUBMIT: Generating PDF with 13 images
+[25-Nov-2025 19:25:35 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[25-Nov-2025 19:25:36 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step2_1764078936.pdf
+[25-Nov-2025 19:26:43 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-4
+[25-Nov-2025 19:26:43 Asia/Kolkata] T-SUBMIT: Found 13 uploaded images
+[25-Nov-2025 19:26:43 Asia/Kolkata] T-SUBMIT: Generating PDF with 13 images
+[25-Nov-2025 19:26:43 Asia/Kolkata] T-SUBMIT: Steps to include: 1-4
+[25-Nov-2025 19:26:43 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step4_1764079003.pdf
+[03-Dec-2025 00:02:24 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764700339_guest_2bbcd345_17647003728257837661904852914697.jpg
+[03-Dec-2025 00:02:24 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764700339_guest_2bbcd345_17647003728257837661904852914697.jpg
+[03-Dec-2025 00:02:24 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764700342_guest_c272a6db_1000095506.jpg
+[03-Dec-2025 00:02:24 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764700342_guest_c272a6db_1000095506.jpg
+[03-Dec-2025 00:04:19 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764700344_guest_45342226_1000095522.jpg
+[03-Dec-2025 00:04:19 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764700344_guest_45342226_1000095522.jpg
+[03-Dec-2025 16:43:24 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764760384_guest_f0810810_ha.jpg
+[03-Dec-2025 16:43:25 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764760384_guest_f0810810_ha.jpg
+[03-Dec-2025 16:43:25 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764760397_guest_0e619694_GeneratedImageNovember152025-9_33PM_imgupscaler.ai.jpg
+[03-Dec-2025 16:43:25 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764760397_guest_0e619694_GeneratedImageNovember152025-9_33PM_imgupscaler.ai.jpg
+[03-Dec-2025 17:33:20 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764760695_guest_332ca621_Untitleddesign1.jpg
+[03-Dec-2025 17:33:20 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764760695_guest_332ca621_Untitleddesign1.jpg
+[03-Dec-2025 17:51:50 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764764457_guest_ce712d99_step6.jpg
+[03-Dec-2025 17:51:50 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764764457_guest_ce712d99_step6.jpg
+[03-Dec-2025 18:09:00 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[03-Dec-2025 18:09:00 Asia/Kolkata] T-SUBMIT: Found 50 uploaded images
+[03-Dec-2025 18:09:00 Asia/Kolkata] T-SUBMIT: Generating PDF with 50 images
+[03-Dec-2025 18:09:00 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[03-Dec-2025 18:09:02 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 304
+[03-Dec-2025 18:09:03 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step23_1764765543.pdf
+[03-Dec-2025 18:13:40 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[03-Dec-2025 18:13:40 Asia/Kolkata] T-SUBMIT: Found 50 uploaded images
+[03-Dec-2025 18:13:40 Asia/Kolkata] T-SUBMIT: Generating PDF with 50 images
+[03-Dec-2025 18:13:40 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[03-Dec-2025 18:13:40 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 315
+[03-Dec-2025 18:13:41 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step23_1764765820.pdf
+[03-Dec-2025 18:19:51 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[03-Dec-2025 18:19:51 Asia/Kolkata] T-SUBMIT: Found 50 uploaded images
+[03-Dec-2025 18:19:51 Asia/Kolkata] T-SUBMIT: Generating PDF with 50 images
+[03-Dec-2025 18:19:51 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[03-Dec-2025 18:19:52 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 315
+[03-Dec-2025 18:19:53 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step23_1764766192.pdf
+[03-Dec-2025 18:40:31 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764767292_guest_a5fd8f32_17647673236203096784067790327198.jpg
+[03-Dec-2025 18:40:31 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764767292_guest_a5fd8f32_17647673236203096784067790327198.jpg
+[03-Dec-2025 18:40:43 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764767430_guest_d0dde560_17647674650325834683273044480841.jpg
+[03-Dec-2025 18:40:43 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764767430_guest_d0dde560_17647674650325834683273044480841.jpg
+[03-Dec-2025 18:52:48 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[03-Dec-2025 18:52:48 Asia/Kolkata] T-SUBMIT: Found 50 uploaded images
+[03-Dec-2025 18:52:48 Asia/Kolkata] T-SUBMIT: Generating PDF with 50 images
+[03-Dec-2025 18:52:48 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[03-Dec-2025 18:52:48 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 315
+[03-Dec-2025 18:52:49 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step23_1764768169.pdf
+[03-Dec-2025 18:53:10 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[03-Dec-2025 18:53:10 Asia/Kolkata] T-SUBMIT: Found 1 uploaded images
+[03-Dec-2025 18:53:10 Asia/Kolkata] T-SUBMIT: Generating PDF with 1 images
+[03-Dec-2025 18:53:10 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[03-Dec-2025 18:53:10 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step2_1764768190.pdf
+[03-Dec-2025 18:53:45 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764767443_guest_b89d66a3_17647674790005459690898534741087.jpg
+[03-Dec-2025 18:53:45 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764767443_guest_b89d66a3_17647674790005459690898534741087.jpg
+[03-Dec-2025 18:53:47 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-2
+[03-Dec-2025 18:53:47 Asia/Kolkata] T-SUBMIT: Found 1 uploaded images
+[03-Dec-2025 18:53:47 Asia/Kolkata] T-SUBMIT: Generating PDF with 1 images
+[03-Dec-2025 18:53:47 Asia/Kolkata] T-SUBMIT: Steps to include: 1-2
+[03-Dec-2025 18:53:48 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step2_1764768228.pdf
+[03-Dec-2025 18:54:33 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764765531_guest_d86e283f_Untitleddesign1.jpg
+[03-Dec-2025 18:54:33 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764765531_guest_d86e283f_Untitleddesign1.jpg
+[03-Dec-2025 18:54:37 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764768273_guest_b294e407_car4.jpg
+[03-Dec-2025 18:54:37 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764768273_guest_b294e407_car4.jpg
+[03-Dec-2025 18:54:42 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764768277_guest_919ccef6_car5.jpg
+[03-Dec-2025 18:54:42 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764768277_guest_919ccef6_car5.jpg
+[03-Dec-2025 18:54:46 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764765525_guest_5dca9217_Untitleddesign.jpg
+[03-Dec-2025 18:54:46 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764765525_guest_5dca9217_Untitleddesign.jpg
+[03-Dec-2025 18:54:50 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764765523_guest_38b54f26_ha.jpg
+[03-Dec-2025 18:54:50 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764765523_guest_38b54f26_ha.jpg
+[03-Dec-2025 18:54:52 Asia/Kolkata] T-SUBMIT: Generating test PDF for steps 1-23
+[03-Dec-2025 18:54:52 Asia/Kolkata] T-SUBMIT: Found 50 uploaded images
+[03-Dec-2025 18:54:52 Asia/Kolkata] T-SUBMIT: Generating PDF with 50 images
+[03-Dec-2025 18:54:52 Asia/Kolkata] T-SUBMIT: Steps to include: 1-23
+[03-Dec-2025 18:54:52 Asia/Kolkata] PHP Warning:  Array to string conversion in D:\SEMESTER - VII\php2\generate-test-pdf.php on line 315
+[03-Dec-2025 18:54:52 Asia/Kolkata] T-SUBMIT: PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\TEST_step23_1764768292.pdf
+[03-Dec-2025 19:25:40 Asia/Kolkata] Deleted replaced image: uploads/drafts/1764770131_guest_9a7d728e_image.jpg
+[03-Dec-2025 19:25:40 Asia/Kolkata] Deleted replaced thumbnail: uploads/drafts\thumb_1764770131_guest_9a7d728e_image.jpg

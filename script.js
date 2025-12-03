@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup OK checkbox logic
     setupOkCheckboxLogic();
     
+    // Setup payment toggle logic
+    setupPaymentToggle();
+    
     // Auto-save on input change
     const formInputs = document.querySelectorAll('input, textarea, select');
     formInputs.forEach(input => {
@@ -133,9 +136,9 @@ function validateStep(step) {
             
             // Only validate new uploads
             if (hasNewFile) {
-                // Validate file size (5MB max)
-                if (field.files[0].size > 5242880) {
-                    alert('File size must be less than 5MB');
+                // Validate file size (15MB max)
+                if (field.files[0].size > 15728640) {
+                    alert('File size must be less than 15MB');
                     return false;
                 }
                 // Validate file type
@@ -345,8 +348,8 @@ function setupImagePreviews() {
             
             if (file && preview) {
                 // Check file size
-                if (file.size > 5242880) {
-                    alert('File size must be less than 5MB');
+                if (file.size > 15728640) {
+                    alert('File size must be less than 15MB');
                     input.value = '';
                     return;
                 }
@@ -410,6 +413,39 @@ function setupOkCheckboxLogic() {
             });
         });
     });
+}
+
+function setupPaymentToggle() {
+    const paymentYes = document.getElementById('payment_yes');
+    const paymentNo = document.getElementById('payment_no');
+    const paymentDetailsSection = document.getElementById('payment_details_section');
+    const paymentScreenshot = document.getElementById('payment_screenshot');
+    
+    if (!paymentYes || !paymentNo || !paymentDetailsSection) return;
+    
+    // Function to toggle payment details
+    function togglePaymentDetails() {
+        if (paymentYes.checked) {
+            paymentDetailsSection.style.display = 'block';
+            // Make payment screenshot required when Yes is selected
+            if (paymentScreenshot) {
+                paymentScreenshot.setAttribute('required', 'required');
+            }
+        } else {
+            paymentDetailsSection.style.display = 'none';
+            // Remove required when No is selected
+            if (paymentScreenshot) {
+                paymentScreenshot.removeAttribute('required');
+            }
+        }
+    }
+    
+    // Add event listeners
+    paymentYes.addEventListener('change', togglePaymentDetails);
+    paymentNo.addEventListener('change', togglePaymentDetails);
+    
+    // Check initial state (for draft loading)
+    togglePaymentDetails();
 }
 
 function saveDraft() {
@@ -694,6 +730,22 @@ function loadDraft() {
             }
             
             showStep(currentStep);
+            
+            // Trigger payment toggle check after draft loads
+            setTimeout(() => {
+                const paymentYes = document.getElementById('payment_yes');
+                const paymentNo = document.getElementById('payment_no');
+                if (paymentYes && paymentYes.checked) {
+                    document.getElementById('payment_details_section').style.display = 'block';
+                    const paymentScreenshot = document.getElementById('payment_screenshot');
+                    if (paymentScreenshot && !paymentScreenshot.dataset.savedFile) {
+                        paymentScreenshot.setAttribute('required', 'required');
+                    }
+                } else if (paymentNo && paymentNo.checked) {
+                    document.getElementById('payment_details_section').style.display = 'none';
+                }
+            }, 100);
+            
             alert('Draft loaded successfully!');
         } else {
             console.log('No draft data or load failed:', data.message);

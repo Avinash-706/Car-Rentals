@@ -29,7 +29,7 @@ define('SMTP_TO_NAME', 'Inspection Team');
 define('UPLOAD_DIR', 'uploads/');
 define('PDF_DIR', 'pdfs/');
 define('LOG_DIR', 'logs/');
-define('MAX_FILE_SIZE', 5242880); // 5MB in bytes
+define('MAX_FILE_SIZE', 15728640); // 15MB in bytes
 define('ALLOWED_FILE_TYPES', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']);
 define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'gif']);
 
@@ -86,7 +86,7 @@ define('ENABLE_PDF_WATERMARK', false);
 define('SUCCESS_MESSAGE', 'Inspection submitted successfully! PDF has been generated and sent to the email.');
 define('ERROR_MESSAGE', 'An error occurred while processing your submission. Please try again.');
 define('VALIDATION_ERROR', 'Please fill in all required fields.');
-define('UPLOAD_ERROR', 'Failed to upload image. Please ensure the file is under 5MB and is a valid image format.');
+define('UPLOAD_ERROR', 'Failed to upload image. Please ensure the file is under 15MB and is a valid image format.');
 
 // Helper Functions
 function getConfig($key, $default = null) {

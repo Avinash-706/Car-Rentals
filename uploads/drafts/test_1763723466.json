@@ -1,0 +1,13 @@
+{
+    "draft_id": "test_1763723466",
+    "version": 2,
+    "created_at": 1763723477,
+    "updated_at": 1763723477,
+    "owner_id": "guest",
+    "archived": false,
+    "current_step": "test",
+    "form_data": [],
+    "uploaded_files": {
+        "test_image": "D:\\SEMESTER - VII\\php2\\uploads\\drafts\\1763723477_guest_ea2ba55d_car5.jpg"
+    }
+}
