@@ -1390,7 +1390,7 @@ function setupCameraCapture() {
         cameraLabel.htmlFor = cameraInput.id;
         cameraLabel.className = 'file-label';
         cameraLabel.style.flex = '1';
-        cameraLabel.style.background = '#4CAF50';
+        cameraLabel.style.background = '#848383ff';
         cameraLabel.innerHTML = '<span class="camera-icon">📷</span><span class="file-text">Take Photo</span>';
         
         // Create wrapper for both buttons

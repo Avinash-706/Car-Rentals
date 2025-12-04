@@ -19,7 +19,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
         <div class="header">
             <div class="logo"><img src="https://carinspectionexpert.com/wp-content/uploads/2025/03/Black-and-Red-Modern-Car-Services-Logo-2-e1742534862460.png"
         alt="Car Inspection Expert Logo" class="logo"> </div>
-            <h1 class="logo-title">USED CAR INSPECTION REPORT</h1>
+            <h1 class="logo-title">Used Car Inspection Report</h1>
         </div>
 
         <!-- Progress Bar -->
