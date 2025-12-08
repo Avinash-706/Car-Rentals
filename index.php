@@ -41,8 +41,8 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Expert ID</label>
-                    <input type="text" name="expert_id">
+                    <label>Engineer Name</label>
+                    <input type="text" name="engineer_name">
                 </div>
 
                 <div class="form-row">
@@ -54,11 +54,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         <label>Customer Phone</label>
                         <input type="tel" name="customer_phone">
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" name="inspection_date">
                 </div>
 
                 <div class="form-group">
@@ -94,10 +89,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     <input type="text" name="lead_owner">
                 </div>
 
-                <div class="form-group">
-                    <label>Pending Amount</label>
-                    <input type="number" name="pending_amount" step="0.01">
-                </div>
+
             </div>
 
             <!-- STEP 2: EXPERT DETAILS -->
@@ -105,17 +97,44 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 <h2>⊙ Expert Details</h2>
                 
                 <div class="form-group">
-                    <label>Inspection 45 Minutes Delayed? <span class="required">*</span></label>
+                    <label>Taking Payment <span class="required">*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="inspection_delayed" value="Yes" required> Yes
+                            <input type="radio" name="taking_payment" value="Yes" id="payment_yes" required> Yes
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="inspection_delayed" value="No"> No
+                            <input type="radio" name="taking_payment" value="No" id="payment_no" required> No
                         </label>
                     </div>
                 </div>
 
+                <!-- Payment QR Code and Screenshot (shown only when Yes is selected) -->
+                <div id="payment_details_section" style="display: none;">
+                    <!-- QR Code Display -->
+                    <div class="form-group">
+                        <label>Scan QR Code for Payment</label>
+                        <div style="text-align: center; padding: 20px; background: #f5f5f5; border-radius: 8px; margin: 10px 0;">
+                            <img src="https://carinspectionexpert.com/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-07-at-5.55.42-PM.jpeg" 
+                                 alt="Payment QR Code" 
+                                 style="max-width: 300px; width: 100%; height: auto; border: 2px solid #ddd; border-radius: 8px;">
+                        </div>
+                    </div>
+
+                    <!-- Payment Screenshot Upload -->
+                    <div class="form-group">
+                        <label for="payment_screenshot">Upload Payment Screenshot <span class="required">*</span></label>
+                        <div class="file-upload">
+                            <input type="file" name="payment_screenshot" id="payment_screenshot" accept="image/*" capture="camera">
+                            <label for="payment_screenshot" class="file-label">
+                                <span class="camera-icon">📷</span>
+                                <span class="file-text">Choose Payment Screenshot</span>
+                            </label>
+                            <div class="file-preview" id="payment_screenshotPreview"></div>
+                        </div>
+                        <small class="form-text">Upload a screenshot of your payment confirmation</small>
+                    </div>
+                </div>
+                
                 <div class="form-group">
                     <label>Your photo with car's number plate <span class="required">*</span></label>
                     <div class="file-upload">
@@ -183,11 +202,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 <div class="form-group">
                     <label>Car Registered State <span class="required">*</span></label>
                     <input type="text" name="car_registered_state" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Car Registered City</label>
-                    <input type="text" name="car_registered_city">
                 </div>
 
                 <div class="form-group">
@@ -327,35 +341,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Car Purchase Invoice <span class="required">*</span></label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="car_purchase_invoice[]" value="Available"> Available
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="car_purchase_invoice[]" value="Not Available"> Not Available
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="car_purchase_invoice[]" value="Not Required"> Not Required
-                        </label>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label>Bi-Fuel Certification <span class="required">*</span></label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="bifuel_certification[]" value="Available"> Available
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="bifuel_certification[]" value="Not Required"> Not Required
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="bifuel_certification[]" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
             </div>
 
             <!-- STEP 5: BODY FRAME ACCIDENTAL CHECKLIST -->
@@ -532,7 +518,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 
                 <div class="form-group">
                     <label>Front Bumper <span class="required">*</span></label>
-                    <div class="checkbox-group" data-ok-group="front_bumper">
+                    <div class="checkbox-group" data-ok-group="front_bumper" data-conditional-image="front_bumper_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="front_bumper[]" value="Scratches"> Scratches
                         </label>
@@ -547,10 +533,21 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                     </div>
                 </div>
+                <div class="form-group conditional-image-field" id="front_bumper_image_group" style="display: none;">
+                    <label>Front Bumper Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="front_bumper_image" id="frontBumperImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="front_bumper">
+                        <label for="frontBumperImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="frontBumperImagePreview"></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label>Rear Bumper <span class="required">*</span></label>
-                    <div class="checkbox-group" data-ok-group="rear_bumper">
+                    <div class="checkbox-group" data-ok-group="rear_bumper" data-conditional-image="rear_bumper_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="rear_bumper[]" value="Scratches"> Scratches
                         </label>
@@ -565,10 +562,21 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                     </div>
                 </div>
+                <div class="form-group conditional-image-field" id="rear_bumper_image_group" style="display: none;">
+                    <label>Rear Bumper Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="rear_bumper_image" id="rearBumperImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="rear_bumper">
+                        <label for="rearBumperImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="rearBumperImagePreview"></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label>Bonnet <span class="required">*</span></label>
-                    <div class="checkbox-group" data-ok-group="bonnet">
+                    <div class="checkbox-group" data-ok-group="bonnet" data-conditional-image="bonnet_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="bonnet[]" value="Scratches"> Scratches
                         </label>
@@ -586,10 +594,21 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                     </div>
                 </div>
+                <div class="form-group conditional-image-field" id="bonnet_image_group" style="display: none;">
+                    <label>Bonnet Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="bonnet_image" id="bonnetImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="bonnet">
+                        <label for="bonnetImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="bonnetImagePreview"></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label>Roof <span class="required">*</span></label>
-                    <div class="checkbox-group" data-ok-group="roof">
+                    <div class="checkbox-group" data-ok-group="roof" data-conditional-image="roof_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="roof[]" value="Scratches"> Scratches
                         </label>
@@ -604,10 +623,21 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                     </div>
                 </div>
+                <div class="form-group conditional-image-field" id="roof_image_group" style="display: none;">
+                    <label>Roof Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="roof_image" id="roofImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="roof">
+                        <label for="roofImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="roofImagePreview"></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label>Windshield <span class="required">*</span></label>
-                    <div class="checkbox-group" data-ok-group="windshield">
+                    <div class="checkbox-group" data-ok-group="windshield" data-conditional-image="windshield_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="windshield[]" value="Cracked"> Cracked
                         </label>
@@ -619,6 +649,17 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                     </div>
                 </div>
+                <div class="form-group conditional-image-field" id="windshield_image_group" style="display: none;">
+                    <label>Windshield Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="windshield_image" id="windshieldImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="windshield">
+                        <label for="windshieldImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="windshieldImagePreview"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- STEP 7: ENGINE (BEFORE TEST DRIVE) -->
@@ -626,26 +667,25 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 <h2>⊙ Engine (Before Test Drive)</h2>
                 
                 <div class="form-group">
-                    <label>Car Start Image <span class="required">*</span></label>
-                    <div class="file-upload">
-                        <input type="file" name="car_start_image" id="carStartImage" accept="image/jpeg,image/jpg,image/png" required>
-                        <label for="carStartImage" class="file-label">
-                            <span class="camera-icon">📷</span>
-                            <span class="file-text">Choose Image</span>
-                        </label>
-                        <div class="file-preview" id="carStartImagePreview"></div>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label>Car Start <span class="required">*</span></label>
-                    <div class="checkbox-group" data-ok-group="car_start">
+                    <div class="checkbox-group" data-ok-group="car_start" data-conditional-image="car_start_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="car_start[]" value="Ok" data-ok-checkbox> Ok
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" name="car_start[]" value="Not Ok"> Not Ok
                         </label>
+                    </div>
+                </div>
+                <div class="form-group conditional-image-field" id="car_start_image_group" style="display: none;">
+                    <label>Car Start Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="car_start_image" id="carStartImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="car_start">
+                        <label for="carStartImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="carStartImagePreview"></div>
                     </div>
                 </div>
 
@@ -720,7 +760,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
 
                 <div class="form-group">
                     <label>Engine Mounting and Components <span class="required">*</span></label>
-                    <div class="checkbox-group" data-ok-group="engine_mounting">
+                    <div class="checkbox-group" data-ok-group="engine_mounting" data-conditional-image="engine_mounting_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="engine_mounting[]" value="Ok" data-ok-checkbox> Ok
                         </label>
@@ -729,16 +769,38 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                     </div>
                 </div>
+                <div class="form-group conditional-image-field" id="engine_mounting_image_group" style="display: none;">
+                    <label>Engine Mounting and Components Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="engine_mounting_image" id="engineMountingImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="engine_mounting">
+                        <label for="engineMountingImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="engineMountingImagePreview"></div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label>Coolant Level <span class="required">*</span></label>
-                    <div class="checkbox-group" data-ok-group="coolant_level">
+                    <div class="checkbox-group" data-ok-group="coolant_level" data-conditional-image="coolant_level_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="coolant_level[]" value="Ok" data-ok-checkbox> Ok
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" name="coolant_level[]" value="Not Ok"> Not Ok
                         </label>
+                    </div>
+                </div>
+                <div class="form-group conditional-image-field" id="coolant_level_image_group" style="display: none;">
+                    <label>Coolant Level Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="coolant_level_image" id="coolantLevelImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="coolant_level">
+                        <label for="coolantLevelImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="coolantLevelImagePreview"></div>
                     </div>
                 </div>
 
@@ -806,7 +868,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 
                 <div class="form-group">
                     <label>Any Fault Codes Present? <span class="required">*</span></label>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" data-not-checked-group="fault_codes" data-conditional-image="fault_codes_image">
                         <label class="checkbox-label">
                             <input type="checkbox" name="fault_codes[]" value="Yes"> Yes
                         </label>
@@ -817,8 +879,19 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                             <input type="checkbox" name="fault_codes[]" value="Port Not Working"> Port Not Working
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="fault_codes[]" value="Not Checked"> Not Checked
+                            <input type="checkbox" name="fault_codes[]" value="Not Checked" data-not-checked-checkbox> Not Checked
                         </label>
+                    </div>
+                </div>
+                <div class="form-group conditional-image-field" id="fault_codes_image_group" style="display: none;">
+                    <label>Fault Codes Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="fault_codes_image" id="faultCodesImage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="fault_codes">
+                        <label for="faultCodesImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="faultCodesImagePreview"></div>
                     </div>
                 </div>
 
@@ -1679,11 +1752,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Check All Buttons</label>
-                    <small>Mention if anything is not working</small>
-                    <textarea name="check_all_buttons" rows="3" placeholder="Mention if anything is not working"></textarea>
-                </div>
             </div>
 
             <!-- STEP 10: WARNING LIGHTS -->
@@ -2494,24 +2562,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Brake Calipers Front Driver Side <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_driver" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_driver" value="Not Ok" required> Not Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_driver" value="Not Able To Check" required> Not Able To Check
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_driver" value="Not Applicable" required> Not Applicable
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label>Brake Pads Front Passenger Side <span class="required">*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -2537,24 +2587,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                         <label class="radio-label">
                             <input type="radio" name="brake_discs_front_passenger" value="Not Applicable" required> Not Applicable
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Brake Calipers Front Passenger Side <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_passenger" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_passenger" value="Not Ok" required> Not Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_passenger" value="Not Able To Check" required> Not Able To Check
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_passenger" value="Not Applicable" required> Not Applicable
                         </label>
                     </div>
                 </div>
@@ -2590,24 +2622,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Brake Calipers Back Passenger Side <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_passenger" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_passenger" value="Not Ok" required> Not Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_passenger" value="Not Able To Check" required> Not Able To Check
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_passenger" value="Not Applicable" required> Not Applicable
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label>Brake Pads Back Driver Side <span class="required">*</span></label>
                     <div class="radio-group">
                         <label class="radio-label">
@@ -2633,24 +2647,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                         <label class="radio-label">
                             <input type="radio" name="brake_discs_back_driver" value="Not Applicable" required> Not Applicable
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Brake Calipers Back Driver Side <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_driver" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_driver" value="Not Ok" required> Not Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_driver" value="Not Able To Check" required> Not Able To Check
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_driver" value="Not Applicable" required> Not Applicable
                         </label>
                     </div>
                 </div>
@@ -2696,18 +2692,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
             <!-- STEP 17: SUSPENSION -->
             <div class="form-step" data-step="17">
                 <h2>⊙ Suspension</h2>
-
-                <div class="form-group">
-                    <label>Car Height <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="car_height" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="car_height" value="Not Ok" required> Not Ok
-                        </label>
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <label>Shocker Bounce Test <span class="required">*</span></label>
@@ -3368,48 +3352,9 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
 
             </div>
 
-            <!-- STEP 23: PAYMENT DETAILS -->
+            <!-- STEP 23: OTHER IMAGES -->
             <div class="form-step" data-step="23">
-                <h2>⊙ Payment Details</h2>
-
-                <div class="form-group">
-                    <label>Taking Payment <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="taking_payment" value="Yes" id="payment_yes" required> Yes
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="taking_payment" value="No" id="payment_no" required> No
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Payment QR Code and Screenshot (shown only when Yes is selected) -->
-                <div id="payment_details_section" style="display: none;">
-                    <!-- QR Code Display -->
-                    <div class="form-group">
-                        <label>Scan QR Code for Payment</label>
-                        <div style="text-align: center; padding: 20px; background: #f5f5f5; border-radius: 8px; margin: 10px 0;">
-                            <img src="https://carinspectionexpert.com/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-07-at-5.55.42-PM.jpeg" 
-                                 alt="Payment QR Code" 
-                                 style="max-width: 300px; width: 100%; height: auto; border: 2px solid #ddd; border-radius: 8px;">
-                        </div>
-                    </div>
-
-                    <!-- Payment Screenshot Upload -->
-                    <div class="form-group">
-                        <label for="payment_screenshot">Upload Payment Screenshot <span class="required">*</span></label>
-                        <div class="file-upload">
-                            <input type="file" name="payment_screenshot" id="payment_screenshot" accept="image/*" capture="camera">
-                            <label for="payment_screenshot" class="file-label">
-                                <span class="camera-icon">📷</span>
-                                <span class="file-text">Choose Payment Screenshot</span>
-                            </label>
-                            <div class="file-preview" id="payment_screenshotPreview"></div>
-                        </div>
-                        <small class="form-text">Upload a screenshot of your payment confirmation</small>
-                    </div>
-                </div>
+                <h2>⊙ Other Images</h2>
 
                 <!-- OTHER IMAGES (Optional) - 5 separate image fields -->
                 <div class="form-group">
@@ -3493,7 +3438,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 <button type="submit" class="btn btn-success" id="submitBtn" style="display:none;">Submit</button>
                 <button type="button" class="btn btn-info" id="saveDraftBtn">Save Draft</button>
                 <button type="button" class="btn btn-secondary" id="discardDraftBtn">Discard Draft</button>
-                <button type="button" class="btn btn-warning" id="tSubmitBtn" style="background: #ff9800; color: white; font-weight: bold;">🔍 T-SUBMIT (Test PDF)</button>
             </div>
 
             <!-- Loading Overlay -->

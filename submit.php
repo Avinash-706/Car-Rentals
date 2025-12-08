@@ -43,11 +43,9 @@ try {
     error_log("  registration_certificate: " . (isset($_POST['registration_certificate']) ? print_r($_POST['registration_certificate'], true) : 'NOT SET'));
     error_log("  car_insurance: " . (isset($_POST['car_insurance']) ? print_r($_POST['car_insurance'], true) : 'NOT SET'));
     error_log("  car_finance_noc: " . (isset($_POST['car_finance_noc']) ? print_r($_POST['car_finance_noc'], true) : 'NOT SET'));
-    error_log("  car_purchase_invoice: " . (isset($_POST['car_purchase_invoice']) ? print_r($_POST['car_purchase_invoice'], true) : 'NOT SET'));
-    error_log("  bifuel_certification: " . (isset($_POST['bifuel_certification']) ? print_r($_POST['bifuel_certification'], true) : 'NOT SET'));
     
     // Validate required fields
-    $requiredFields = ['booking_id', 'inspection_delayed'];
+    $requiredFields = ['booking_id'];
     foreach ($requiredFields as $field) {
         if (empty($_POST[$field])) {
             throw new Exception("Required field missing: $field");

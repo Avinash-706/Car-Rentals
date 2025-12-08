@@ -180,7 +180,6 @@ $criticalFiles = [
     'save-draft.php' => ['uploads/drafts'],
     'load-draft.php' => ['uploads/drafts'],
     'generate-pdf.php' => ['pdfs'],
-    'generate-test-pdf.php' => ['pdfs'],
     'drafts/discard.php' => ['uploads/drafts', 'drafts/audit'],
     'drafts/auto-cleanup.php' => ['uploads/drafts']
 ];

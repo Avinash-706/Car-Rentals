@@ -381,3 +381,447 @@
 [04-Dec-2025 16:41:55 Asia/Kolkata] === SMTP PHASE COMPLETE ===
 [04-Dec-2025 16:41:55 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
 [04-Dec-2025 16:43:25 Asia/Kolkata] Draft file missing during save: uploads/drafts/car_photo_1764846649_dd03834c.jpg (tried: D:\SEMESTER - VII\php2\uploads\drafts\car_photo_1764846649_dd03834c.jpg)
+[07-Dec-2025 22:21:21 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 76
+[07-Dec-2025 22:21:21 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 22:21:21 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 22:21:21 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 22:21:21 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 22:21:21 Asia/Kolkata] Total files processed: 11
+[07-Dec-2025 22:21:21 Asia/Kolkata] Generating PDF with 11 images
+[07-Dec-2025 22:21:34 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_dsasfd_1765126294.pdf
+[07-Dec-2025 22:21:34 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935a160c244a8.13069427
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935a160c244a8.13069427
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765122400_83cb6efa.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765122400_83cb6efa.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/front_bumper_image_1765123650_85f7ba2f.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_front_bumper_image_1765123650_85f7ba2f.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/rear_bumper_image_1765123947_adee715c.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_rear_bumper_image_1765123947_adee715c.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/bonnet_image_1765123952_df1f53d2.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_bonnet_image_1765123952_df1f53d2.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/roof_image_1765123956_79f2f972.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_roof_image_1765123956_79f2f972.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/windshield_image_1765123960_97fd9108.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_windshield_image_1765123960_97fd9108.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/fault_codes_image_1765125047_6bef8ee1.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_fault_codes_image_1765125047_6bef8ee1.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_start_image_1765125085_d71bf219.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_start_image_1765125085_d71bf219.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/engine_mounting_image_1765125122_23c718aa.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_engine_mounting_image_1765125122_23c718aa.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/coolant_level_image_1765125125_c44a349b.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_coolant_level_image_1765125125_c44a349b.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/payment_screenshot_1765126126_2305466b.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_payment_screenshot_1765126126_2305466b.jpg
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935a160c244a8.13069427.log
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935a160c244a8.13069427.json
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935a160c244a8.13069427 - Deleted 11 images, 1 files, Freed 5.93 MB
+[07-Dec-2025 22:21:34 Asia/Kolkata] Cleanup: Draft deleted - 11 images, 5.93 MB freed
+[07-Dec-2025 22:21:34 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 22:21:34 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 22:21:34 Asia/Kolkata] Images deleted: 11
+[07-Dec-2025 22:21:34 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 22:21:34 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 22:21:34 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 22:21:34 Asia/Kolkata] Total space freed: 5.93 MB
+[07-Dec-2025 22:21:34 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 22:21:34 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 22:21:43 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_dsasfd_1765126294.pdf
+[07-Dec-2025 22:21:43 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 22:21:43 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 22:46:41 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 22:46:41 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 22:46:41 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 22:46:41 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 22:46:41 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 22:46:41 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 22:46:41 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 22:46:45 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_dsafs_1765127805.pdf
+[07-Dec-2025 22:46:45 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 22:46:45 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935b608d5ded8.93703142
+[07-Dec-2025 22:46:45 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935b608d5ded8.93703142
+[07-Dec-2025 22:46:45 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765127688_45f06dc2.jpg
+[07-Dec-2025 22:46:45 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765127688_45f06dc2.jpg
+[07-Dec-2025 22:46:45 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935b608d5ded8.93703142.log
+[07-Dec-2025 22:46:45 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935b608d5ded8.93703142.json
+[07-Dec-2025 22:46:45 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935b608d5ded8.93703142 - Deleted 1 images, 1 files, Freed 393.96 KB
+[07-Dec-2025 22:46:45 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 393.96 KB freed
+[07-Dec-2025 22:46:45 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 22:46:45 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 22:46:45 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 22:46:45 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 22:46:45 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 22:46:45 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 22:46:45 Asia/Kolkata] Total space freed: 393.96 KB
+[07-Dec-2025 22:46:45 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 22:46:45 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 22:46:54 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_dsafs_1765127805.pdf
+[07-Dec-2025 22:46:54 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 22:46:54 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 22:52:43 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 22:52:43 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 22:52:43 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 22:52:43 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 22:52:43 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 22:52:43 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 22:52:43 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 22:52:48 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_Avinashdsadsgd_1765128167.pdf
+[07-Dec-2025 22:52:48 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935b7cb866908.84674487
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935b7cb866908.84674487
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765128139_d70d334f.jpg
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765128139_d70d334f.jpg
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935b7cb866908.84674487.log
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935b7cb866908.84674487.json
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935b7cb866908.84674487 - Deleted 1 images, 1 files, Freed 393.96 KB
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 393.96 KB freed
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Deleted thumbnail: thumb_car_photo_1765128108_dad8d717.jpg
+[07-Dec-2025 22:52:48 Asia/Kolkata] Cleanup: Deleted remaining image: car_photo_1765128108_dad8d717.jpg
+[07-Dec-2025 22:52:48 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 22:52:48 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 22:52:48 Asia/Kolkata] Images deleted: 2
+[07-Dec-2025 22:52:48 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 22:52:48 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 22:52:48 Asia/Kolkata] Thumbnails deleted: 1
+[07-Dec-2025 22:52:48 Asia/Kolkata] Total space freed: 739.88 KB
+[07-Dec-2025 22:52:48 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 22:52:48 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 22:52:57 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_Avinashdsadsgd_1765128167.pdf
+[07-Dec-2025 22:52:57 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 22:52:57 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 22:56:07 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 22:56:07 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 22:56:07 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 22:56:07 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 22:56:07 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 22:56:07 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 22:56:07 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 22:56:11 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_adsfdsg_1765128371.pdf
+[07-Dec-2025 22:56:11 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 22:56:11 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935b89dec0244.25333688
+[07-Dec-2025 22:56:11 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935b89dec0244.25333688
+[07-Dec-2025 22:56:11 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765128349_ad5b8bcb.jpg
+[07-Dec-2025 22:56:11 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765128349_ad5b8bcb.jpg
+[07-Dec-2025 22:56:11 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935b89dec0244.25333688.log
+[07-Dec-2025 22:56:11 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935b89dec0244.25333688.json
+[07-Dec-2025 22:56:11 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935b89dec0244.25333688 - Deleted 1 images, 1 files, Freed 393.96 KB
+[07-Dec-2025 22:56:11 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 393.96 KB freed
+[07-Dec-2025 22:56:11 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 22:56:11 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 22:56:11 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 22:56:11 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 22:56:11 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 22:56:11 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 22:56:11 Asia/Kolkata] Total space freed: 393.96 KB
+[07-Dec-2025 22:56:11 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 22:56:11 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 22:56:20 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_adsfdsg_1765128371.pdf
+[07-Dec-2025 22:56:20 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 22:56:20 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:00:26 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 23:00:26 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:00:26 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 23:00:26 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 23:00:26 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 23:00:26 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 23:00:26 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 23:00:31 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_adsfs_1765128630.pdf
+[07-Dec-2025 23:00:31 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:00:31 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935b9606118b9.43733884
+[07-Dec-2025 23:00:31 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935b9606118b9.43733884
+[07-Dec-2025 23:00:31 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765128544_a64c733c.jpg
+[07-Dec-2025 23:00:31 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765128544_a64c733c.jpg
+[07-Dec-2025 23:00:31 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935b9606118b9.43733884.log
+[07-Dec-2025 23:00:31 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935b9606118b9.43733884.json
+[07-Dec-2025 23:00:31 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935b9606118b9.43733884 - Deleted 1 images, 1 files, Freed 748.17 KB
+[07-Dec-2025 23:00:31 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 748.17 KB freed
+[07-Dec-2025 23:00:31 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:00:31 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:00:31 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 23:00:31 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:00:31 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:00:31 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:00:31 Asia/Kolkata] Total space freed: 748.17 KB
+[07-Dec-2025 23:00:31 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:00:31 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:00:40 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_adsfs_1765128630.pdf
+[07-Dec-2025 23:00:40 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:00:40 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:05:51 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 45
+[07-Dec-2025 23:05:51 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:05:51 Asia/Kolkata]   registration_certificate: Array
+(
+    [0] => Available
+)
+
+[07-Dec-2025 23:05:51 Asia/Kolkata]   car_insurance: Array
+(
+    [0] => Not Available
+)
+
+[07-Dec-2025 23:05:51 Asia/Kolkata]   car_finance_noc: Array
+(
+    [0] => Available
+)
+
+[07-Dec-2025 23:05:51 Asia/Kolkata] Total files processed: 3
+[07-Dec-2025 23:05:51 Asia/Kolkata] Generating PDF with 3 images
+[07-Dec-2025 23:05:57 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_asdfs_1765128957.pdf
+[07-Dec-2025 23:05:57 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935ba60877d56.33820843
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935ba60877d56.33820843
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765128800_d13e8ea1.jpg
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765128800_d13e8ea1.jpg
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_km_photo_1765128910_f4782bb3.jpg
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_km_photo_1765128910_f4782bb3.jpg
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/chassis_plate_photo_1765128917_d71e7eba.jpg
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_chassis_plate_photo_1765128917_d71e7eba.jpg
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935ba60877d56.33820843.log
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935ba60877d56.33820843.json
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935ba60877d56.33820843 - Deleted 3 images, 1 files, Freed 2.36 MB
+[07-Dec-2025 23:05:57 Asia/Kolkata] Cleanup: Draft deleted - 3 images, 2.36 MB freed
+[07-Dec-2025 23:05:57 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:05:57 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:05:57 Asia/Kolkata] Images deleted: 3
+[07-Dec-2025 23:05:57 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:05:57 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:05:57 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:05:57 Asia/Kolkata] Total space freed: 2.36 MB
+[07-Dec-2025 23:05:57 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:05:57 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:06:06 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_asdfs_1765128957.pdf
+[07-Dec-2025 23:06:06 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:06:06 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:11:15 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 23:11:15 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:11:15 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 23:11:15 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 23:11:15 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 23:11:15 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 23:11:15 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 23:11:20 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_Avubashhahsha_1765129280.pdf
+[07-Dec-2025 23:11:20 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:11:20 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935bc1fcbef81.28073648
+[07-Dec-2025 23:11:20 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935bc1fcbef81.28073648
+[07-Dec-2025 23:11:20 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765129247_0d69f57e.jpg
+[07-Dec-2025 23:11:20 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765129247_0d69f57e.jpg
+[07-Dec-2025 23:11:20 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935bc1fcbef81.28073648.log
+[07-Dec-2025 23:11:20 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935bc1fcbef81.28073648.json
+[07-Dec-2025 23:11:20 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935bc1fcbef81.28073648 - Deleted 1 images, 1 files, Freed 748.18 KB
+[07-Dec-2025 23:11:20 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 748.18 KB freed
+[07-Dec-2025 23:11:20 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:11:20 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:11:20 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 23:11:20 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:11:20 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:11:20 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:11:20 Asia/Kolkata] Total space freed: 748.18 KB
+[07-Dec-2025 23:11:20 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:11:20 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:11:31 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_Avubashhahsha_1765129280.pdf
+[07-Dec-2025 23:11:31 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:11:31 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:14:57 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 23:14:57 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:14:57 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 23:14:57 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 23:14:57 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 23:14:57 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 23:14:57 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 23:15:02 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_dafds_1765129502.pdf
+[07-Dec-2025 23:15:02 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:15:02 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935bd0b785151.87268324
+[07-Dec-2025 23:15:02 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935bd0b785151.87268324
+[07-Dec-2025 23:15:02 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765129483_af3959a1.jpg
+[07-Dec-2025 23:15:02 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765129483_af3959a1.jpg
+[07-Dec-2025 23:15:02 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935bd0b785151.87268324.log
+[07-Dec-2025 23:15:02 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935bd0b785151.87268324.json
+[07-Dec-2025 23:15:02 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935bd0b785151.87268324 - Deleted 1 images, 1 files, Freed 393.86 KB
+[07-Dec-2025 23:15:02 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 393.86 KB freed
+[07-Dec-2025 23:15:02 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:15:02 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:15:02 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 23:15:02 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:15:02 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:15:02 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:15:02 Asia/Kolkata] Total space freed: 393.86 KB
+[07-Dec-2025 23:15:02 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:15:02 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:15:11 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_dafds_1765129502.pdf
+[07-Dec-2025 23:15:11 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:15:11 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:18:46 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 23:18:46 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:18:46 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 23:18:46 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 23:18:46 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 23:18:46 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 23:18:46 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 23:18:50 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_dsasf_1765129730.pdf
+[07-Dec-2025 23:18:50 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:18:50 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935bde1de5504.86790078
+[07-Dec-2025 23:18:50 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935bde1de5504.86790078
+[07-Dec-2025 23:18:50 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765129697_3ff7d201.jpg
+[07-Dec-2025 23:18:50 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765129697_3ff7d201.jpg
+[07-Dec-2025 23:18:50 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935bde1de5504.86790078.log
+[07-Dec-2025 23:18:50 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935bde1de5504.86790078.json
+[07-Dec-2025 23:18:50 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935bde1de5504.86790078 - Deleted 1 images, 1 files, Freed 925.63 KB
+[07-Dec-2025 23:18:50 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 925.63 KB freed
+[07-Dec-2025 23:18:50 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:18:50 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:18:50 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 23:18:50 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:18:50 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:18:50 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:18:50 Asia/Kolkata] Total space freed: 925.63 KB
+[07-Dec-2025 23:18:50 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:18:50 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:19:01 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_dsasf_1765129730.pdf
+[07-Dec-2025 23:19:01 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:19:01 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:21:48 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 39
+[07-Dec-2025 23:21:48 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:21:48 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 23:21:48 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 23:21:48 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 23:21:48 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 23:21:48 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 23:21:51 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_dasfs_1765129911.pdf
+[07-Dec-2025 23:21:51 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:21:51 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935be97845b14.55686725
+[07-Dec-2025 23:21:51 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935be97845b14.55686725
+[07-Dec-2025 23:21:51 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765129879_07760f23.jpg
+[07-Dec-2025 23:21:51 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765129879_07760f23.jpg
+[07-Dec-2025 23:21:51 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935be97845b14.55686725.log
+[07-Dec-2025 23:21:51 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935be97845b14.55686725.json
+[07-Dec-2025 23:21:51 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935be97845b14.55686725 - Deleted 1 images, 1 files, Freed 203.67 KB
+[07-Dec-2025 23:21:51 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 203.67 KB freed
+[07-Dec-2025 23:21:51 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:21:51 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:21:51 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 23:21:51 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:21:51 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:21:51 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:21:51 Asia/Kolkata] Total space freed: 203.67 KB
+[07-Dec-2025 23:21:51 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:21:51 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:21:59 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_dasfs_1765129911.pdf
+[07-Dec-2025 23:21:59 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:21:59 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:26:28 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 23:26:28 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:26:28 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 23:26:28 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 23:26:28 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 23:26:28 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 23:26:28 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 23:26:32 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_sadsff_1765130192.pdf
+[07-Dec-2025 23:26:32 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:26:32 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935bfb72ae1d8.98481558
+[07-Dec-2025 23:26:32 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935bfb72ae1d8.98481558
+[07-Dec-2025 23:26:32 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765130167_6d13809a.jpg
+[07-Dec-2025 23:26:32 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765130167_6d13809a.jpg
+[07-Dec-2025 23:26:32 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935bfb72ae1d8.98481558.log
+[07-Dec-2025 23:26:32 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935bfb72ae1d8.98481558.json
+[07-Dec-2025 23:26:32 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935bfb72ae1d8.98481558 - Deleted 1 images, 1 files, Freed 612.8 KB
+[07-Dec-2025 23:26:32 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 612.8 KB freed
+[07-Dec-2025 23:26:32 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:26:32 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:26:32 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 23:26:32 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:26:32 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:26:32 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:26:32 Asia/Kolkata] Total space freed: 612.8 KB
+[07-Dec-2025 23:26:32 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:26:32 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:26:43 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_sadsff_1765130192.pdf
+[07-Dec-2025 23:26:43 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:26:43 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:31:50 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 23:31:50 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:31:50 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 23:31:50 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 23:31:50 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 23:31:50 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 23:31:50 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 23:31:55 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_asdfdsg_1765130515.pdf
+[07-Dec-2025 23:31:55 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:31:55 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935c0f3490811.72333777
+[07-Dec-2025 23:31:55 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935c0f3490811.72333777
+[07-Dec-2025 23:31:55 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765130483_34f12f0c.jpg
+[07-Dec-2025 23:31:55 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765130483_34f12f0c.jpg
+[07-Dec-2025 23:31:55 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935c0f3490811.72333777.log
+[07-Dec-2025 23:31:55 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935c0f3490811.72333777.json
+[07-Dec-2025 23:31:55 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935c0f3490811.72333777 - Deleted 1 images, 1 files, Freed 393.86 KB
+[07-Dec-2025 23:31:55 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 393.86 KB freed
+[07-Dec-2025 23:31:55 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:31:55 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:31:55 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 23:31:55 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:31:55 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:31:55 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:31:55 Asia/Kolkata] Total space freed: 393.86 KB
+[07-Dec-2025 23:31:55 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:31:55 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:32:05 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_asdfdsg_1765130515.pdf
+[07-Dec-2025 23:32:05 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:32:05 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[07-Dec-2025 23:35:09 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[07-Dec-2025 23:35:09 Asia/Kolkata] Step 4 Checkbox Debug:
+[07-Dec-2025 23:35:09 Asia/Kolkata]   registration_certificate: NOT SET
+[07-Dec-2025 23:35:09 Asia/Kolkata]   car_insurance: NOT SET
+[07-Dec-2025 23:35:09 Asia/Kolkata]   car_finance_noc: NOT SET
+[07-Dec-2025 23:35:09 Asia/Kolkata] Total files processed: 1
+[07-Dec-2025 23:35:09 Asia/Kolkata] Generating PDF with 1 images
+[07-Dec-2025 23:35:14 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_dsafd_1765130714.pdf
+[07-Dec-2025 23:35:14 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[07-Dec-2025 23:35:14 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_6935c1c65a35d7.46469035
+[07-Dec-2025 23:35:14 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_6935c1c65a35d7.46469035
+[07-Dec-2025 23:35:14 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765130694_382e517f.jpg
+[07-Dec-2025 23:35:14 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765130694_382e517f.jpg
+[07-Dec-2025 23:35:14 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_6935c1c65a35d7.46469035.log
+[07-Dec-2025 23:35:14 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_6935c1c65a35d7.46469035.json
+[07-Dec-2025 23:35:14 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_6935c1c65a35d7.46469035 - Deleted 1 images, 1 files, Freed 393.86 KB
+[07-Dec-2025 23:35:14 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 393.86 KB freed
+[07-Dec-2025 23:35:14 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[07-Dec-2025 23:35:14 Asia/Kolkata] Draft deleted: Yes
+[07-Dec-2025 23:35:14 Asia/Kolkata] Images deleted: 1
+[07-Dec-2025 23:35:14 Asia/Kolkata] Compressed deleted: 0
+[07-Dec-2025 23:35:14 Asia/Kolkata] Uniform deleted: 0
+[07-Dec-2025 23:35:14 Asia/Kolkata] Thumbnails deleted: 0
+[07-Dec-2025 23:35:14 Asia/Kolkata] Total space freed: 393.86 KB
+[07-Dec-2025 23:35:14 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[07-Dec-2025 23:35:14 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[07-Dec-2025 23:35:22 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_dsafd_1765130714.pdf
+[07-Dec-2025 23:35:22 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[07-Dec-2025 23:35:22 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[08-Dec-2025 11:10:59 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[08-Dec-2025 11:10:59 Asia/Kolkata] Step 4 Checkbox Debug:
+[08-Dec-2025 11:10:59 Asia/Kolkata]   registration_certificate: NOT SET
+[08-Dec-2025 11:10:59 Asia/Kolkata]   car_insurance: NOT SET
+[08-Dec-2025 11:10:59 Asia/Kolkata]   car_finance_noc: NOT SET
+[08-Dec-2025 11:10:59 Asia/Kolkata] Total files processed: 1
+[08-Dec-2025 11:10:59 Asia/Kolkata] Generating PDF with 1 images
+[08-Dec-2025 11:11:03 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_21343545_1765172463.pdf
+[08-Dec-2025 11:11:04 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[08-Dec-2025 11:11:04 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_693664cbf36879.62323128
+[08-Dec-2025 11:11:04 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_693664cbf36879.62323128
+[08-Dec-2025 11:11:04 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765172428_fda5acca.jpg
+[08-Dec-2025 11:11:04 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765172428_fda5acca.jpg
+[08-Dec-2025 11:11:04 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_693664cbf36879.62323128.log
+[08-Dec-2025 11:11:04 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_693664cbf36879.62323128.json
+[08-Dec-2025 11:11:04 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_693664cbf36879.62323128 - Deleted 1 images, 1 files, Freed 612.9 KB
+[08-Dec-2025 11:11:04 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 612.9 KB freed
+[08-Dec-2025 11:11:04 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[08-Dec-2025 11:11:04 Asia/Kolkata] Draft deleted: Yes
+[08-Dec-2025 11:11:04 Asia/Kolkata] Images deleted: 1
+[08-Dec-2025 11:11:04 Asia/Kolkata] Compressed deleted: 0
+[08-Dec-2025 11:11:04 Asia/Kolkata] Uniform deleted: 0
+[08-Dec-2025 11:11:04 Asia/Kolkata] Thumbnails deleted: 0
+[08-Dec-2025 11:11:04 Asia/Kolkata] Total space freed: 612.9 KB
+[08-Dec-2025 11:11:04 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[08-Dec-2025 11:11:04 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[08-Dec-2025 11:11:14 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_21343545_1765172463.pdf
+[08-Dec-2025 11:11:14 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[08-Dec-2025 11:11:14 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===

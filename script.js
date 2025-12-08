@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('prevBtn').addEventListener('click', prevStep);
     document.getElementById('saveDraftBtn').addEventListener('click', saveDraft);
     document.getElementById('discardDraftBtn').addEventListener('click', discardDraft);
-    document.getElementById('tSubmitBtn').addEventListener('click', testSubmit);
     document.getElementById('fetchLocation').addEventListener('click', fetchLocation);
     
     // Submit button - both form submit and direct click
@@ -384,35 +383,117 @@ function setupImagePreviews() {
 }
 
 function setupOkCheckboxLogic() {
-    // Find all checkbox groups with OK logic
-    const checkboxGroups = document.querySelectorAll('[data-ok-group]');
+    // Handle OK logic (Steps 6 & 7) - Show image when NOT OK
+    const okGroups = document.querySelectorAll('[data-ok-group]');
     
-    checkboxGroups.forEach(group => {
+    okGroups.forEach(group => {
         const checkboxes = group.querySelectorAll('input[type="checkbox"]');
         const okCheckbox = group.querySelector('[data-ok-checkbox]');
         
         if (!okCheckbox) return;
         
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                if (this === okCheckbox) {
-                    // If OK is checked, uncheck all others
-                    if (this.checked) {
-                        checkboxes.forEach(cb => {
-                            if (cb !== okCheckbox) {
-                                cb.checked = false;
-                            }
-                        });
-                    }
-                } else {
-                    // If any other checkbox is checked, uncheck OK
-                    if (this.checked) {
-                        okCheckbox.checked = false;
-                    }
+        setupConditionalImageLogic(group, checkboxes, okCheckbox, 'ok');
+    });
+    
+    // Handle "Not Checked" logic (Step 8) - Show image when NOT "Not Checked"
+    const notCheckedGroups = document.querySelectorAll('[data-not-checked-group]');
+    
+    notCheckedGroups.forEach(group => {
+        const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+        const notCheckedCheckbox = group.querySelector('[data-not-checked-checkbox]');
+        
+        if (!notCheckedCheckbox) return;
+        
+        setupConditionalImageLogic(group, checkboxes, notCheckedCheckbox, 'not checked');
+    });
+}
+
+function setupConditionalImageLogic(group, checkboxes, hideCheckbox, hideValue) {
+    // Get conditional image field if exists
+    const conditionalImageId = group.getAttribute('data-conditional-image');
+    const imageGroup = conditionalImageId ? document.getElementById(conditionalImageId + '_group') : null;
+    
+    // Convert snake_case to camelCase for input ID
+    let imageInputId = null;
+    if (conditionalImageId) {
+        const parts = conditionalImageId.split('_');
+        imageInputId = parts[0] + parts.slice(1).map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
+    }
+    const imageInput = imageInputId ? document.getElementById(imageInputId) : null;
+    
+    // Debug logging
+    if (conditionalImageId) {
+        console.log('Conditional image setup:', {
+            conditionalImageId: conditionalImageId,
+            imageInputId: imageInputId,
+            imageGroupFound: !!imageGroup,
+            imageInputFound: !!imageInput,
+            hideValue: hideValue
+        });
+    }
+    
+    // Function to check if hide value is selected (case-insensitive)
+    function isHideValueSelected() {
+        const checkedValues = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value.toLowerCase());
+        return checkedValues.includes(hideValue.toLowerCase());
+    }
+    
+    // Function to toggle conditional image field
+    function toggleConditionalImage() {
+        if (!imageGroup || !imageInput) return;
+        
+        const hideSelected = isHideValueSelected();
+        
+        if (hideSelected) {
+            // Hide image field and remove required
+            imageGroup.style.display = 'none';
+            imageInput.removeAttribute('required');
+            imageInput.value = ''; // Clear file input
+            // Clear preview
+            const previewId = imageInput.id + 'Preview';
+            const preview = document.getElementById(previewId);
+            if (preview) {
+                preview.innerHTML = '';
+            }
+            // Remove saved file marker
+            delete imageInput.dataset.savedFile;
+        } else {
+            // Show image field and make required if any checkbox is checked
+            const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+            if (anyChecked) {
+                imageGroup.style.display = 'block';
+                imageInput.setAttribute('required', 'required');
+            }
+        }
+    }
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (this === hideCheckbox) {
+                // If hide checkbox is checked, uncheck all others
+                if (this.checked) {
+                    checkboxes.forEach(cb => {
+                        if (cb !== hideCheckbox) {
+                            cb.checked = false;
+                        }
+                    });
                 }
-            });
+            } else {
+                // If any other checkbox is checked, uncheck hide checkbox
+                if (this.checked) {
+                    hideCheckbox.checked = false;
+                }
+            }
+            
+            // Toggle conditional image field
+            toggleConditionalImage();
         });
     });
+    
+    // Initial check on page load
+    toggleConditionalImage();
 }
 
 function setupPaymentToggle() {
@@ -623,6 +704,33 @@ function loadDraft() {
             console.log('Draft loaded:', data);
             const draftData = data.draft_data;
             
+            // MIGRATION: Handle old field names from previous versions
+            if (draftData.form_data) {
+                // Migrate expert_id → engineer_name
+                if (draftData.form_data.expert_id && !draftData.form_data.engineer_name) {
+                    draftData.form_data.engineer_name = draftData.form_data.expert_id;
+                    delete draftData.form_data.expert_id;
+                    console.log('Migrated: expert_id → engineer_name');
+                }
+                
+                // Remove deprecated fields (they won't be restored)
+                const deprecatedFields = [
+                    'inspection_date',
+                    'pending_amount', 
+                    'inspection_delayed',
+                    'car_registered_city',
+                    'car_purchase_invoice',
+                    'bifuel_certification'
+                ];
+                
+                deprecatedFields.forEach(field => {
+                    if (draftData.form_data[field]) {
+                        delete draftData.form_data[field];
+                        console.log('Removed deprecated field:', field);
+                    }
+                });
+            }
+            
             // Restore current step
             if (draftData.current_step) {
                 currentStep = parseInt(draftData.current_step);
@@ -744,6 +852,67 @@ function loadDraft() {
                 } else if (paymentNo && paymentNo.checked) {
                     document.getElementById('payment_details_section').style.display = 'none';
                 }
+                
+                // Trigger conditional image fields after draft loads
+                // Handle OK groups (Steps 6 & 7)
+                const okGroups = document.querySelectorAll('[data-ok-group][data-conditional-image]');
+                okGroups.forEach(group => {
+                    const conditionalImageId = group.getAttribute('data-conditional-image');
+                    const imageGroup = document.getElementById(conditionalImageId + '_group');
+                    
+                    if (!imageGroup) return;
+                    
+                    // Check if OK is selected
+                    const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+                    const checkedValues = Array.from(checkboxes)
+                        .filter(cb => cb.checked)
+                        .map(cb => cb.value.toLowerCase());
+                    const okSelected = checkedValues.includes('ok');
+                    
+                    // Show/hide image field based on selection
+                    if (okSelected) {
+                        imageGroup.style.display = 'none';
+                    } else if (checkedValues.length > 0) {
+                        imageGroup.style.display = 'block';
+                        // Get the image input
+                        const parts = conditionalImageId.split('_');
+                        const imageInputId = parts[0] + parts.slice(1).map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
+                        const imageInput = document.getElementById(imageInputId);
+                        if (imageInput && !imageInput.dataset.savedFile) {
+                            imageInput.setAttribute('required', 'required');
+                        }
+                    }
+                });
+                
+                // Handle "Not Checked" groups (Step 8)
+                const notCheckedGroups = document.querySelectorAll('[data-not-checked-group][data-conditional-image]');
+                notCheckedGroups.forEach(group => {
+                    const conditionalImageId = group.getAttribute('data-conditional-image');
+                    const imageGroup = document.getElementById(conditionalImageId + '_group');
+                    
+                    if (!imageGroup) return;
+                    
+                    // Check if "Not Checked" is selected
+                    const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+                    const checkedValues = Array.from(checkboxes)
+                        .filter(cb => cb.checked)
+                        .map(cb => cb.value.toLowerCase());
+                    const notCheckedSelected = checkedValues.includes('not checked');
+                    
+                    // Show/hide image field based on selection
+                    if (notCheckedSelected) {
+                        imageGroup.style.display = 'none';
+                    } else if (checkedValues.length > 0) {
+                        imageGroup.style.display = 'block';
+                        // Get the image input
+                        const parts = conditionalImageId.split('_');
+                        const imageInputId = parts[0] + parts.slice(1).map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
+                        const imageInput = document.getElementById(imageInputId);
+                        if (imageInput && !imageInput.dataset.savedFile) {
+                            imageInput.setAttribute('required', 'required');
+                        }
+                    }
+                });
             }, 100);
             
             alert('Draft loaded successfully!');
@@ -1176,191 +1345,6 @@ uploadStyle.textContent = `
 `;
 document.head.appendChild(uploadStyle);
 
-
-// ============================================================================
-// T-SUBMIT: Test PDF Generation for Current Progress
-// ============================================================================
-function testSubmit(event) {
-    event.preventDefault();
-    
-    console.log('T-SUBMIT: Generating test PDF for steps 1-' + currentStep);
-    
-    // Show loading
-    const tSubmitBtn = document.getElementById('tSubmitBtn');
-    const originalText = tSubmitBtn.textContent;
-    tSubmitBtn.textContent = '⏳ Generating PDF...';
-    tSubmitBtn.disabled = true;
-    
-    // Collect all form data up to current step
-    const form = document.getElementById('inspectionForm');
-    const formData = new FormData();
-    
-    // Add current step info
-    formData.append('test_mode', 'true');
-    formData.append('current_step', currentStep);
-    formData.append('total_steps', totalSteps);
-    
-    // Collect all form inputs
-    const inputs = form.querySelectorAll('input, textarea, select');
-    inputs.forEach(input => {
-        // Get the step number for this input
-        const stepElement = input.closest('.form-step');
-        const inputStep = stepElement ? parseInt(stepElement.getAttribute('data-step')) : 1;
-        
-        // Only include inputs from completed steps (up to current step)
-        if (inputStep <= currentStep) {
-            if (input.type === 'checkbox' || input.type === 'radio') {
-                if (input.checked) {
-                    formData.append(input.name, input.value);
-                }
-            } else if (input.type === 'file') {
-                // Skip file inputs - we'll use uploaded files
-            } else if (input.name) {
-                formData.append(input.name, input.value);
-            }
-        }
-    });
-    
-    // Add progressively uploaded file paths
-    for (const fieldName in uploadedFiles) {
-        formData.append('existing_' + fieldName, uploadedFiles[fieldName]);
-    }
-    
-    // Add saved files from localStorage
-    const savedFiles = JSON.parse(localStorage.getItem('savedFiles') || '{}');
-    for (const fieldName in savedFiles) {
-        // Only add if not already added from uploadedFiles
-        if (!uploadedFiles[fieldName]) {
-            formData.append('existing_' + fieldName, savedFiles[fieldName]);
-        }
-    }
-    
-    console.log('T-SUBMIT: Sending data to t-submit.php...');
-    
-    // Send to test submit handler
-    fetch('t-submit.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        tSubmitBtn.textContent = originalText;
-        tSubmitBtn.disabled = false;
-        
-        if (data.success) {
-            console.log('T-SUBMIT: PDF generated successfully!', data.pdf_path);
-            
-            // Show success message with download link
-            const message = `✅ Test PDF Generated Successfully!\n\n` +
-                          `Steps Included: 1-${currentStep}\n` +
-                          `PDF Path: ${data.pdf_path}\n\n` +
-                          `Click OK to download the PDF.`;
-            
-            if (confirm(message)) {
-                // Open PDF in new tab
-                window.open(data.pdf_path, '_blank');
-            }
-            
-            // Also show a temporary success banner
-            showTestPdfBanner(data.pdf_path, currentStep);
-        } else {
-            console.error('T-SUBMIT: Error:', data.message);
-            alert('❌ Test PDF Generation Failed:\n\n' + data.message);
-        }
-    })
-    .catch(error => {
-        tSubmitBtn.textContent = originalText;
-        tSubmitBtn.disabled = false;
-        
-        console.error('T-SUBMIT: Fetch error:', error);
-        alert('❌ Error generating test PDF:\n\n' + error.message);
-    });
-}
-
-// Show temporary success banner for test PDF
-function showTestPdfBanner(pdfPath, stepsIncluded) {
-    // Remove existing banner if any
-    const existingBanner = document.getElementById('testPdfBanner');
-    if (existingBanner) {
-        existingBanner.remove();
-    }
-    
-    // Create banner
-    const banner = document.createElement('div');
-    banner.id = 'testPdfBanner';
-    banner.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #4CAF50;
-        color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        z-index: 10000;
-        max-width: 400px;
-        animation: slideIn 0.3s ease-out;
-    `;
-    
-    banner.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <div style="font-size: 32px;">✅</div>
-            <div style="flex: 1;">
-                <div style="font-weight: bold; font-size: 16px; margin-bottom: 5px;">
-                    Test PDF Generated!
-                </div>
-                <div style="font-size: 14px; opacity: 0.9;">
-                    Steps 1-${stepsIncluded} included
-                </div>
-                <a href="${pdfPath}" target="_blank" onclick="event.stopPropagation();" style="color: white; text-decoration: underline; font-size: 14px; display: inline-block; margin-top: 8px; cursor: pointer;">
-                    📄 Open PDF
-                </a>
-            </div>
-            <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 0; line-height: 1;">
-                ×
-            </button>
-        </div>
-    `;
-    
-    document.body.appendChild(banner);
-    
-    // Auto-remove after 10 seconds
-    setTimeout(() => {
-        if (banner.parentElement) {
-            banner.style.animation = 'slideOut 0.3s ease-in';
-            setTimeout(() => banner.remove(), 300);
-        }
-    }, 10000);
-}
-
-// Add CSS animation
-if (!document.getElementById('testPdfStyles')) {
-    const style = document.createElement('style');
-    style.id = 'testPdfStyles';
-    style.textContent = `
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-}
 
 // Setup camera capture for all file inputs
 function setupCameraCapture() {

@@ -86,41 +86,53 @@ function generateCompleteHTML($data) {
     $html .= generateField('Booking ID', $data['booking_id'] ?? '', true);
     
     // Optional fields (print only if filled)
-    $html .= generateField('Expert ID', $data['expert_id'] ?? '', false);
+    $html .= generateField('Engineer Name', $data['engineer_name'] ?? '', false);
     $html .= generateField('Customer Name', $data['customer_name'] ?? '', false);
     $html .= generateField('Customer Phone', $data['customer_phone'] ?? '', false);
-    $html .= generateField('Date', $data['inspection_date'] ?? '', false);
     $html .= generateField('Time', $data['inspection_time'] ?? '', false);
     $html .= generateField('Inspection Address', $data['inspection_address'] ?? '', false);
     $html .= generateField('OBD Scanning', $data['obd_scanning'] ?? '', false);
     $html .= generateField('Car', $data['car'] ?? '', false);
     $html .= generateField('Lead Owner', $data['lead_owner'] ?? '', false);
-    $html .= generateField('Pending Amount', $data['pending_amount'] ?? '', false);
     
     // ========================================================================
     // STEP 2: Expert Details
     // ========================================================================
     $html .= generateStepHeader(2, 'Expert Details');
     
-    // Mandatory fields
-    $html .= generateField('Inspection 45 Minutes Delayed?', $data['inspection_delayed'] ?? '', true);
+    // Taking Payment field
+    $html .= generateField('Taking Payment', $data['taking_payment'] ?? '', true);
+    
+    // Payment Screenshot (if payment was made)
+    if (isset($data['taking_payment']) && $data['taking_payment'] === 'Yes') {
+        if (!empty($data['payment_screenshot_path'])) {
+            $paymentImages = [];
+            $paymentImages[] = generateImage('Payment Screenshot', $data['payment_screenshot_path'], false);
+            $html .= '<div style="margin-top: 15px;">';
+            $html .= generateImageGrid($paymentImages);
+            $html .= '</div>';
+        }
+    }
     
     // Image in grid
     $images = [];
     $images[] = generateImage('Your photo with car\'s number plate', $data['car_photo_path'] ?? '', true);
     $html .= generateImageGrid($images);
     
-    // Location section (all mandatory)
-    $html .= '<div class="location-section">';
-    $html .= '<div class="field-row"><span class="field-label section-label">Current Location:</span></div>';
+    // Location fields (all mandatory) - Normal fields without special styling
     $html .= generateField('Latitude', $data['latitude'] ?? '', true);
     $html .= generateField('Longitude', $data['longitude'] ?? '', true);
     $html .= generateField('Full Location Address', $data['location_address'] ?? '', true);
-    $html .= '</div>';
     
-    // Optional fields (print only if filled)
-    $html .= generateField('Date', $data['expert_date'] ?? '', false);
-    $html .= generateField('Time', $data['expert_time'] ?? '', false);
+    // Optional Date and Time fields
+    $dateValue = $data['expert_date'] ?? '';
+    $timeValue = $data['expert_time'] ?? '';
+    if (!empty($dateValue)) {
+        $html .= generateField('Date', $dateValue, false);
+    }
+    if (!empty($timeValue)) {
+        $html .= generateField('Time', $timeValue, false);
+    }
     
     // ========================================================================
     // STEP 3: Car Details
@@ -133,9 +145,6 @@ function generateCompleteHTML($data) {
     $html .= generateField('Car Registration Year (YYYY)', $data['car_registration_year'] ?? '', true);
     $html .= generateField('Car Variant', $data['car_variant'] ?? '', true);
     $html .= generateField('Car Registered State', $data['car_registered_state'] ?? '', true);
-    
-    // Optional field (print only if filled)
-    $html .= generateField('Car Registered City', $data['car_registered_city'] ?? '', false);
     
     // Mandatory fields continued
     $html .= generateField('Fuel Type', formatArray($data['fuel_type'] ?? []), true);
@@ -161,8 +170,6 @@ function generateCompleteHTML($data) {
     $html .= generateField('Registration Certificate', formatArray($data['registration_certificate'] ?? []), true);
     $html .= generateField('Car Insurance', formatArray($data['car_insurance'] ?? []), true);
     $html .= generateField('Car Finance NOC', formatArray($data['car_finance_noc'] ?? []), true);
-    $html .= generateField('Car Purchase Invoice', formatArray($data['car_purchase_invoice'] ?? []), true);
-    $html .= generateField('Bi-Fuel Certification', formatArray($data['bifuel_certification'] ?? []), true);
     
     // ========================================================================
     // STEP 5: Body Frame Accidental Checklist
@@ -191,39 +198,93 @@ function generateCompleteHTML($data) {
     // ========================================================================
     $html .= generateStepHeader(6, 'Exterior Body');
     
+    // Front Bumper
     $html .= generateField('Front Bumper', formatArray($data['front_bumper'] ?? []), true);
+    if (!isOkSelected($data['front_bumper'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Front Bumper', $data['front_bumper_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
+    
+    // Rear Bumper
     $html .= generateField('Rear Bumper', formatArray($data['rear_bumper'] ?? []), true);
+    if (!isOkSelected($data['rear_bumper'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Rear Bumper', $data['rear_bumper_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
+    
+    // Bonnet
     $html .= generateField('Bonnet', formatArray($data['bonnet'] ?? []), true);
+    if (!isOkSelected($data['bonnet'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Bonnet', $data['bonnet_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
+    
+    // Roof
     $html .= generateField('Roof', formatArray($data['roof'] ?? []), true);
+    if (!isOkSelected($data['roof'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Roof', $data['roof_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
+    
+    // Windshield
     $html .= generateField('Windshield', formatArray($data['windshield'] ?? []), true);
+    if (!isOkSelected($data['windshield'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Windshield', $data['windshield_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
     
     // ========================================================================
     // STEP 7: Engine (Before Test Drive)
     // ========================================================================
     $html .= generateStepHeader(7, 'Engine (Before Test Drive)');
     
-    // Text fields first
+    // Car Start - conditional image
     $html .= generateField('Car Start', formatArray($data['car_start'] ?? []), true);
-    $html .= generateField('Wiring', formatArray($data['wiring'] ?? []), true);
-    $html .= generateField('Engine Oil Quality', formatArray($data['engine_oil'] ?? []), true);
-    $html .= generateField('Engine Oil Cap', formatArray($data['engine_oil_cap'] ?? []), true);
+    if (!isOkSelected($data['car_start'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Car Start', $data['car_start_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
     
-    // Images in grid
+    // Wiring
+    $html .= generateField('Wiring', formatArray($data['wiring'] ?? []), true);
     $images = [];
-    $images[] = generateImage('Car Start', $data['car_start_image_path'] ?? '', true);
     $images[] = generateImage('Wiring', $data['wiring_image_path'] ?? '', true);
+    $html .= generateImageGrid($images);
+    
+    // Engine Oil Quality
+    $html .= generateField('Engine Oil Quality', formatArray($data['engine_oil'] ?? []), true);
+    $images = [];
     $images[] = generateImage('Engine Oil Quality', $data['engine_oil_image_path'] ?? '', true);
     $html .= generateImageGrid($images);
-    $html .= generateField('Engine Mounting and Components', formatArray($data['engine_mounting'] ?? []), true);
     
-    // Coolant
+    $html .= generateField('Engine Oil Cap', formatArray($data['engine_oil_cap'] ?? []), true);
+    
+    // Engine Mounting and Components - conditional image
+    $html .= generateField('Engine Mounting and Components', formatArray($data['engine_mounting'] ?? []), true);
+    if (!isOkSelected($data['engine_mounting'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Engine Mounting and Components', $data['engine_mounting_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
+    
+    // Coolant Level - conditional image
     $html .= generateField('Coolant Level', formatArray($data['coolant_level'] ?? []), true);
+    if (!isOkSelected($data['coolant_level'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Coolant Level', $data['coolant_level_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
+    
     $html .= generateField('Coolant Quality', formatArray($data['coolant_quality'] ?? []), true);
     
-    // Text field first
+    // Smoke Emission
     $html .= generateField('Smoke Emission', formatArray($data['smoke_emission'] ?? []), true);
-    
-    // Image in grid
     $images = [];
     $images[] = generateImage('Smoke Emission', $data['smoke_emission_image_path'] ?? '', true);
     $html .= generateImageGrid($images);
@@ -236,9 +297,15 @@ function generateCompleteHTML($data) {
     // ========================================================================
     $html .= generateStepHeader(8, 'OBD Scan');
     
-    $html .= generateField('Fault Codes', $data['fault_codes'] ?? '', true);
+    // Any Fault Codes Present? - conditional image
+    $html .= generateField('Any Fault Codes Present?', formatArray($data['fault_codes'] ?? []), true);
+    if (!isNotCheckedSelected($data['fault_codes'] ?? [])) {
+        $images = [];
+        $images[] = generateImage('Fault Codes', $data['fault_codes_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
     
-    // Image in grid
+    // OBD Scan Photo (always shown)
     $images = [];
     $images[] = generateImage('OBD Scan Photo', $data['obd_scan_photo_path'] ?? '', true);
     $html .= generateImageGrid($images);
@@ -327,9 +394,6 @@ function generateCompleteHTML($data) {
     $html .= generateField('Rear Seat Condition – 7 Seater', $data['rear_seat_condition_7seater'] ?? '', true);
     $html .= generateField('Rear Seat Belt – 7 Seater', $data['rear_seat_belt_7seater'] ?? '', true);
     $html .= generateField('Child Safety Lock', $data['child_safety_lock'] ?? '', true);
-    
-    // NON-MANDATORY TEXT AREA (only if filled)
-    $html .= generateField('Check All Buttons', $data['check_all_buttons'] ?? '', false);
     
     // ========================================================================
     // STEP 10: Warning Lights
@@ -460,22 +524,18 @@ function generateCompleteHTML($data) {
     // Front Driver Side
     $html .= generateField('Brake Pads Front Driver Side', $data['brake_pads_front_driver'] ?? '', true);
     $html .= generateField('Brake Discs Front Driver Side', $data['brake_discs_front_driver'] ?? '', true);
-    $html .= generateField('Brake Calipers Front Driver Side', $data['brake_calipers_front_driver'] ?? '', true);
     
     // Front Passenger Side
     $html .= generateField('Brake Pads Front Passenger Side', $data['brake_pads_front_passenger'] ?? '', true);
     $html .= generateField('Brake Discs Front Passenger Side', $data['brake_discs_front_passenger'] ?? '', true);
-    $html .= generateField('Brake Calipers Front Passenger Side', $data['brake_calipers_front_passenger'] ?? '', true);
     
     // Back Passenger Side
     $html .= generateField('Brake Pads Back Passenger Side', $data['brake_pads_back_passenger'] ?? '', true);
     $html .= generateField('Brake Discs Back Passenger Side', $data['brake_discs_back_passenger'] ?? '', true);
-    $html .= generateField('Brake Calipers Back Passenger Side', $data['brake_calipers_back_passenger'] ?? '', true);
     
     // Back Driver Side
     $html .= generateField('Brake Pads Back Driver Side', $data['brake_pads_back_driver'] ?? '', true);
     $html .= generateField('Brake Discs Back Driver Side', $data['brake_discs_back_driver'] ?? '', true);
-    $html .= generateField('Brake Calipers Back Driver Side', $data['brake_calipers_back_driver'] ?? '', true);
     
     // Brake System
     $html .= generateField('Brake Fluid Reservoir', $data['brake_fluid_reservoir'] ?? '', true);
@@ -487,7 +547,6 @@ function generateCompleteHTML($data) {
     // ========================================================================
     $html .= generateStepHeader(17, 'Suspension');
     
-    $html .= generateField('Car Height', $data['car_height'] ?? '', true);
     $html .= generateField('Shocker Bounce Test', $data['shocker_bounce_test'] ?? '', true);
     $html .= generateField('Driver Side Suspension Assembly', $data['driver_suspension_assembly'] ?? '', true);
     $html .= generateField('Driver Side Shocker Leakage', $data['driver_shocker_leakage'] ?? '', true);
@@ -591,24 +650,9 @@ function generateCompleteHTML($data) {
     $html .= generateImageGrid($images);
     
     // ========================================================================
-    // STEP 23: Payment Details
+    // STEP 23: Other Images
     // ========================================================================
-    $html .= generateStepHeader(23, 'Payment Details');
-    
-    $html .= generateField('Taking Payment', $data['taking_payment'] ?? '', true);
-    
-    // Payment Screenshot (if payment was made)
-    if (isset($data['taking_payment']) && $data['taking_payment'] === 'Yes') {
-        if (!empty($data['payment_screenshot_path'])) {
-            $paymentImages = [];
-            $paymentImages[] = generateImage('Payment Screenshot', $data['payment_screenshot_path'], false);
-            $html .= '<div style="margin-top: 15px;">';
-            $html .= generateImageGrid($paymentImages);
-            $html .= '</div>';
-        }
-    }
-    
-    // OTHER IMAGES (Optional - only show if images exist)
+    // Only show this step if at least one other image exists
     $otherImages = [];
     for ($i = 1; $i <= 5; $i++) {
         $fieldName = 'other_image_' . $i . '_path';
@@ -617,12 +661,10 @@ function generateCompleteHTML($data) {
         }
     }
     
-    // Only display OTHER IMAGES section if at least one image exists
+    // Only display STEP 23 if at least one image exists
     if (!empty($otherImages)) {
-        $html .= '<div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #ffcdd2;">';
-        $html .= '<h3 style="color: #c62828; font-size: 14px; margin-bottom: 15px;">OTHER IMAGES</h3>';
+        $html .= generateStepHeader(23, 'Other Images');
         $html .= generateImageGrid($otherImages);
-        $html .= '</div>';
     }
     
     $html .= generateFooter();
@@ -655,11 +697,11 @@ function generateStyles() {
             padding: 0;
         }
         
-        /* Step header - 20% larger with RED theme */
+        /* Step header - 20% larger with RED theme - WHITE BACKGROUND to prevent bleeding */
         .step-header { 
-            background: #ffebee; 
-            padding: 12px 15px; 
-            font-size: 15.6px; 
+            background: #ffffff; 
+            padding: 10px 12px; 
+            font-size: 12.6px; 
             font-weight: bold;
             margin: 20px 0 15px 0;
             border-left: 5px solid #D32F2F;
@@ -667,8 +709,9 @@ function generateStyles() {
             color: #c62828;
         }
         
-        /* Field rows - 20% larger text */
+        /* Field rows - White background to prevent bleeding */
         .field-row { 
+            background-color: #ffffff;
             margin: 6px 0;
             padding: 6px 0;
             border-bottom: 1px solid #e0e0e0;
@@ -679,13 +722,13 @@ function generateStyles() {
             color: #333; 
             display: inline-block; 
             width: 40%; 
-            font-size: 12px;
+            font-size: 10px;
         }
         .field-value { 
             color: #000; 
             display: inline-block; 
             width: 58%; 
-            font-size: 12px;
+            font-size: 10px;
         }
         .field-value.missing { 
             color: #d32f2f; 
@@ -710,7 +753,7 @@ function generateStyles() {
         
         /* Image label - Bold and emphasized with RED theme */
         .image-label {
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
             color: #c62828;
             margin-bottom: 8px;
@@ -729,20 +772,6 @@ function generateStyles() {
             margin: 0 auto;
         }
         
-        /* Location section with RED theme */
-        .location-section {
-            background: #ffebee;
-            padding: 12px;
-            margin: 12px 0;
-            border-left: 4px solid #D32F2F;
-            font-size: 12px;
-        }
-        .section-label {
-            font-size: 13.2px;
-            color: #c62828;
-            font-weight: bold;
-        }
-        
         /* Footer with RED theme */
         .footer { 
             text-align: center; 
@@ -757,7 +786,7 @@ function generateStyles() {
 
 function generateHeader($data) {
     $booking_id = htmlspecialchars($data['booking_id'] ?? 'N/A');
-    $expert_id = htmlspecialchars($data['expert_id'] ?? 'N/A');
+    $engineer_name = htmlspecialchars($data['engineer_name'] ?? 'N/A');
     $customer_name = htmlspecialchars($data['customer_name'] ?? $data['booking_id'] ?? 'N/A');
     
     $headerHTML = '
@@ -770,7 +799,7 @@ function generateHeader($data) {
                 <div style="color: #ffffff; font-family: Arial, Helvetica, sans-serif; line-height: 1.8;">
                     <div style="font-size: 16pt; font-weight: bold; margin-bottom: 10px; letter-spacing: 0.5px;">Used Car Inspection Report</div>
                     <div style="font-size: 11pt; margin-bottom: 5px;">ID: ' . $booking_id . '</div>
-                    <div style="font-size: 11pt; margin-bottom: 5px;">Inspection Expert ID: ' . $expert_id . '</div>
+                    <div style="font-size: 11pt; margin-bottom: 5px;">Engineer: ' . $engineer_name . '</div>
                     <div style="font-size: 11pt;">Customer Name: ' . $customer_name . '</div>
                 </div>
             </td>
@@ -920,9 +949,48 @@ function generateImageGrid($images) {
 function generateFooter() {
     return '<div class="footer">
         <p><strong>Car Inspection Expert System</strong></p>
-        <p>This report contains complete inspection data from all 23 steps.</p>
+        <div style="background: #fff3e0; border: 2px solid #ff9800; border-radius: 6px; padding: 15px; margin: 15px 0;">
+            <p style="font-weight: bold; font-size: 13.1px; color: #e65100; margin: 0; line-height: 1.6; text-align: left;">
+                ⚠️ <span style="text-decoration: underline;">IMPORTANT NOTE:</span><br>
+                While inspecting the vehicle, our boy will be responsible as long as he is at the inspection site, after that he will not be responsible even if anything happens to the vehicle.
+            </p>
+        </div>
         <p>Report generated on ' . date('Y-m-d H:i:s') . '</p>
     </div>';
+}
+
+/**
+ * Check if "OK" is selected in an array (case-insensitive)
+ */
+function isOkSelected($values) {
+    if (!is_array($values)) {
+        return false;
+    }
+    
+    foreach ($values as $value) {
+        if (strtolower(trim($value)) === 'ok') {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+/**
+ * Check if "Not Checked" is selected in an array (case-insensitive)
+ */
+function isNotCheckedSelected($values) {
+    if (!is_array($values)) {
+        return false;
+    }
+    
+    foreach ($values as $value) {
+        if (strtolower(trim($value)) === 'not checked') {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 function formatArray($value) {

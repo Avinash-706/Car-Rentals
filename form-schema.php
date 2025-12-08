@@ -29,11 +29,18 @@ return [
         ]
     ],
     
-    // STEP 2: Car Photo
+    // STEP 2: Expert Details
     2 => [
-        'title' => 'Car Photo',
+        'title' => 'Expert Details',
         'fields' => [
+            'taking_payment' => ['label' => 'Taking Payment', 'type' => 'radio', 'required' => true],
+            'payment_screenshot' => ['label' => 'Payment Screenshot', 'type' => 'file', 'required' => false], // Required only if taking_payment = Yes
             'car_photo' => ['label' => 'Your photo with car\'s number plate', 'type' => 'file', 'required' => true],
+            'latitude' => ['label' => 'Latitude', 'type' => 'text', 'required' => true],
+            'longitude' => ['label' => 'Longitude', 'type' => 'text', 'required' => true],
+            'location_address' => ['label' => 'Location Address', 'type' => 'textarea', 'required' => true],
+            'expert_date' => ['label' => 'Date', 'type' => 'text', 'required' => false],
+            'expert_time' => ['label' => 'Time', 'type' => 'text', 'required' => false],
         ]
     ],
     
@@ -251,11 +258,15 @@ return [
         ]
     ],
     
-    // STEP 23: Final Review
+    // STEP 23: Other Images
     23 => [
-        'title' => 'Final Review',
+        'title' => 'Other Images',
         'fields' => [
-            // Review step - no additional fields
+            'other_image_1' => ['label' => 'Other Image 1', 'type' => 'file', 'required' => false],
+            'other_image_2' => ['label' => 'Other Image 2', 'type' => 'file', 'required' => false],
+            'other_image_3' => ['label' => 'Other Image 3', 'type' => 'file', 'required' => false],
+            'other_image_4' => ['label' => 'Other Image 4', 'type' => 'file', 'required' => false],
+            'other_image_5' => ['label' => 'Other Image 5', 'type' => 'file', 'required' => false],
         ]
     ],
 ];
