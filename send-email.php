@@ -17,16 +17,28 @@ require_once __DIR__ . '/vendor/autoload.php';
 function sendEmail($pdfPath, $formData) {
     $mail = null;
     
+    // Ensure we have enough time for email sending
+    @set_time_limit(120); // 2 minutes for email
+    
     try {
         // Validate PDF exists before attempting email
+        if (empty($pdfPath)) {
+            error_log('Email sending aborted: PDF path is empty');
+            return false;
+        }
+        
         if (!file_exists($pdfPath)) {
             error_log('Email sending aborted: PDF file not found at ' . $pdfPath);
             return false;
         }
         
+        // Log PDF file size for debugging
+        $pdfSize = filesize($pdfPath);
+        error_log('Email: Attaching PDF - Size: ' . round($pdfSize / 1024 / 1024, 2) . ' MB');
+        
         $mail = new PHPMailer(true);
         
-        // SMTP Configuration with TIMEOUT settings
+        // SMTP Configuration with INCREASED TIMEOUT settings for hosting
         $mail->isSMTP();
         $mail->Host = SMTP_HOST;
         $mail->SMTPAuth = true;
@@ -35,14 +47,14 @@ function sendEmail($pdfPath, $formData) {
         $mail->SMTPSecure = SMTP_SECURE === 'tls' ? PHPMailer::ENCRYPTION_STARTTLS : PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = SMTP_PORT;
         
-        // Set timeouts to prevent hanging (30 seconds max)
-        $mail->Timeout = 30;
+        // INCREASED timeouts for large PDF attachments on slow hosting
+        $mail->Timeout = 60; // 60 seconds connection timeout
         $mail->SMTPKeepAlive = false;
         
-        // Disable debug output (important for background execution)
+        // Disable debug output
         $mail->SMTPDebug = 0;
         
-        // Additional safety settings
+        // SSL settings for compatibility
         $mail->SMTPAutoTLS = true;
         $mail->SMTPOptions = array(
             'ssl' => array(
@@ -64,26 +76,29 @@ function sendEmail($pdfPath, $formData) {
         $mail->Body = $emailBody;
         $mail->AltBody = strip_tags($emailBody);
         
-        // Attach PDF
-        $mail->addAttachment($pdfPath, 'inspection_report.pdf');
+        // Attach PDF with unique name based on booking ID
+        $attachmentName = 'inspection_' . ($formData['booking_id'] ?? 'report') . '_' . date('Ymd_His') . '.pdf';
+        $mail->addAttachment($pdfPath, $attachmentName);
+        
+        error_log('Email: Attempting to send to ' . SMTP_TO_EMAIL);
         
         // Send email
-        $mail->send();
+        $result = $mail->send();
+        
+        error_log('Email: Send completed successfully');
         
         return true;
         
     } catch (Exception $e) {
         // Safe error logging even if $mail is not initialized
         if ($mail !== null && isset($mail->ErrorInfo)) {
-            error_log('Email sending error (PHPMailer): ' . $mail->ErrorInfo);
+            error_log('Email PHPMailer Error: ' . $mail->ErrorInfo);
         }
-        error_log('Email exception: ' . $e->getMessage());
-        error_log('Email exception trace: ' . $e->getTraceAsString());
+        error_log('Email Exception: ' . $e->getMessage());
         
         // Log configuration for debugging (without password)
         if (defined('SMTP_HOST')) {
             error_log('SMTP Config - Host: ' . SMTP_HOST . ':' . (defined('SMTP_PORT') ? SMTP_PORT : 'undefined'));
-            error_log('SMTP Config - User: ' . (defined('SMTP_USERNAME') ? SMTP_USERNAME : 'undefined'));
         }
         
         return false;

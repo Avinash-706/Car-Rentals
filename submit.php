@@ -4,6 +4,26 @@
  * Receives form data, validates, saves images, generates PDF, and sends email
  */
 
+// CORS Headers - MUST be first before any output
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+header('Content-Type: application/json; charset=utf-8');
+
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+// Prevent any output before JSON
+ob_start();
+
+// Error handling - catch all errors and convert to JSON
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+});
+
 // Auto-configure PHP settings
 require_once 'auto-config.php';
 require_once 'init-directories.php';
@@ -20,11 +40,6 @@ require_once 'init-directories.php';
 
 define('APP_INIT', true);
 require_once 'config.php';
-
-// Prevent any output before JSON
-ob_start();
-
-header('Content-Type: application/json');
 
 // Response array
 $response = ['success' => false, 'message' => ''];
@@ -230,7 +245,34 @@ try {
     error_log("Total space freed: " . formatBytes($cleanupStats['total_freed']));
     
     // ========================================================================
-    // PHASE 2: SEND RESPONSE TO USER (User can start new inspection now)
+    // PHASE 2: SEND EMAIL FIRST (CRITICAL: Must complete before response)
+    // ========================================================================
+    // On shared hosting, script may be killed after response is sent.
+    // So we MUST send email BEFORE sending response to user.
+    
+    error_log("=== SMTP PHASE: Starting email sending BEFORE response ===");
+    
+    $emailSent = false;
+    $emailError = null;
+    
+    try {
+        require_once 'send-email.php';
+        $emailSent = sendEmail($pdfPath, $formData);
+        
+        if ($emailSent) {
+            error_log('SMTP: Email sent successfully for: ' . $pdfPath);
+        } else {
+            error_log('SMTP WARNING: Email sending returned false for: ' . $pdfPath);
+        }
+    } catch (Exception $e) {
+        $emailError = $e->getMessage();
+        error_log('SMTP ERROR: ' . $emailError);
+    }
+    
+    error_log("=== SMTP PHASE COMPLETE ===");
+    
+    // ========================================================================
+    // PHASE 3: SEND RESPONSE TO USER
     // ========================================================================
     
     $response['success'] = true;
@@ -238,6 +280,10 @@ try {
     $response['pdf_path'] = $pdfPath;
     $response['images_processed'] = $fileCount;
     $response['cleanup_stats'] = $cleanupStats;
+    $response['email_sent'] = $emailSent;
+    if ($emailError) {
+        $response['email_error'] = $emailError;
+    }
     
     // Prepare JSON response
     $jsonResponse = json_encode($response);
@@ -248,46 +294,13 @@ try {
     // Send response to user
     echo $jsonResponse;
     
-    // Close connection to user but continue script execution
-    if (function_exists('fastcgi_finish_request')) {
-        // PHP-FPM: Best method - closes connection immediately
-        fastcgi_finish_request();
-    } else {
-        // Apache/Other: Manual connection close
-        header('Connection: close');
-        header('Content-Length: ' . strlen($jsonResponse));
+    // Flush output to ensure response is sent
+    if (ob_get_level() > 0) {
         ob_end_flush();
-        flush();
     }
+    flush();
     
     error_log("=== USER RESPONSE SENT - User can now start new inspection ===");
-    
-    // ========================================================================
-    // PHASE 3: SEND EMAIL IN BACKGROUND (Non-blocking)
-    // ========================================================================
-    
-    error_log("=== SMTP PHASE: Starting email sending in background ===");
-    
-    try {
-        require_once 'send-email.php';
-        $emailSent = sendEmail($pdfPath, $formData);
-        
-        if ($emailSent) {
-            error_log('SMTP: Email sent successfully for: ' . $pdfPath);
-            
-            // OPTIONAL: Delete PDF after successful email (uncomment if needed)
-            // if (file_exists($pdfPath)) {
-            //     @unlink($pdfPath);
-            //     error_log('SMTP: PDF deleted after email: ' . $pdfPath);
-            // }
-        } else {
-            error_log('SMTP WARNING: Email sending failed for: ' . $pdfPath);
-        }
-    } catch (Exception $emailError) {
-        error_log('SMTP ERROR: ' . $emailError->getMessage());
-    }
-    
-    error_log("=== SMTP PHASE COMPLETE ===");
     error_log("=== SUBMISSION WORKFLOW COMPLETE ===");
     
     exit;

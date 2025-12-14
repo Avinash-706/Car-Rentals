@@ -825,3 +825,194 @@
 [08-Dec-2025 11:11:14 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_21343545_1765172463.pdf
 [08-Dec-2025 11:11:14 Asia/Kolkata] === SMTP PHASE COMPLETE ===
 [08-Dec-2025 11:11:14 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+2025-12-14 14:09:25 - Draft load error: Draft not found - Context: {"draft_id":"draft_6936a7b9471f19.08638057"}
+[14-Dec-2025 14:12:33 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 40
+[14-Dec-2025 14:12:33 Asia/Kolkata] Step 4 Checkbox Debug:
+[14-Dec-2025 14:12:33 Asia/Kolkata]   registration_certificate: NOT SET
+[14-Dec-2025 14:12:33 Asia/Kolkata]   car_insurance: NOT SET
+[14-Dec-2025 14:12:33 Asia/Kolkata]   car_finance_noc: NOT SET
+[14-Dec-2025 14:12:33 Asia/Kolkata] Total files processed: 2
+[14-Dec-2025 14:12:33 Asia/Kolkata] Generating PDF with 2 images
+[14-Dec-2025 14:12:38 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_21_1765701757.pdf
+[14-Dec-2025 14:12:38 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_693e77fc1e6509.39394575
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_693e77fc1e6509.39394575
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765701628_33301af2.jpg
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765701628_33301af2.jpg
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/payment_screenshot_1765701701_d1ae07a1.jpg
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_payment_screenshot_1765701701_d1ae07a1.jpg
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_693e77fc1e6509.39394575.log
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_693e77fc1e6509.39394575.json
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_693e77fc1e6509.39394575 - Deleted 2 images, 1 files, Freed 2.37 MB
+[14-Dec-2025 14:12:38 Asia/Kolkata] Cleanup: Draft deleted - 2 images, 2.37 MB freed
+[14-Dec-2025 14:12:38 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[14-Dec-2025 14:12:38 Asia/Kolkata] Draft deleted: Yes
+[14-Dec-2025 14:12:38 Asia/Kolkata] Images deleted: 2
+[14-Dec-2025 14:12:38 Asia/Kolkata] Compressed deleted: 0
+[14-Dec-2025 14:12:38 Asia/Kolkata] Uniform deleted: 0
+[14-Dec-2025 14:12:38 Asia/Kolkata] Thumbnails deleted: 0
+[14-Dec-2025 14:12:38 Asia/Kolkata] Total space freed: 2.37 MB
+[14-Dec-2025 14:12:38 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[14-Dec-2025 14:12:38 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[14-Dec-2025 14:12:49 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_21_1765701757.pdf
+[14-Dec-2025 14:12:49 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[14-Dec-2025 14:12:49 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[14-Dec-2025 14:19:53 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[14-Dec-2025 14:19:53 Asia/Kolkata] Step 4 Checkbox Debug:
+[14-Dec-2025 14:19:53 Asia/Kolkata]   registration_certificate: NOT SET
+[14-Dec-2025 14:19:53 Asia/Kolkata]   car_insurance: NOT SET
+[14-Dec-2025 14:19:53 Asia/Kolkata]   car_finance_noc: NOT SET
+[14-Dec-2025 14:19:53 Asia/Kolkata] Total files processed: 1
+[14-Dec-2025 14:19:53 Asia/Kolkata] Generating PDF with 1 images
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:19:59 Asia/Kolkata] Uniform resize error: getimagesize(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:20:01 Asia/Kolkata] PDF Generation Error: fopen(D:\SEMESTER - VII\php2): Failed to open stream: Permission denied
+[14-Dec-2025 14:20:01 Asia/Kolkata] Submission error: Failed to generate PDF in D:\SEMESTER - VII\php2\submit.php on line 137
+[14-Dec-2025 14:20:01 Asia/Kolkata] Stack trace: #0 {main}
+2025-12-14 14:20:01 - Submission error: Failed to generate PDF - Context: {"booking_id":"122","engineer_name":"","customer_name":"","customer_phone":"","inspection_time":"","inspection_address":"","car":"","lead_owner":"","taking_payment":"Yes","latitude":"31.244578","longitude":"75.702245","location_address":"Phagwara Tahsil, \u0915\u092a\u0942\u0930\u0925\u0932\u093e, Punjab, 144411, India","expert_date":"14-12-2025","expert_time":"02:19 PM","car_company":"","car_registration_number":"","car_registration_year":"","car_variant":"","car_registered_state":"","engine_capacity":"","car_colour":"","car_km_reading":"","car_keys_available":"","chassis_number":"","engine_number":"","in_car_start":"","control_lights_present":"","ac_cool_temperature":"","ac_hot_temperature":"","tyre_size":"","driver_front_tyre_date":"","driver_back_tyre_date":"","passenger_back_tyre_date":"","passenger_front_tyre_date":"","stepney_tyre_date":"","issues_found":"","draft_id":"draft_693e7a21e9a460.80961313","existing_payment_screenshot":"uploads\/drafts\/payment_screenshot_1765702177_3d22a0c1.jpg"}
+[14-Dec-2025 14:25:58 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 38
+[14-Dec-2025 14:25:58 Asia/Kolkata] Step 4 Checkbox Debug:
+[14-Dec-2025 14:25:58 Asia/Kolkata]   registration_certificate: NOT SET
+[14-Dec-2025 14:25:58 Asia/Kolkata]   car_insurance: NOT SET
+[14-Dec-2025 14:25:58 Asia/Kolkata]   car_finance_noc: NOT SET
+[14-Dec-2025 14:25:58 Asia/Kolkata] Total files processed: 1
+[14-Dec-2025 14:25:58 Asia/Kolkata] Generating PDF with 1 images
+[14-Dec-2025 14:26:01 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_122_1765702560.pdf
+[14-Dec-2025 14:26:01 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[14-Dec-2025 14:26:01 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_693e7a21e9a460.80961313
+[14-Dec-2025 14:26:01 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_693e7a21e9a460.80961313
+[14-Dec-2025 14:26:01 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/payment_screenshot_1765702177_3d22a0c1.jpg
+[14-Dec-2025 14:26:01 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_payment_screenshot_1765702177_3d22a0c1.jpg
+[14-Dec-2025 14:26:01 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_693e7a21e9a460.80961313.log
+[14-Dec-2025 14:26:01 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_693e7a21e9a460.80961313.json
+[14-Dec-2025 14:26:01 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_693e7a21e9a460.80961313 - Deleted 1 images, 1 files, Freed 393.99 KB
+[14-Dec-2025 14:26:01 Asia/Kolkata] Cleanup: Draft deleted - 1 images, 393.99 KB freed
+[14-Dec-2025 14:26:01 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[14-Dec-2025 14:26:01 Asia/Kolkata] Draft deleted: Yes
+[14-Dec-2025 14:26:01 Asia/Kolkata] Images deleted: 1
+[14-Dec-2025 14:26:01 Asia/Kolkata] Compressed deleted: 0
+[14-Dec-2025 14:26:01 Asia/Kolkata] Uniform deleted: 0
+[14-Dec-2025 14:26:01 Asia/Kolkata] Thumbnails deleted: 0
+[14-Dec-2025 14:26:01 Asia/Kolkata] Total space freed: 393.99 KB
+[14-Dec-2025 14:26:01 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[14-Dec-2025 14:26:01 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[14-Dec-2025 14:26:10 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_122_1765702560.pdf
+[14-Dec-2025 14:26:10 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[14-Dec-2025 14:26:10 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[14-Dec-2025 14:40:44 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 39
+[14-Dec-2025 14:40:44 Asia/Kolkata] Step 4 Checkbox Debug:
+[14-Dec-2025 14:40:44 Asia/Kolkata]   registration_certificate: NOT SET
+[14-Dec-2025 14:40:44 Asia/Kolkata]   car_insurance: NOT SET
+[14-Dec-2025 14:40:44 Asia/Kolkata]   car_finance_noc: NOT SET
+[14-Dec-2025 14:40:44 Asia/Kolkata] Total files processed: 2
+[14-Dec-2025 14:40:44 Asia/Kolkata] Generating PDF with 2 images
+[14-Dec-2025 14:40:49 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_Qrqr_1765703449.pdf
+[14-Dec-2025 14:40:49 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_693e7ef9e01f68.49223627
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_693e7ef9e01f68.49223627
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765703417_327f16a3.jpg
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765703417_327f16a3.jpg
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/payment_screenshot_1765703424_df816aa2.jpg
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_payment_screenshot_1765703424_df816aa2.jpg
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_693e7ef9e01f68.49223627.log
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_693e7ef9e01f68.49223627.json
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_693e7ef9e01f68.49223627 - Deleted 2 images, 1 files, Freed 6.94 MB
+[14-Dec-2025 14:40:49 Asia/Kolkata] Cleanup: Draft deleted - 2 images, 6.94 MB freed
+[14-Dec-2025 14:40:49 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[14-Dec-2025 14:40:49 Asia/Kolkata] Draft deleted: Yes
+[14-Dec-2025 14:40:49 Asia/Kolkata] Images deleted: 2
+[14-Dec-2025 14:40:49 Asia/Kolkata] Compressed deleted: 0
+[14-Dec-2025 14:40:49 Asia/Kolkata] Uniform deleted: 0
+[14-Dec-2025 14:40:49 Asia/Kolkata] Thumbnails deleted: 0
+[14-Dec-2025 14:40:49 Asia/Kolkata] Total space freed: 6.94 MB
+[14-Dec-2025 14:40:49 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[14-Dec-2025 14:40:49 Asia/Kolkata] === SMTP PHASE: Starting email sending in background ===
+[14-Dec-2025 14:41:03 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_Qrqr_1765703449.pdf
+[14-Dec-2025 14:41:03 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[14-Dec-2025 14:41:03 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===
+[14-Dec-2025 19:38:02 Asia/Kolkata] Form submission received. Files count: 60, POST fields: 39
+[14-Dec-2025 19:38:02 Asia/Kolkata] Step 4 Checkbox Debug:
+[14-Dec-2025 19:38:02 Asia/Kolkata]   registration_certificate: NOT SET
+[14-Dec-2025 19:38:02 Asia/Kolkata]   car_insurance: NOT SET
+[14-Dec-2025 19:38:02 Asia/Kolkata]   car_finance_noc: NOT SET
+[14-Dec-2025 19:38:02 Asia/Kolkata] Total files processed: 2
+[14-Dec-2025 19:38:02 Asia/Kolkata] Generating PDF with 2 images
+[14-Dec-2025 19:38:06 Asia/Kolkata] PDF generated successfully: D:\SEMESTER - VII\php2\pdfs\inspection_12343_1765721286.pdf
+[14-Dec-2025 19:38:06 Asia/Kolkata] === CLEANUP PHASE 1: Starting immediate cleanup after PDF generation ===
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Deleting draft and all images for draft ID: draft_693ec48ca958b0.70908123
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Starting cleanup for draft: draft_693ec48ca958b0.70908123
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/car_photo_1765721228_375d8e3d.jpg
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_car_photo_1765721228_375d8e3d.jpg
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Deleted image: uploads/drafts/payment_screenshot_1765721231_6210db89.jpg
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Deleted thumbnail: uploads/drafts\thumb_payment_screenshot_1765721231_6210db89.jpg
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Deleted audit log: D:\SEMESTER - VII\php2\drafts\audit\draft_693ec48ca958b0.70908123.log
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Deleted draft file: D:\SEMESTER - VII\php2\uploads\drafts\draft_693ec48ca958b0.70908123.json
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Successfully cleaned up draft draft_693ec48ca958b0.70908123 - Deleted 2 images, 1 files, Freed 1.62 MB
+[14-Dec-2025 19:38:06 Asia/Kolkata] Cleanup: Draft deleted - 2 images, 1.62 MB freed
+[14-Dec-2025 19:38:06 Asia/Kolkata] === CLEANUP PHASE 1 COMPLETE ===
+[14-Dec-2025 19:38:06 Asia/Kolkata] Draft deleted: Yes
+[14-Dec-2025 19:38:06 Asia/Kolkata] Images deleted: 2
+[14-Dec-2025 19:38:06 Asia/Kolkata] Compressed deleted: 0
+[14-Dec-2025 19:38:06 Asia/Kolkata] Uniform deleted: 0
+[14-Dec-2025 19:38:06 Asia/Kolkata] Thumbnails deleted: 0
+[14-Dec-2025 19:38:06 Asia/Kolkata] Total space freed: 1.62 MB
+[14-Dec-2025 19:38:06 Asia/Kolkata] === SMTP PHASE: Starting email sending BEFORE response ===
+[14-Dec-2025 19:38:06 Asia/Kolkata] Email: Attaching PDF - Size: 0.55 MB
+[14-Dec-2025 19:38:06 Asia/Kolkata] Email: Attempting to send to avunashdhanuka@gmail.com
+[14-Dec-2025 19:38:18 Asia/Kolkata] Email: Send completed successfully
+[14-Dec-2025 19:38:18 Asia/Kolkata] SMTP: Email sent successfully for: D:\SEMESTER - VII\php2\pdfs\inspection_12343_1765721286.pdf
+[14-Dec-2025 19:38:18 Asia/Kolkata] === SMTP PHASE COMPLETE ===
+[14-Dec-2025 19:38:18 Asia/Kolkata] === USER RESPONSE SENT - User can now start new inspection ===
+[14-Dec-2025 19:38:18 Asia/Kolkata] === SUBMISSION WORKFLOW COMPLETE ===

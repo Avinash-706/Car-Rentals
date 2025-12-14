@@ -869,10 +869,22 @@ function generateField($label, $value, $required = false) {
  * @return string HTML for image block or error message
  */
 function generateImage($label, $path, $required = false) {
+    // Check if path is empty BEFORE converting to absolute path
+    if (empty($path)) {
+        if ($required) {
+            return '<div class="field-row">
+                <span class="field-label">' . htmlspecialchars($label) . ':</span>
+                <span class="field-value missing">⚠️ IMAGE MISSING</span>
+            </div>';
+        } else {
+            return null; // Skip optional missing images
+        }
+    }
+    
     // Convert to absolute path if relative
     $absolutePath = DirectoryManager::getAbsolutePath($path);
     
-    if (empty($absolutePath) || !file_exists($absolutePath)) {
+    if (!file_exists($absolutePath)) {
         if ($required) {
             return '<div class="field-row">
                 <span class="field-label">' . htmlspecialchars($label) . ':</span>
@@ -1010,11 +1022,17 @@ function formatArray($value) {
 
 function compressAllImages($data) {
     foreach ($data as $key => $value) {
-        if (strpos($key, '_path') !== false && !empty($value)) {
+        if (strpos($key, '_path') !== false && !empty($value) && is_string($value)) {
+            // Skip if value is empty or just whitespace
+            $value = trim($value);
+            if (empty($value)) {
+                continue;
+            }
+            
             // Convert to absolute path
             $absolutePath = DirectoryManager::getAbsolutePath($value);
             
-            if (file_exists($absolutePath)) {
+            if (file_exists($absolutePath) && is_file($absolutePath)) {
                 $data[$key] = ImageOptimizer::compressToFile($absolutePath, 1200, 65);
             }
         }

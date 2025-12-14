@@ -1057,9 +1057,18 @@ function autoSave() {
     window.autoSaveTimer = setTimeout(saveDraft, 30000);
 }
 
+// Global flag to prevent duplicate submissions
+let isSubmitting = false;
+
 function submitForm(event) {
     console.log('Submit function called!');
     event.preventDefault();
+    
+    // ISSUE 1 FIX: Prevent duplicate submissions
+    if (isSubmitting) {
+        console.log('Submission already in progress, ignoring duplicate click');
+        return;
+    }
     
     console.log('Current step:', currentStep, 'Total steps:', totalSteps);
     
@@ -1069,6 +1078,17 @@ function submitForm(event) {
     }
     
     console.log('Validation passed, submitting form...');
+    
+    // Lock submission
+    isSubmitting = true;
+    
+    // Disable submit button to prevent double-clicks
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.6';
+        submitBtn.style.cursor = 'not-allowed';
+    }
     
     // Show loading overlay
     document.getElementById('loadingOverlay').classList.add('active');
@@ -1106,11 +1126,20 @@ function submitForm(event) {
         loadingText.textContent = 'Processing images and generating PDF... This may take 2-3 minutes.';
     }
     
+    // Create AbortController for timeout (5 minutes = 300000ms)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+        controller.abort();
+        console.log('Request timed out after 5 minutes');
+    }, 300000);
+    
     fetch('submit.php', {
         method: 'POST',
-        body: formData
+        body: formData,
+        signal: controller.signal
     })
     .then(response => {
+        clearTimeout(timeoutId);
         console.log('Response received:', response.status);
         
         // Check if response is OK
@@ -1149,18 +1178,43 @@ function submitForm(event) {
             localStorage.removeItem('draftId');
             localStorage.removeItem('savedFiles');
             
+            // Reset submission lock (allow new inspection)
+            isSubmitting = false;
+            
             // Show success message
             document.getElementById('successMessage').classList.add('active');
         } else {
             console.error('Submission failed:', data.message);
+            // Re-enable submit button on failure
+            resetSubmitButton();
             alert('Error: ' + (data.message || 'Submission failed'));
         }
     })
     .catch(error => {
+        clearTimeout(timeoutId);
         console.error('Fetch error:', error);
         document.getElementById('loadingOverlay').classList.remove('active');
-        alert('Error submitting form: ' + error.message);
+        
+        // Re-enable submit button on error
+        resetSubmitButton();
+        
+        if (error.name === 'AbortError') {
+            alert('Request timed out. Please check your internet connection and try again.');
+        } else {
+            alert('Error submitting form: ' + error.message);
+        }
     });
+}
+
+// Helper function to reset submit button state
+function resetSubmitButton() {
+    isSubmitting = false;
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+    }
 }
 
 

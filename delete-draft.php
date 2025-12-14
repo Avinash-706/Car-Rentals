@@ -4,6 +4,17 @@
  * Removes draft and associated uploaded images
  */
 
+// CORS Headers - MUST be first before any output
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 // Auto-configure PHP settings
 require_once 'auto-config.php';
 require_once 'init-directories.php';

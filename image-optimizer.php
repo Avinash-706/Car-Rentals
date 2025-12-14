@@ -111,6 +111,12 @@ class ImageOptimizer {
      * Optimized for mPDF memory efficiency
      */
     public static function optimizeForPDF($imagePath, $maxWidth = 1200, $quality = 65) {
+        // Check for empty path FIRST before any processing
+        if (empty($imagePath) || !is_string($imagePath) || trim($imagePath) === '') {
+            error_log("Empty or invalid image path provided for optimization");
+            return '';
+        }
+        
         // Check GD availability
         if (!self::checkGDAvailability()) {
             error_log('GD extension not available for image optimization');
@@ -120,7 +126,7 @@ class ImageOptimizer {
         // Normalize path
         $imagePath = self::normalizePath($imagePath);
         
-        if (empty($imagePath) || !file_exists($imagePath)) {
+        if (empty($imagePath) || !file_exists($imagePath) || !is_file($imagePath)) {
             error_log("Image file not found: $imagePath");
             return '';
         }
@@ -284,6 +290,12 @@ class ImageOptimizer {
      * @return string Path to resized image or original if error
      */
     public static function resizeToUniform($imagePath, $uniformWidth = 400, $uniformHeight = 300, $quality = 75) {
+        // Check for empty path FIRST before any processing
+        if (empty($imagePath) || !is_string($imagePath) || trim($imagePath) === '') {
+            error_log("Empty or invalid image path provided for uniform resize");
+            return '';
+        }
+        
         // Check GD availability
         if (!self::checkGDAvailability()) {
             error_log('GD extension not available for uniform resize');
@@ -293,7 +305,7 @@ class ImageOptimizer {
         // Normalize path
         $imagePath = self::normalizePath($imagePath);
         
-        if (empty($imagePath) || !file_exists($imagePath)) {
+        if (empty($imagePath) || !file_exists($imagePath) || !is_file($imagePath)) {
             error_log("Image file not found for uniform resize: $imagePath");
             return $imagePath;
         }
@@ -373,6 +385,12 @@ class ImageOptimizer {
      * Returns path to compressed image
      */
     public static function compressToFile($imagePath, $maxWidth = 1200, $quality = 65) {
+        // Check for empty path FIRST before any processing
+        if (empty($imagePath) || !is_string($imagePath) || trim($imagePath) === '') {
+            error_log("Empty or invalid image path provided for compression");
+            return '';
+        }
+        
         // Check GD availability
         if (!self::checkGDAvailability()) {
             error_log('GD extension not available for image compression');
@@ -382,7 +400,7 @@ class ImageOptimizer {
         // Normalize path
         $imagePath = self::normalizePath($imagePath);
         
-        if (empty($imagePath) || !file_exists($imagePath)) {
+        if (empty($imagePath) || !file_exists($imagePath) || !is_file($imagePath)) {
             error_log("Image file not found for compression: $imagePath");
             return $imagePath;
         }
