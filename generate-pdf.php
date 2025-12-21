@@ -82,18 +82,16 @@ function generateCompleteHTML($data) {
     // ========================================================================
     $html .= generateStepHeader(1, 'Booking Details');
     
-    // Mandatory: Booking ID only
+    // All fields are now mandatory
     $html .= generateField('Booking ID', $data['booking_id'] ?? '', true);
-    
-    // Optional fields (print only if filled)
-    $html .= generateField('Engineer Name', $data['engineer_name'] ?? '', false);
-    $html .= generateField('Customer Name', $data['customer_name'] ?? '', false);
-    $html .= generateField('Customer Phone', $data['customer_phone'] ?? '', false);
-    $html .= generateField('Time', $data['inspection_time'] ?? '', false);
-    $html .= generateField('Inspection Address', $data['inspection_address'] ?? '', false);
-    $html .= generateField('OBD Scanning', $data['obd_scanning'] ?? '', false);
-    $html .= generateField('Car', $data['car'] ?? '', false);
-    $html .= generateField('Lead Owner', $data['lead_owner'] ?? '', false);
+    $html .= generateField('Engineer Name', $data['engineer_name'] ?? '', true);
+    $html .= generateField('Customer Name', $data['customer_name'] ?? '', true);
+    $html .= generateField('Customer Phone', $data['customer_phone'] ?? '', true);
+    $html .= generateField('Time', $data['inspection_time'] ?? '', true);
+    $html .= generateField('Inspection Address', $data['inspection_address'] ?? '', true);
+    $html .= generateField('OBD Scanning', $data['obd_scanning'] ?? '', true);
+    $html .= generateField('Car', $data['car'] ?? '', true);
+    $html .= generateField('Lead Owner', $data['lead_owner'] ?? '', true);
     
     // ========================================================================
     // STEP 2: Expert Details
@@ -605,10 +603,12 @@ function generateCompleteHTML($data) {
     
     $html .= generateField('Tool Kit', $data['tool_kit'] ?? '', true);
     
-    // Image in grid
-    $images = [];
-    $images[] = generateImage('Tool Kit', $data['tool_kit_image_path'] ?? '', true);
-    $html .= generateImageGrid($images);
+    // Conditional Tool Kit Image - only show if "Not Present"
+    if (isset($data['tool_kit']) && $data['tool_kit'] === 'Not Present') {
+        $images = [];
+        $images[] = generateImage('Tool Kit', $data['tool_kit_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
     
     // ========================================================================
     // STEP 21: Final Car Result
@@ -617,11 +617,16 @@ function generateCompleteHTML($data) {
     
     $html .= generateField('Any Issues Found in the Car?', $data['issues_found'] ?? '', true);
     
-    // Image in grid (optional)
+    // Multiple Issues Photos (non-mandatory)
     $images = [];
-    $issueImage = generateImage('Photos of Issues', $data['issues_photo_path'] ?? '', false);
-    if (!empty($issueImage)) {
-        $images[] = $issueImage;
+    for ($i = 1; $i <= 5; $i++) {
+        $issueImage = generateImage("Issues Photo $i", $data["issues_photo_{$i}_path"] ?? '', false);
+        if (!empty($issueImage)) {
+            $images[] = $issueImage;
+        }
+    }
+    
+    if (!empty($images)) {
         $html .= generateImageGrid($images);
     }
     

@@ -406,6 +406,39 @@ function setupOkCheckboxLogic() {
         
         setupConditionalImageLogic(group, checkboxes, notCheckedCheckbox, 'not checked');
     });
+    
+    // Handle Tool Kit conditional logic (Step 20) - Show image when "Not Present"
+    const toolKitGroup = document.querySelector('input[name="tool_kit"]');
+    if (toolKitGroup) {
+        const toolKitRadios = document.querySelectorAll('input[name="tool_kit"]');
+        const imageGroup = document.getElementById('tool_kit_image_group');
+        const imageInput = document.getElementById('Toolkitimage');
+        
+        function toggleToolKitImage() {
+            const selectedValue = document.querySelector('input[name="tool_kit"]:checked')?.value;
+            
+            if (selectedValue === 'Not Present') {
+                // Show image field and make it required
+                if (imageGroup) imageGroup.style.display = 'block';
+                if (imageInput) imageInput.required = true;
+            } else {
+                // Hide image field and remove requirement
+                if (imageGroup) imageGroup.style.display = 'none';
+                if (imageInput) {
+                    imageInput.required = false;
+                    imageInput.value = ''; // Clear the input
+                }
+            }
+        }
+        
+        // Add event listeners to all radio buttons
+        toolKitRadios.forEach(radio => {
+            radio.addEventListener('change', toggleToolKitImage);
+        });
+        
+        // Initial check
+        toggleToolKitImage();
+    }
 }
 
 function setupConditionalImageLogic(group, checkboxes, hideCheckbox, hideValue) {
@@ -913,6 +946,23 @@ function loadDraft() {
                         }
                     }
                 });
+                
+                // Handle Tool Kit conditional logic (Step 20)
+                const toolKitRadio = document.querySelector('input[name="tool_kit"]:checked');
+                if (toolKitRadio) {
+                    const imageGroup = document.getElementById('tool_kit_image_group');
+                    const imageInput = document.getElementById('Toolkitimage');
+                    
+                    if (toolKitRadio.value === 'Not Present') {
+                        if (imageGroup) imageGroup.style.display = 'block';
+                        if (imageInput && !imageInput.dataset.savedFile) {
+                            imageInput.required = true;
+                        }
+                    } else {
+                        if (imageGroup) imageGroup.style.display = 'none';
+                        if (imageInput) imageInput.required = false;
+                    }
+                }
             }, 100);
             
             alert('Draft loaded successfully!');

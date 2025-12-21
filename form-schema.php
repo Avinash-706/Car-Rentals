@@ -5,27 +5,19 @@
  */
 
 return [
-    // STEP 1: Expert Details
+    // STEP 1: Inspection Details
     1 => [
-        'title' => 'Expert Details',
+        'title' => 'Inspection Details',
         'fields' => [
             'booking_id' => ['label' => 'Booking ID', 'type' => 'text', 'required' => true],
-            'expert_id' => ['label' => 'Expert ID', 'type' => 'text', 'required' => false],
-            'customer_name' => ['label' => 'Customer Name', 'type' => 'text', 'required' => false],
-            'customer_phone' => ['label' => 'Customer Phone', 'type' => 'text', 'required' => false],
-            'inspection_date' => ['label' => 'Inspection Date', 'type' => 'date', 'required' => false],
-            'inspection_time' => ['label' => 'Inspection Time', 'type' => 'time', 'required' => false],
-            'inspection_address' => ['label' => 'Inspection Address', 'type' => 'textarea', 'required' => false],
-            'obd_scanning' => ['label' => 'OBD Scanning', 'type' => 'radio', 'required' => false],
-            'car' => ['label' => 'Car', 'type' => 'radio', 'required' => false],
-            'lead_owner' => ['label' => 'Lead Owner', 'type' => 'text', 'required' => false],
-            'pending_amount' => ['label' => 'Pending Amount', 'type' => 'number', 'required' => false],
-            'inspection_delayed' => ['label' => 'Inspection Delayed', 'type' => 'radio', 'required' => true],
-            'latitude' => ['label' => 'Latitude', 'type' => 'hidden', 'required' => false],
-            'longitude' => ['label' => 'Longitude', 'type' => 'hidden', 'required' => false],
-            'location_address' => ['label' => 'Location Address', 'type' => 'hidden', 'required' => false],
-            'expert_date' => ['label' => 'Expert Date', 'type' => 'hidden', 'required' => false],
-            'expert_time' => ['label' => 'Expert Time', 'type' => 'hidden', 'required' => false],
+            'engineer_name' => ['label' => 'Engineer Name', 'type' => 'text', 'required' => true],
+            'customer_name' => ['label' => 'Customer Name', 'type' => 'text', 'required' => true],
+            'customer_phone' => ['label' => 'Customer Phone', 'type' => 'tel', 'required' => true],
+            'inspection_time' => ['label' => 'Inspection Time', 'type' => 'time', 'required' => true],
+            'inspection_address' => ['label' => 'Inspection Address', 'type' => 'textarea', 'required' => true],
+            'obd_scanning' => ['label' => 'OBD Scanning', 'type' => 'radio', 'required' => true],
+            'car' => ['label' => 'Car', 'type' => 'text', 'required' => true],
+            'lead_owner' => ['label' => 'Lead Owner', 'type' => 'text', 'required' => true],
         ]
     ],
     
@@ -228,8 +220,30 @@ return [
         ]
     ],
     
-    // STEP 20: Tyre Inspection
+    // STEP 20: Equipments
     20 => [
+        'title' => 'Equipments',
+        'fields' => [
+            'tool_kit' => ['label' => 'Tool Kit', 'type' => 'radio', 'required' => true],
+            'tool_kit_image' => ['label' => 'Tool Kit Image', 'type' => 'file', 'required' => false], // Conditional based on "Not Present"
+        ]
+    ],
+    
+    // STEP 21: Final Car Result
+    21 => [
+        'title' => 'Final Car Result',
+        'fields' => [
+            'issues_found' => ['label' => 'Any Issues Found in the Car?', 'type' => 'textarea', 'required' => true],
+            'issues_photo_1' => ['label' => 'Issues Photo 1', 'type' => 'file', 'required' => false],
+            'issues_photo_2' => ['label' => 'Issues Photo 2', 'type' => 'file', 'required' => false],
+            'issues_photo_3' => ['label' => 'Issues Photo 3', 'type' => 'file', 'required' => false],
+            'issues_photo_4' => ['label' => 'Issues Photo 4', 'type' => 'file', 'required' => false],
+            'issues_photo_5' => ['label' => 'Issues Photo 5', 'type' => 'file', 'required' => false],
+        ]
+    ],
+    
+    // STEP 22: Tyre Inspection (moved from 20)
+    22 => [
         'title' => 'Tyre Tread Depth',
         'fields' => [
             'driver_front_tyre_image' => ['label' => 'Driver Front Tyre Tread Depth', 'type' => 'file', 'required' => true],
@@ -240,8 +254,8 @@ return [
         ]
     ],
     
-    // STEP 21: Oil Leak
-    21 => [
+    // STEP 23: Oil Leak (moved from 21)
+    23 => [
         'title' => 'Oil Leak Inspection',
         'fields' => [
             'oil_leak_image' => ['label' => 'Oil Leak Near Engine Image', 'type' => 'file', 'required' => true],

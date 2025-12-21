@@ -41,52 +41,52 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Engineer Name</label>
-                    <input type="text" name="engineer_name">
+                    <label>Engineer Name <span class="required">*</span></label>
+                    <input type="text" name="engineer_name" required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Customer Name</label>
-                        <input type="text" name="customer_name">
+                        <label>Customer Name <span class="required">*</span></label>
+                        <input type="text" name="customer_name" required>
                     </div>
                     <div class="form-group">
-                        <label>Customer Phone</label>
-                        <input type="tel" name="customer_phone">
+                        <label>Customer Phone <span class="required">*</span></label>
+                        <input type="tel" name="customer_phone" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Time</label>
-                    <input type="time" name="inspection_time">
+                    <label>Time <span class="required">*</span></label>
+                    <input type="time" name="inspection_time" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Inspection Address</label>
-                    <textarea name="inspection_address" rows="3" placeholder="Provide complete address..."></textarea>
+                    <label>Inspection Address <span class="required">*</span></label>
+                    <textarea name="inspection_address" rows="3" placeholder="Provide complete address..." required></textarea>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>OBD Scanning</label>
+                        <label>OBD Scanning <span class="required">*</span></label>
                         <div class="radio-group">
                             <label class="radio-label">
-                                <input type="radio" name="obd_scanning" value="Yes"> Yes
+                                <input type="radio" name="obd_scanning" value="Yes" required> Yes
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="obd_scanning" value="No"> No
+                                <input type="radio" name="obd_scanning" value="No" required> No
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Car</label>
-                        <input type="text" name="car">
+                        <label>Car <span class="required">*</span></label>
+                        <input type="text" name="car" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Lead Owner</label>
-                    <input type="text" name="lead_owner">
+                    <label>Lead Owner <span class="required">*</span></label>
+                    <input type="text" name="lead_owner" required>
                 </div>
 
 
@@ -877,9 +877,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" name="fault_codes[]" value="Port Not Working"> Port Not Working
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="fault_codes[]" value="Not Checked" data-not-checked-checkbox> Not Checked
                         </label>
                     </div>
                 </div>
@@ -3143,7 +3140,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
 
                 <div class="form-group">
                     <label>Tool Kit <span class="required">*</span></label>
-                    <div class="radio-group">
+                    <div class="radio-group" data-conditional-image="tool_kit_image">
                         <label class="radio-label">
                             <input type="radio" name="tool_kit" value="Present" required> Present
                         </label>
@@ -3153,12 +3150,12 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group conditional-image-field" id="tool_kit_image_group" style="display: none;">
                     <label>Tool Kit Image <span class="required">*</span></label>
                     <div class="file-upload">
-                        <input type="file" name="tool_kit_image" id="Toolkitimage" accept="image/jpeg,image/jpg,image/png" required>
+                        <input type="file" name="tool_kit_image" id="Toolkitimage" accept="image/jpeg,image/jpg,image/png" data-conditional-required="tool_kit">
                         <label for="Toolkitimage" class="file-label">
-                            <span class="camera-icon"></span>
+                            <span class="camera-icon">📷</span>
                             <span class="file-text">Choose Image</span>
                         </label>
                         <div class="file-preview" id="ToolkitimagePreview"></div>
@@ -3177,14 +3174,62 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Photos of Issues</label>
+                    <label>Issues Photo 1</label>
                     <div class="file-upload">
-                        <input type="file" name="issues_photo" id="Issuesphoto" accept="image/jpeg,image/jpg,image/png">
-                        <label for="Issuesphoto" class="file-label">
-                            <span class="camera-icon"></span>
+                        <input type="file" name="issues_photo_1" id="IssuesPhoto1" accept="image/jpeg,image/jpg,image/png">
+                        <label for="IssuesPhoto1" class="file-label">
+                            <span class="camera-icon">📷</span>
                             <span class="file-text">Choose Image</span>
                         </label>
-                        <div class="file-preview" id="IssuesphotoPreview"></div>
+                        <div class="file-preview" id="IssuesPhoto1Preview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Issues Photo 2</label>
+                    <div class="file-upload">
+                        <input type="file" name="issues_photo_2" id="IssuesPhoto2" accept="image/jpeg,image/jpg,image/png">
+                        <label for="IssuesPhoto2" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="IssuesPhoto2Preview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Issues Photo 3</label>
+                    <div class="file-upload">
+                        <input type="file" name="issues_photo_3" id="IssuesPhoto3" accept="image/jpeg,image/jpg,image/png">
+                        <label for="IssuesPhoto3" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="IssuesPhoto3Preview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Issues Photo 4</label>
+                    <div class="file-upload">
+                        <input type="file" name="issues_photo_4" id="IssuesPhoto4" accept="image/jpeg,image/jpg,image/png">
+                        <label for="IssuesPhoto4" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="IssuesPhoto4Preview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Issues Photo 5</label>
+                    <div class="file-upload">
+                        <input type="file" name="issues_photo_5" id="IssuesPhoto5" accept="image/jpeg,image/jpg,image/png">
+                        <label for="IssuesPhoto5" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="IssuesPhoto5Preview"></div>
                     </div>
                 </div>
 
