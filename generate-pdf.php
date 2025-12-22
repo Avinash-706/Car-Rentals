@@ -82,13 +82,11 @@ function generateCompleteHTML($data) {
     // ========================================================================
     $html .= generateStepHeader(1, 'Booking Details');
     
-    // All fields are now mandatory
+    // All fields are now mandatory (removed Time and Inspection Address)
     $html .= generateField('Booking ID', $data['booking_id'] ?? '', true);
     $html .= generateField('Engineer Name', $data['engineer_name'] ?? '', true);
     $html .= generateField('Customer Name', $data['customer_name'] ?? '', true);
     $html .= generateField('Customer Phone', $data['customer_phone'] ?? '', true);
-    $html .= generateField('Time', $data['inspection_time'] ?? '', true);
-    $html .= generateField('Inspection Address', $data['inspection_address'] ?? '', true);
     $html .= generateField('OBD Scanning', $data['obd_scanning'] ?? '', true);
     $html .= generateField('Car', $data['car'] ?? '', true);
     $html .= generateField('Lead Owner', $data['lead_owner'] ?? '', true);

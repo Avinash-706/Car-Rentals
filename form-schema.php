@@ -13,8 +13,6 @@ return [
             'engineer_name' => ['label' => 'Engineer Name', 'type' => 'text', 'required' => true],
             'customer_name' => ['label' => 'Customer Name', 'type' => 'text', 'required' => true],
             'customer_phone' => ['label' => 'Customer Phone', 'type' => 'tel', 'required' => true],
-            'inspection_time' => ['label' => 'Inspection Time', 'type' => 'time', 'required' => true],
-            'inspection_address' => ['label' => 'Inspection Address', 'type' => 'textarea', 'required' => true],
             'obd_scanning' => ['label' => 'OBD Scanning', 'type' => 'radio', 'required' => true],
             'car' => ['label' => 'Car', 'type' => 'text', 'required' => true],
             'lead_owner' => ['label' => 'Lead Owner', 'type' => 'text', 'required' => true],

@@ -56,16 +56,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Time <span class="required">*</span></label>
-                    <input type="time" name="inspection_time" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Inspection Address <span class="required">*</span></label>
-                    <textarea name="inspection_address" rows="3" placeholder="Provide complete address..." required></textarea>
-                </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label>OBD Scanning <span class="required">*</span></label>
